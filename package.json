@@ -1,0 +1,34 @@
+{
+  "name": "backend-engagement",
+  "version": "1.0.0",
+  "description": "Backend for an app that measure engagement in real time with surveys and data in real time. This project is under a University of Cuenca students.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "seed:init": "node scripts/init-data.js",
+    "lint": "eslint"
+  },
+  "keywords": [
+    "engagement",
+    "realtime"
+  ],
+  "author": "Felipe Mendieta",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.10.1",
+    "joi-objectid": "^4.0.2",
+    "mongoose": "^7.5.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "nodemon": "^3.0.1"
+  }
+}
