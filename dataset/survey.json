@@ -1,0 +1,37 @@
+{
+  "_id": ObjectId("5f5b4b8e89a5cd2a4a3d1a14"),
+  "pollTitle": "Questions Test",
+  "startDate": ISODate("2023-09-11T08:00:00Z"),
+  "endDate": ISODate("2023-09-11T08:00:00Z"),
+  "questions": [
+    {
+      "type": "Likert",
+      "question": "¿Cómo calificaría la calidad de nuestros productos?",
+      "answers": [
+        {"option": 1, "text": "Muy insatisfecho"},
+        {"option": 2, "text": "Insatisfecho"},
+        {"option": 3, "text": "Neutral"},
+        {"option": 4, "text": "Satisfecho"},
+        {"option": 5, "text": "Muy satisfecho"}
+      ]
+    },
+    {
+      "type": "Multiple Option",
+      "question": "¿Cuál es un stakeholder?",
+      "answers": [
+        {"option": 1, "text": "el director del proyecto", "correct": true},
+        {"option": 2, "text": "el programador del proyecto", "correct": true},
+        {"option": 3, "text": "un ciudano que no está involucrado en el proyecto", "correct": false}
+      ]
+    },
+    {
+      "type": "Single Option",
+      "question": "¿Cuál es la respuesta correct para 2 + 2?",
+      "answers": [
+        {"option": 1, "text": "3", "correct": false},
+        {"option": 2, "text": "4", "correct": true},
+        {"option": 3, "text": "5", "correct": false}
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "seed:init": "node scripts/init-data.js",
+    "seed:random": "node scripts/random-data.js",
     "lint": "eslint"
   },
   "keywords": [

@@ -11,7 +11,7 @@ Este proyecto se basa en el manejo de datos relacionados con la medición en tie
 1. Hacer fork de este proyecto en tu espacio personal
 2. Clonar el repositorio desde tu espacio personal en tu computadora
 3. Instalar dependencias, con el comando `npm install`
-4. Iniciar mongo con Docker, con el comando `docker-compose up mongo -d`
+4. Iniciar mongo con Docker, con el comando, o cada vez que necesitemos desplegar el entorno de desarrollo `docker-compose up mongodb -d`
 5. Cargar datos iniciales, con el comando `npm run seed:init`
 6. Comprobar ambiente de desarrollo, con el comando `npm run dev`
 7. Probar endpoints con Postman o Insomnia.

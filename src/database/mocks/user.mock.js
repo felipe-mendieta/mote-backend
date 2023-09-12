@@ -2,10 +2,11 @@ const { faker } = require('@faker-js/faker/locale/es');
 
 const generateOneUser = () => {
   return {
-    name: `${faker.person.firstName()} ${faker.name.lastName()}`,
+    name: `${faker.person.firstName()} ${faker.person.lastName()}`,
     email: faker.internet.email(),
     password: faker.internet.password(),
     avatar: faker.image.avatar(),
+    gender: faker.person.gender(),
   }
 }
 
