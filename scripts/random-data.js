@@ -6,6 +6,7 @@ const randomSeedDB = require('./../src/database/seeds/random.seed');
     await randomSeedDB();
   } catch (error) {
     console.error(error);
+    process.exit(1);
   }
-  process.exit(1);
+  process.exit(0);
 })();

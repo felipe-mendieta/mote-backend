@@ -7,6 +7,7 @@ const initSeedDB = require('./../src/database/seeds/init.seed');
     await initSeedDB();
   } catch (error) {
     console.error(error);
+    process.exit(1);
   }
-  process.exit(1);
+
 })();
