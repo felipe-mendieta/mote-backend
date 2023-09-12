@@ -11,7 +11,6 @@ const pollSchema = new mongoose.Schema({
   },
   endDate: {
     type: Date,
-    required: true,
   },
   questions: [
     {

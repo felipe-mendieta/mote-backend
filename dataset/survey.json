@@ -1,8 +1,8 @@
 {
-  "_id": ObjectId("5f5b4b8e89a5cd2a4a3d1a14"),
+  "_id": "5f5b4b8e89a5cd2a4a3d1a14",
   "pollTitle": "Questions Test",
-  "startDate": ISODate("2023-09-11T08:00:00Z"),
-  "endDate": ISODate("2023-09-11T08:00:00Z"),
+  "startDate": "2023-09-11T08:00:00Z",
+  "endDate": "2023-09-11T08:00:00Z",
   "questions": [
     {
       "type": "Likert",

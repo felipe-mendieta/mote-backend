@@ -7,7 +7,7 @@ const Question = require('../entities/question.entity')
 const { generateManyQuestions } = require('../mocks/question.mock');
 const Poll = require('../entities/poll.entity');
 const RecordActivity = require('../entities/record-activity.entity');
-const { generateOneActivity, generateManyActivities } = require('../mocks/record-activity.mock');
+const { generateManyActivities } = require('../mocks/record-activity.mock');
 
 const randomSeedDB = async () => {
   try {
@@ -20,9 +20,9 @@ const randomSeedDB = async () => {
 
     const mockQuestions = generateManyQuestions();
     const questions = await Question.insertMany(mockQuestions);
-    const questionIds = await questions.map((question) => question._id);
+    const questionIds = questions.map((question) => question._id);
     const mockPolls = generateManyPolls();
-    const manyPoll = await mockPolls.map(
+    const manyPoll = mockPolls.map(
       (poll) => {
         const newPoll = {
           ...poll,
@@ -32,21 +32,24 @@ const randomSeedDB = async () => {
       }
     );
     await Poll.insertMany(manyPoll);
-    Promise.all(mockPolls);
 
-    const mockRecordActivities = generateManyActivities();
-    await RecordActivity.insertMany(mockRecordActivities);
-    const promises = users.map(async (user) => {
-      const userId = user._id;
-      const activity = {
-        ...generateOneActivity,
-        user: userId
-      };
-      const newActivity = new RecordActivity(activity);
-      return await newActivity.save(newActivity);
 
-    });
-    Promise.all(promises);//para esperar a que todas las promesas se resuelvan antes de continuar.
+    generateManyActivities();
+
+    const usersIds = users.map((user) => user._id);
+    const mockActivities = generateManyActivities();
+    const manyActivitiesWithId = mockActivities.map(
+      (activity) => {
+        const userId = usersIds[Math.floor(Math.random() * usersIds.length)];
+        const newActivity = {//tener en cuenta que la variable user se mapeara al json entonces se debe llamar igual que en el schema
+          ...activity,
+          userId
+        }
+        return newActivity;
+      });
+
+    await RecordActivity.insertMany(manyActivitiesWithId);
+    await Promise.all(manyActivitiesWithId);//para esperar a que todas las promesas se resuelvan antes de continuar.
 
   } catch (error) {
     console.error(error);

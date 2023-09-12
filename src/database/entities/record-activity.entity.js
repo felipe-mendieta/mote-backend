@@ -10,7 +10,7 @@ const recordActivitySchema = new mongoose.Schema({
     type: Date,
     default: Date.now, // Valor predeterminado para la fecha de registro
   },
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users', // Nombre de la colección de estudiantes relacionada
   },
