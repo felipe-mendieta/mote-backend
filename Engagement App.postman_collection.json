@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "6c179945-1f9a-4563-b5a1-09bdcdf0555a",
+		"name": "Engagement App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24065538"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/6500a6a14129d09cf48fd251",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"6500a6a14129d09cf48fd251"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Andrea\",\r\n\t\"email\": \"andre@mail.com\",\r\n\t\"password\": \"1234545\",\r\n\t\"avatar\": \"https://api.lorem.space/image/face?w=480&h=480&r=9297\",\r\n    \"gender\": \"Male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "questions",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/questions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/questions/65009ae7516e3b351511f4e3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"questions",
+								"65009ae7516e3b351511f4e3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": \"Likert\",\r\n  \"question\": \"Question test from postman.\",\r\n  \"answers\": [\r\n    {\r\n      \"option\": 1,\r\n      \"text\": \"Muy insatisfecho\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 2,\r\n      \"text\": \"Insatisfecho\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 3,\r\n      \"text\": \"Neutral\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 4,\r\n      \"text\": \"Satisfecho\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 5,\r\n      \"text\": \"Muy satisfecho\",\r\n      \"correct\": false\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/questions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"questions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "recordActivities",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/recordActivities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"recordActivities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/recordActivities/6500c6e69e703d060be08dcc",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"recordActivities",
+								"6500c6e69e703d060be08dcc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"activityType\": \"No entiendo\",\r\n    \"recordDate\": \"2023-09-12T08:30:48.740Z\",\r\n    \"userId\": \"6500c6e69e703d060be08da1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/recordActivities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"recordActivities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "polls",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/polls",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"polls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/polls/6500c84bab771a65f2ff9507",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"polls",
+								"6500c84bab771a65f2ff9507"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pollTitle\": \"Title test postman\",\r\n    \"startDate\": \"2023-08-01T22:24:44.540Z\",\r\n    \"questions\": [\r\n        \"6500c84bab771a65f2ff94e8\",\r\n        \"6500c84bab771a65f2ff94ec\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/polls",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"polls"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

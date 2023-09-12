@@ -6,11 +6,11 @@ class PollService {
   }
 
   getAll() {
-    return Poll.find();
+    return Poll.find().populate('questions');
   }
 
   getById(id) {
-    return Poll.findById(id);
+    return Poll.findById(id).populate('questions');
   }
 
   update(id, changes) {
