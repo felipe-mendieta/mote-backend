@@ -35,4 +35,4 @@ class QuestionService {
 
   }
 }
-module.exports = { QuestionService };
+module.exports =  QuestionService ;

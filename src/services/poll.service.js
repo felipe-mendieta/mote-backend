@@ -35,4 +35,4 @@ class PollService {
   }
 
 }
-module.exports = { PollService };
+module.exports =  PollService ;
