@@ -8,11 +8,11 @@
       "type": "Likert",
       "question": "¿Cómo calificaría la calidad de nuestros productos?",
       "answers": [
-        {"option": 1, "text": "Muy insatisfecho"},
-        {"option": 2, "text": "Insatisfecho"},
-        {"option": 3, "text": "Neutral"},
-        {"option": 4, "text": "Satisfecho"},
-        {"option": 5, "text": "Muy satisfecho"}
+        {"option": 1, "text": "Muy insatisfecho", "correct": false},
+        {"option": 2, "text": "Insatisfecho", "correct": false},
+        {"option": 3, "text": "Neutral", "correct": false},
+        {"option": 4, "text": "Satisfecho", "correct": false},
+        {"option": 5, "text": "Muy satisfecho", "correct": false}
       ]
     },
     {

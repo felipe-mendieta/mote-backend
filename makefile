@@ -1,5 +1,5 @@
 export:
-	docker-compose up -d mongodb
+	docker-compose up mongodb -d
 	docker-compose exec mongo mongoexport --uri="mongodb://root:root123@mongo:27017/engagement?authSource=admin&readPreference=primary" --collection=users --out=users.json
 	rm -rf dataset/users.json
 	docker-compose cp mongo:./users.json ./dataset/users.json

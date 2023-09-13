@@ -17,6 +17,9 @@ const config = {
   dbHost:  process.env.MONGO_HOST,
   dbName:  process.env.MONGO_DB,
   dbPort:  process.env.MONGO_PORT,
+  secretPrivateKey: process.env.SECRETRPRIVATEKEY,
+  googleClienteId: process.env.GOOGLE_CLIENT_ID,
+  googleSecretId: process.env.GOOGLE_SECRET_ID
 }
 
 module.exports = config;

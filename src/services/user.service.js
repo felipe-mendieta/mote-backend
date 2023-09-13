@@ -1,8 +1,23 @@
 const User = require('./../database/entities/user.entity');
-
+const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcrypt');
 class UserService {
-  create(data) {
-    const newUser = new User(data);
+  async create(data) {
+    const { name, email, avatar, gender, password } = data;
+
+    // Encripta la contraseña utilizando bcrypt
+    const saltRounds = bcryptjs.genSaltSync();// Define el número de rondas de sal para el hash
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Crea un nuevo usuario con la contraseña encriptada
+    const newUser = new User({
+      name,
+      email,
+      avatar,
+      gender,
+      password: hashedPassword, // Almacena la contraseña encriptada en la base de datos
+    });
+
     return newUser.save();
   }
 

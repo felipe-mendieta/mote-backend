@@ -5,7 +5,8 @@ const id = Joi.objectId();
 const name = Joi.string().min(3).max(40);
 const email = Joi.string().email();
 const avatar = Joi.string().uri();
-const password = Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$'));
+//const password = Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$'));
+const password = Joi.string().min(8);
 const gender = Joi.string();
 
 const createUserDto = Joi.object({
@@ -15,7 +16,10 @@ const createUserDto = Joi.object({
   password: password.required(),
   gender: gender.required(),
 });
-
+const loginUserDto = Joi.object({
+  email: email.required(),
+  password: password.required(),
+});
 const updateUserDto = Joi.object({
   name,
   email,
@@ -28,4 +32,4 @@ const getUserDto = Joi.object({
   id: id.required(),
 });
 
-module.exports = { createUserDto, updateUserDto, getUserDto };
+module.exports = { createUserDto, updateUserDto, getUserDto,loginUserDto };

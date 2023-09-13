@@ -12,9 +12,46 @@ Este proyecto se basa en el manejo de datos relacionados con la medición en tie
 2. Clonar el repositorio desde tu espacio personal en tu computadora
 3. Instalar dependencias, con el comando `npm install`
 4. Iniciar mongo con Docker, con el comando, o cada vez que necesitemos desplegar el entorno de desarrollo `docker-compose up mongodb -d`
-5. Cargar datos iniciales, con el comando `npm run seed:init`
+5. Cargar datos iniciales, con el comando `npm run seed:random`
 6. Comprobar ambiente de desarrollo, con el comando `npm run dev`
 7. Probar endpoints con Postman o Insomnia.
+
+## Arquitecutra
+Basamos la arquitectura del proyecto en CLEAN ARCHITECTURE
+```
+└── Frameworks, Web: Frontend en Angular
+  ├── Controllers: routes, middlewares
+    ├─── Use Cases: services
+      ├─── Entities: entities
+ 
+```
+- Entities: Enterprise Business Rules. Entidades bases de todo nuestro negocio. Ejm: Poll, Question, User, etc.
+- Uses Cases: Application Business Rules. Tenemos todo lo relacionado con la lógica del negocio.
+- Controllers: Interfaces Adapters. Son los que brindan acceso.
+- Web: Framewroks and Drivers. 
+
+Esta arquitectura en forma de capas tendría el siguiente esquema:
+Controllers (Routes, Middlewares) <-> Services <-> Libs(Models)
+
+### Flujo de Trabajo 
+
+Controladores: Encontramos los routes y middlewares.
+- Los controladores acceden a la capa de servicios.
+
+Servicios: donde se encuentra la lógica de negocio
+- Los servicios usan las librerías.
+
+- Las librerías se encargan de contactarse a la capa de entidades
+- Las librerías se contactan a otras fuentes de datos: API externa o base de datos.
+
+Nota: El flujo de los middlewares es: 
+
+Request -> Middlewares -> Response
+
+### Entidades
+
+- User: Colección de usuarios
+
 
 ## Configuración
 
@@ -41,9 +78,12 @@ El proyecto ya viene con una configuración por defecto, de la siguiente manera:
   └── services
 ```
 
-### Entidades
+### Scripts
 
-- User: Colección de usuarios
+- El comando `npm run start` inicia el servidor de node en modo producción.
+- El comando `npm run dev` inicia un servidor con livereload.
+- El comando `npm run e2e` se corren pruebas e2e para verificiar el correcto funcionamiento de los endpoints.
+- El comando `npm run seed:random` corre un carga de datos inicial.
 
 
 ## Licencia
