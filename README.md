@@ -3,6 +3,7 @@
 Este proyecto se basa en el manejo de datos relacionados con la medición en tiempo real del engagement estudiantil. Maneja logueo de usuarios y registro de datos en tiempo real que los estudiantes envian durante una sesión de clase.
 
 - [Instalación](#instalación)
+- [Arquitectura](#arquitectura)
 - [Configuración](#configuración)
 - [Licencia](#licencia)
 
@@ -16,7 +17,7 @@ Este proyecto se basa en el manejo de datos relacionados con la medición en tie
 6. Comprobar ambiente de desarrollo, con el comando `npm run dev`
 7. Probar endpoints con Postman o Insomnia.
 
-## Arquitecutra
+## Arquitectura
 Basamos la arquitectura del proyecto en CLEAN ARCHITECTURE
 ```
 └── Frameworks, Web: Frontend en Angular
@@ -31,6 +32,7 @@ Basamos la arquitectura del proyecto en CLEAN ARCHITECTURE
 - Web: Framewroks and Drivers. 
 
 Esta arquitectura en forma de capas tendría el siguiente esquema:
+
 Controllers (Routes, Middlewares) <-> Services <-> Libs(Models)
 
 ### Flujo de Trabajo 

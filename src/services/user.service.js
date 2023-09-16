@@ -32,6 +32,11 @@ class UserService {
   update(id, changes) {
     return User.findByIdAndUpdate(id, changes, { upsert: true, new: true });
   }
+
+  async findByEmail(email){
+    const response=await User.findOne({ email });
+    return response;
+  }
 }
 
 module.exports = UserService;

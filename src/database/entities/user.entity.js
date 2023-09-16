@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -10,11 +9,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true,
-    unique: 'Email already used!',
+    unique: [true,'Email already used!'],
   },
   password: {
     type: String,
-    required: true,
   },
   avatar: {
     type: String,
@@ -24,7 +22,6 @@ const userSchema = new mongoose.Schema({
   gender: {
     type: String,
     trim: true,
-    required: true,
   },
   rol: {
     type: String,
@@ -43,13 +40,6 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-//revisar el curso de Fernando Herrera para aclara el uso de esta función
-userSchema.methods.toJSON = function () {
-  // eslint-disable-next-line no-unused-vars
-  const { __v, password, _id, ...user } = this.toObject();
-  user.uid = _id;
-  return user;
-}
 
 const User = mongoose.model('Users', userSchema);
 
