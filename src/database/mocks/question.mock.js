@@ -46,25 +46,9 @@ const generateOneQuestion = () => {
   };
 };
 
-// function generateOneQuestion(){
-//   return {
-//     type: "Likert",
-//     question: "¿Cómo calificaría la calidad de nuestros productos?",
-//     answers: [
-//       {"option": 1, "text": "Muy insatisfecho", "correct" : false},
-//       {"option": 2, "text": "Insatisfecho","correct" : false},
-//       {"option": 3, "text": "Neutral","correct" : false},
-//       {"option": 4, "text": "Satisfecho","correct" : false},
-//       {"option": 5, "text": "Muy satisfecho","correct" : false}
-//     ]
-//   };
-// }
-// Función para generar varias preguntas
 const generateManyQuestions = (size = 6) => {
   const questions = [];
   for (let index = 0; index < size; index++) {
-    // const newQuestion=new Question(generateOneQuestion());
-    // questions.push(newQuestion);
     questions.push(generateOneQuestion());
   }
   return questions;

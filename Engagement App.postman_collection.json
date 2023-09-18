@@ -32,13 +32,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/users/6500a6a14129d09cf48fd251",
+							"raw": "{{url}}/users/6507d53fa4fb633e90ac4c1f",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"users",
-								"6500a6a14129d09cf48fd251"
+								"6507d53fa4fb633e90ac4c1f"
 							]
 						}
 					},
@@ -51,7 +51,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"Andrea\",\r\n\t\"email\": \"andre@mail.com\",\r\n\t\"password\": \"1234545\",\r\n\t\"avatar\": \"https://api.lorem.space/image/face?w=480&h=480&r=9297\",\r\n    \"gender\": \"Male\"\r\n}",
+							"raw": "{\r\n\t\"name\": \"Andrea\",\r\n\t\"email\": \"andre3@gmail.com\",\r\n\t\"password\": \"12345678\",\r\n\t\"avatar\": \"https://api.lorem.space/image/face?w=480&h=480&r=9297\",\r\n    \"gender\": \"Male\",\r\n    \"rol\": \"USER_ROLE\",\r\n    \"google\": true,\r\n    \"idGoogle\": \"1234567890abc1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -65,6 +65,78 @@
 							],
 							"path": [
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Andrea\",\r\n\t\"email\": \"andre3@gmail.com\",\r\n\t\"password\": \"12345678\",\r\n\t\"avatar\": \"https://api.lorem.space/image/face?w=480&h=480&r=9297\",\r\n    \"gender\": \"Male\",\r\n    \"rol\": \"USER_ROLE\",\r\n    \"google\": true,\r\n    \"idGoogle\": \"1234567890abc1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update partial",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Beatriz Guerrero\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"6507d53fa4fb633e90ac4c1f"
 							]
 						}
 					},
@@ -135,6 +207,78 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": \"Likert\",\r\n  \"question\": \"Question test from postman.\",\r\n  \"answers\": [\r\n    {\r\n      \"option\": 1,\r\n      \"text\": \"Muy insatisfecho\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 2,\r\n      \"text\": \"Insatisfecho\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 3,\r\n      \"text\": \"Neutral\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 4,\r\n      \"text\": \"Satisfecho\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"option\": 5,\r\n      \"text\": \"Muy satisfecho\",\r\n      \"correct\": false\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/questions/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"questions",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update partial",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": \"Likert\",\r\n  \"question\": \"Question test from postman 1 modifited.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/questions/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"questions",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/questions/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"questions",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -201,6 +345,78 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"activityType\": \"No entiendo\",\r\n    \"recordDate\": \"2023-09-12T08:30:48.740Z\",\r\n    \"userId\": \"6500c6e69e703d060be08da1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/recordActivities/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"recordActivities",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update partial",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"activityType\": \"Sueño\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/recordActivities/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"recordActivities",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/recordActivities/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"recordActivities",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -230,13 +446,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/polls/6500c84bab771a65f2ff9507",
+							"raw": "{{url}}/polls/65011de31f10ee0f87c0391b",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"polls",
-								"6500c84bab771a65f2ff9507"
+								"65011de31f10ee0f87c0391b"
 							]
 						}
 					},
@@ -263,6 +479,110 @@
 							],
 							"path": [
 								"polls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pollTitle\": \"Title test postman\",\r\n    \"startDate\": \"2023-08-01T22:24:44.540Z\",\r\n    \"questions\": [\r\n        \"6500c84bab771a65f2ff94e8\",\r\n        \"6500c84bab771a65f2ff94ec\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/polls/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"polls",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update partial",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pollTitle\": \"Title test postman change title partial with patch\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/polls/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"polls",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/polls/6507d53fa4fb633e90ac4c1f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"polls",
+								"6507d53fa4fb633e90ac4c1f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login local",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"andreaaa@mail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
 							]
 						}
 					},

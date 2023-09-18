@@ -7,6 +7,9 @@ const generateOneUser = () => {
     password: faker.internet.password(),
     avatar: faker.image.avatar(),
     gender: faker.person.gender(),
+    status: faker.datatype.boolean(),
+    google: faker.datatype.boolean(),
+    idGoogle: faker.string.uuid()
   }
 }
 
