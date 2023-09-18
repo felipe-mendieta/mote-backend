@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const routerApi = require('./routes');
+const { routerApi } = require('./routes');
 const optionsCors = require('./config/configCors');
 //passport libraries************************
 const passport = require('passport');

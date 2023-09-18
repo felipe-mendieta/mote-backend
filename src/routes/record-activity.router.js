@@ -3,7 +3,7 @@ const validatorHandler = require('./../middlewares/validator.handler');
 const RecordActivityService = require('./../services/record-activity.service');
 const {
   createRecordActivityDto,
-  getRecordActivityDto,
+  getRecordActivityByIdDto,
   updateRecordActivityDto,
 } = require('./../dtos/record-activity.dtos');
 
@@ -13,7 +13,7 @@ const recordActivityService = new RecordActivityService();
 router.get('/', async (_, res, next) => {
   try {
     const recordActivities = await recordActivityService.getAll();
-    res.json(recordActivities);
+    res.status(200).json(recordActivities);
   } catch (error) {
     next(error);
   }
@@ -21,12 +21,12 @@ router.get('/', async (_, res, next) => {
 
 router.get(
   '/:id',
-  validatorHandler(getRecordActivityDto, 'params'),
+  validatorHandler(getRecordActivityByIdDto, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const recordActivity = await recordActivityService.getById(id);
-      res.json(recordActivity);
+      res.status(200).json(recordActivity);
     } catch (error) {
       next(error);
     }
@@ -40,7 +40,7 @@ router.post(
     try {
       const body = req.body;
       const newRecordActivity = await recordActivityService.create(body);
-      res.json(newRecordActivity);
+      res.status(201).json(newRecordActivity);
     } catch (error) {
       next(error);
     }
@@ -49,14 +49,14 @@ router.post(
 
 router.put(
   '/:id',
-  validatorHandler(getRecordActivityDto, 'params'),
+  validatorHandler(getRecordActivityByIdDto, 'params'),
   validatorHandler(updateRecordActivityDto, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
       const recordActivity = await recordActivityService.update(id, body);
-      res.json(recordActivity);
+      res.status(200).json(recordActivity);
     } catch (error) {
       next(error);
     }
@@ -65,29 +65,31 @@ router.put(
 
 router.patch(
   '/:id',
-  validatorHandler(getRecordActivityDto, 'params'),
+  validatorHandler(getRecordActivityByIdDto, 'params'),
   validatorHandler(updateRecordActivityDto, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
       const updatedRecordActivity = await recordActivityService.patch(id, body);
-      res.json(updatedRecordActivity);
+      res.status(200).json(updatedRecordActivity);
     } catch (error) {
       next(error);
     }
   }
 );
 
-router.delete('/:id', validatorHandler(getRecordActivityDto, 'params'), async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const deletedRecordActivity = await recordActivityService.deleteById(id);
-    res.json(deletedRecordActivity);
-  } catch (error) {
-    next(error);
-  }
-});
+router.delete('/:id',
+  validatorHandler(getRecordActivityByIdDto, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const deletedRecordActivity = await recordActivityService.deleteById(id);
+      res.status(200).json(deletedRecordActivity);
+    } catch (error) {
+      next(error);
+    }
+  });
 
 
 module.exports = router;

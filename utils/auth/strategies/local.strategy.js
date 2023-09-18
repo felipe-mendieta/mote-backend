@@ -6,13 +6,13 @@ const UserService = require('./../../../src/services/user.service');
 const service = new UserService();
 
 const LocalStrategy = new Strategy({//personalizando como la estrategia va a recibir los campos
-    usernameField: 'email',
-    passwordField: 'password'
-  },
+  usernameField: 'email',
+  passwordField: 'password'
+},
   async (email, password, done) => {
 
     try {
-      const user = await service.findByEmail(email);
+      const user = await service.getByEmail(email);
       if (!user) {
         done(boom.unauthorized(), false);
       }

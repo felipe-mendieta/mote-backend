@@ -15,7 +15,7 @@ router.get('/google/callback',
   async function (req, res) {
     const user = req.user;//se resuelve lo del archivo local strategy
     const token = await generateJWT(user.id);
-    res.json(
+    res.status(200).json(
       {
         user: req.user,
         token

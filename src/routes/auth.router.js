@@ -6,17 +6,17 @@ const router = express.Router();
 
 // Ruta para autenticar un usuario
 router.post('/login',
-  passport.authenticate('local', {session: false}),
+  passport.authenticate('local', { session: false }),
   async (req, res, next) => {
-      try {
-        const user= req.user;//se resuelve lo del archivo local strategy
-        const token = await generateJWT(user.id);
-        res.json({
-          user,
-          token
-        });
-      } catch (error) {
-        next(error);
-      }
+    try {
+      const user = req.user;//se resuelve lo del archivo local strategy
+      const token = await generateJWT(user.id);
+      res.status(200).json({
+        user,
+        token
+      });
+    } catch (error) {
+      next(error);
+    }
   });
 module.exports = router;

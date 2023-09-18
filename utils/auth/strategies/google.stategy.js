@@ -1,25 +1,25 @@
-
-
 var passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const config = require('../../../src/config/config');
-const User = require('./../../../src/database/entities/user.entity');
+const { endpoints } = require('./../../../src/routes/index');
+const UserService = require('./../../../src/services/user.service');
+const userService = new UserService();
 // Configura la estrategia de autenticación con Google
 const GoogleStrategyAuth = new GoogleStrategy(
   {
     clientID: `${config.googleClienteId}`,
     clientSecret: `${config.googleSecretId}`,
-    callbackURL: `http://localhost:3002/api/v1/auth/google/callback`, // Ajusta la URL de callback según tu configuración
+    callbackURL: `${config.myDomainApp}:${config.port}${endpoints.baseApi}${endpoints.auth}/google/callback`, // Ajusta la URL de callback según tu configuración
+    //http://localhost:3002/api/v1/auth/google/callback
   },
-  async function (accessToken, refreshToken, profile, cb) {
+  async function (accessToken, refreshToken, profile, done) {
     // Aquí puedes verificar el perfil de usuario y decidir si permites la autenticación
     // Puedes buscar al usuario en tu base de datos o realizar otras acciones según tus necesidades
     const email = profile.emails ? profile.emails[0].value : ''
     try {
-      let user = await User.findOne({ email: email });
-
+      let user = await userService.getByEmail(email);
       if (!user) {
-        const newUser = await User.create({
+        const newUser = {
           name: profile.displayName || '', // Si displayName no existe, asigna un string vacío
           email: profile.emails ? profile.emails[0].value : '', // Si no hay emails, asigna un string vacío
           avatar: profile.photos ? profile.photos[0].value : '', // Si no hay fotos, asigna un string vacío
@@ -27,42 +27,38 @@ const GoogleStrategyAuth = new GoogleStrategy(
           rol: 'USER_ROLE', // Puedes asignar un rol predeterminado si lo necesitas
           status: true, // Puedes asignar un estado predeterminado si lo necesitas
           google: true, // Indica que este usuario se autenticó con Google
-        });
-        console.log({ newUser });
-        return cb(null, newUser); // Devuelve el usuario autenticado
-        // }
-      }else{
-        return cb(null, user);
+          idGoogle: profile.id
+        };
+        userService.create(newUser);
+        return done(null, newUser); // Devuelve el usuario autenticado
+      } else {
+        return done(null, user);
       }
     } catch (error) {
-      return cb(error);
+      return done(error);
     }
   }
 );
 
-
-
-
-
-
-
-
 // Configura la serialización y deserialización de usuarios para la sesión
+//Con estos ajustes, al autenticarse, almacenarás solo el ID del usuario en la sesión y,
+//al deserializar, buscarás al usuario en la base de datos usando ese ID.
 passport.serializeUser((user, cb) => {
   // eslint-disable-next-line no-undef
   process.nextTick(function () {
-    cb(null, { id: user.id, username: user.username, name: user.displayName });
+    cb(null, user.id);
   });
 });
 
-passport.deserializeUser((user, cb) => {
-  // Busca al usuario en tu base de datos según el ID
-  // Luego, devuelve el objeto de usuario encontrado
-  // Puedes personalizar esto según tu modelo de usuario
-  // eslint-disable-next-line no-undef
-  process.nextTick(function () {
-    return cb(null, user);
+passport.deserializeUser(
+  async (id, cb) => {
+    try {
+      const user = await userService.getById(id);
+      cb(null, user); // Devuelve el objeto de usuario encontrado
+    } catch (error) {
+      cb(error, null);
+    }
   });
-});
+
 
 module.exports = GoogleStrategyAuth;

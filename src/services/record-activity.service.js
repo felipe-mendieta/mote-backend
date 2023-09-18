@@ -1,29 +1,25 @@
 const RecordActivity = require('./../database/entities/record-activity.entity');
 
 class RecordActivityService {
-  create(data) {
+  async create(data) {
     const newRecordActivity = new RecordActivity(data);
-    return newRecordActivity.save();
+    return await newRecordActivity.save();
   }
 
-  getAll() {
-    return RecordActivity.find();
+  async getAll() {
+    return await RecordActivity.find();
   }
 
-  getById(id) {
-    return RecordActivity.findById(id);
+  async getById(id) {
+    return await RecordActivity.findById(id);
   }
 
-  update(id, changes) {
-    return RecordActivity.findByIdAndUpdate(id, changes, { upsert: true, new: true });
+  async update(id, changes) {
+    return await RecordActivity.findByIdAndUpdate(id, changes, { upsert: true, new: true });
   }
 
   async patch(id, changes) {
-    const updatedRecordActivity = await RecordActivity.findByIdAndUpdate(
-      id,
-      { $set: changes },
-      { new: true }
-    );
+    const updatedRecordActivity = await RecordActivity.findByIdAndUpdate(id, { $set: changes }, { new: true });
     return updatedRecordActivity;
   }
 

@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true,
-    unique: [true,'Email already used!'],
+    unique: [true, 'Email already used!'],
   },
   password: {
     type: String,
@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
   google: {
     type: Boolean,
     default: false
+  },
+  idGoogle: {
+    type: String,
+    trim: true,
   }
 });
 

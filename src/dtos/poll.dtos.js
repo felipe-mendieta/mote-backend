@@ -16,9 +16,10 @@ const createPollDto = Joi.object({
 
 const updatePollDto = Joi.object({
   pollTitle,
-  startDate
+  startDate,
+  questions: Joi.array(),
 });
-const getPollDto = Joi.object({
+const getPollByIdDto = Joi.object({
   id: id.required(),
 });
-module.exports = {createPollDto, updatePollDto, getPollDto};
+module.exports = { createPollDto, updatePollDto, getPollByIdDto };

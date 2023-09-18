@@ -20,13 +20,17 @@ const createQuestionDto = Joi.object({
   ),
 });
 const updateQuestionDto = Joi.object({
-  questionText,
-  questionType,
-  answerOption,
-  answerText,
-  isCorrect
+  type: questionType.required(),
+  question: questionText.required(),
+  answers: Joi.array().items(
+    Joi.object({
+      option: answerOption.required(),
+      text: answerText.required(),
+      correct: isCorrect.required(),
+    })
+  ),
 });
-const getQuestionDto = Joi.object({
+const getQuestionByIdDto = Joi.object({
   id: id.required(),
 });
-module.exports = { createQuestionDto, getQuestionDto, updateQuestionDto };
+module.exports = { createQuestionDto, getQuestionByIdDto, updateQuestionDto };

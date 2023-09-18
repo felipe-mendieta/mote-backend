@@ -1,38 +1,32 @@
-const Question = require('./../database/entities/question.entity'); // Importa el modelo de Question
+const Question = require('./../database/entities/question.entity');
 
 class QuestionService {
-  create(data) {
+  async create(data) {
     const newQuestion = new Question(data);
-    return newQuestion.save();
+    return await newQuestion.save();
   }
 
-  getAll() {
-    return Question.find();
+  async getAll() {
+    return await Question.find();
   }
 
-  getById(id) {
-    return Question.findById(id);
+  async getById(id) {
+    return await Question.findById(id);
   }
 
-  update(id, changes) {
-    return Question.findByIdAndUpdate(id, changes, { upsert: true, new: true });
+  async update(id, changes) {
+    return await Question.findByIdAndUpdate(id, changes, { upsert: true, new: true });
   }
+
   async patch(id, changes) {
-
-    const updatedQuestion = await Question.findByIdAndUpdate(
-      id,
-      { $set: changes },
-      { new: true }
-    );
+    const updatedQuestion = await Question.findByIdAndUpdate(id, { $set: changes }, { new: true });
     return updatedQuestion;
-
   }
 
   async deleteById(id) {
-
     const deletedQuestion = await Question.findByIdAndRemove(id);
     return deletedQuestion;
-
   }
 }
-module.exports =  QuestionService ;
+
+module.exports = QuestionService;

@@ -13,13 +13,13 @@ const createRecordActivityDto = Joi.object({
 });
 
 const updateRecordActivityDto = Joi.object({
-  activityType,
-  recordDate,
-  userId,
+  activityType: activityType.required(),
+  recordDate: recordDate.required(),
+  userId: userId.required(),
 });
 
-const getRecordActivityDto = Joi.object({
+const getRecordActivityByIdDto = Joi.object({
   id: id.required(),
 });
 
-module.exports = { createRecordActivityDto, updateRecordActivityDto, getRecordActivityDto };
+module.exports = { createRecordActivityDto, updateRecordActivityDto, getRecordActivityByIdDto };

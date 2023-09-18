@@ -1,38 +1,32 @@
-const Poll = require('./../database/entities/poll.entity'); // Importa el modelo de Poll
+const Poll = require('./../database/entities/poll.entity');
+
 class PollService {
-  create(data) {
+  async create(data) {
     const newPoll = new Poll(data);
-    return newPoll.save();
+    return await newPoll.save();
   }
 
-  getAll() {
-    return Poll.find().populate('questions');
+  async getAll() {
+    return await Poll.find().populate('questions');
   }
 
-  getById(id) {
-    return Poll.findById(id).populate('questions');
+  async getById(id) {
+    return await Poll.findById(id).populate('questions');
   }
 
-  update(id, changes) {
-    return Poll.findByIdAndUpdate(id, changes, { upsert: true, new: true });
+  async update(id, changes) {
+    return await Poll.findByIdAndUpdate(id, changes, { upsert: true, new: true });
   }
+
   async patch(id, changes) {
-
-    const updatedPoll = await Poll.findByIdAndUpdate(
-      id,
-      { $set: changes },
-      { new: true }
-    );
+    const updatedPoll = await Poll.findByIdAndUpdate(id, { $set: changes }, { new: true });
     return updatedPoll;
-
   }
 
   async deleteById(id) {
-
     const deletedPoll = await Poll.findByIdAndRemove(id);
     return deletedPoll;
-
   }
-
 }
-module.exports =  PollService ;
+
+module.exports = PollService;
