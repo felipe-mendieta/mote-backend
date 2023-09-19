@@ -7,7 +7,7 @@ class UserService {
     const { name, email, avatar, gender, password } = data;
 
     // Encripta la contraseña utilizando bcrypt
-    const saltRounds = await bcryptjs.genSalt(10); // Define el número de rondas de sal para el hash
+    const saltRounds = await bcryptjs.genSalt(); // Define el número de rondas de sal para el hash
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Crea un nuevo usuario con la contraseña encriptada
@@ -20,6 +20,10 @@ class UserService {
     });
 
     return await newUser.save();
+  }
+  async createUserGoogle(data) {
+    const newUserGoogle = new User(data);
+    return await newUserGoogle.save();
   }
 
   async getAll() {
