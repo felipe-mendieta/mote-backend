@@ -5,7 +5,6 @@ const whitelist = [
   `${config.myDomainApp}:4200`,
   `${config.myDomainApp}:${config.port}`,
 ];
-console.log("whitelist cors: ",whitelist )
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {

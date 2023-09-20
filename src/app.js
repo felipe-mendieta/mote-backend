@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { routerApi } = require('./routes');
 const optionsCors = require('./config/configCors');
-const config = require('./config/config');
+const optionsSessionGoogle = require('./config/configSessionGoogle');
 //passport libraries************************
 const passport = require('passport');
 const session = require('express-session');
@@ -17,15 +17,7 @@ const createApp = () => {
   app.use(express.static('public'))
   app.use(express.json());
   app.use(cors(optionsCors));
-  app.use(session({//primero configuramos, luego inicializamos
-    secret: config.secretPrivateKey,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: config.isProd,
-      maxAge: 1000 * 60 * 60 * 24 * 7//una semana
-    }
-  }));
+  app.use(session(optionsSessionGoogle));
   app.use(passport.initialize());//iniciamos la sesion
   app.use (passport.session ());//habilitamos el manejo de sesiones
   require('./../utils/auth/index');
