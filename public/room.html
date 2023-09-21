@@ -11,29 +11,48 @@
 </head>
 
 <body>
-  <form class="form-horizontal form-material" id="loginform" action="engagementApp.html">
-    <h3 class="box-title m-b-20">Engagement Room</h3>
-    <div class="form-group ">
-      <div class="col-xs-12">
-        <input class="form-control" type="text" required="" placeholder="Nombre de usuario" name="name">
+  <div class="p-4 justify-content-center">
+    <form class="form-horizontal form-material" id="loginform"
+          action="engagementApp-client.html"
+          onsubmit="return redirectBasedOnRole()">
+      <h3 class="box-title m-b-20">Engagement Room</h3>
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" required="" placeholder="Nombre de usuario" name="name" value="User">
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-xs-12">
-        <input class="form-control" type="text" required="" placeholder="Id de la sala" name="roomCode">
+      <div class="form-group">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" required="" placeholder="Id de la sala" name="roomCode" value="12345">
+        </div>
       </div>
-    </div>
-    <div class="form-group ">
-      <div class="col-xs-12">
-        <input class="form-control" type="text" required="" placeholder="Rol(solo para pruebas)" name="rol">
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" required="" placeholder="admin o user" name="rol" value="user">
+        </div>
       </div>
-    </div>
-    <div class="form-group text-center">
-      <div class="col-xs-12 p-b-20 p-3">
-        <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Ingresar a la sala</button>
+      <div class="form-group text-center">
+        <div class="col-xs-12 p-b-20 p-3">
+          <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Ingresar a la sala</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
+
+  <script>
+    function redirectBasedOnRole() {
+      var rolInput = document.getElementsByName('rol')[0].value;
+      if (rolInput === 'admin') {
+        document.getElementById('loginform').action = 'engagementApp-admin.html';
+      } else if (rolInput === 'user') {
+        document.getElementById('loginform').action = 'engagementApp-client.html';
+      } else {
+        document.getElementById('loginform').action = 'engagementApp-client.html';
+      }
+      return true;
+    }
+  </script>
+
 </body>
 
 </html>

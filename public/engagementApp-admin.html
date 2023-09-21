@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body class="p-4">
+  <h1>Welcome to Engagement App - Admin Panel</h1>
+  <hr>
+  <div class="d-flex justify-content-center">
+    <button id="generateRoom" type="button" class="btn btn-warning m-2">Generar nueva sala</button>
+  </div>
+  <p class="border d-flex justify-content-center font-weight-bold">Código de la sala</p>
+  <hr>
+  <div class="d-flex justify-content-center">
+    <button id="sendPoll" type="button" class="btn btn-info m-2">Enviar encuesta</button>
+    <button id="closePoll" type="button" class="btn btn-danger m-2">Cerrar encuesta</button>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-center">
+    <span id="sleep" class="p-4 m-4 border border-info">0</span>
+    <span id="idontgetit" class="p-4 m-4 border border-info">0</span>
+  </div>
+  <div id="dataPoll" class="d-flex justify-content-center"></div>
+</body>
+<script src="socket.io/socket.io.js"></script>
+<script>
+  var params = new URLSearchParams(window.location.search);
+  if (!params.has('name') || !params.has('roomCode')) {
+    window.location = 'index.html';
+    throw new Error('El nombre y sala son necesarios');
+  }
+  var usuario = {
+    name: params.get('name'),
+    roomCode: params.get('roomCode'),
+    rol: params.get('rol')
+  };
+  const buttonSendPoll = document.getElementById("sendPoll");
+  const buttonClosePoll = document.getElementById("closePoll");
+  const buttonGenerateRoom = document.getElementById("generateRoom");
+  const spanRecordActivitySleep = document.getElementById("idontgetit");
+  const spanRecordActivityIdontgetit = document.getElementById("idontgetit");
+
+
+  const socket = io();
+  console.log(socket);
+
+  socket.on('connect', function () {
+    console.log('Conectado al servidor(mensaje desde javascript cliente)');
+
+    socket.emit('joinRoom', usuario, function (resp) {
+      console.log('Admin conectado dice', resp);
+    });
+
+  });
+  buttonSendPoll.addEventListener("click", (event) => {
+    console.log("Enviando encuesta desde el cliente");
+    if (usuario.rol == 'admin') {
+      console.log("Usuario admin permitido para enviar encuestas.")
+      data = {
+        roomCode: '12345',
+        idPoll: '6509d0682bbb544c95860c98'
+      }
+      socket.emit('sendPoll', data, function (resp) {
+        console.log('Admin conectado dice', resp);
+      });
+    } else {
+      console.log("Usuario no permitido para enviar encuestas");
+    }
+
+  });
+
+  buttonClosePoll.addEventListener("click", (event) => {
+    console.log("Cerrando encuesta");
+    data = null;
+    socket.emit('closePoll', data, function (resp) {
+      console.log('Usuario conectado dice', resp);
+    });
+  });
+
+  buttonGenerateRoom.addEventListener("click", (event) => {
+    console.log('Generando code Room');
+  });
+
+  socket.on('putRecordActivitySleep',
+    function (data) {
+      console.log(data);
+      const item = document.createElement('p');
+      item.textContent = data;
+      spanRecordActivitySleep.appendChild(item);
+
+    });
+
+  socket.on('putRecordActivityIdontgetit',
+    function (data) {
+      console.log(data);
+      const item = document.createElement('p');
+      item.textContent = data;
+      spanRecordActivityIdontgetit.appendChild(item);
+    });
+  socket.on('disconnect', function () {
+    console.log('Usuario desconectado o perdimos conexión con el servidor.');
+  });
+
+</script>
+
+</html>
