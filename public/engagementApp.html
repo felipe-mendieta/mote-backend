@@ -1,0 +1,56 @@
+<html>
+bienvenido a engagement app
+<div id="dataPoll"></div>
+
+</html>
+<script src="socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  const div = document.getElementById('dataPoll');
+  var params = new URLSearchParams(window.location.search);
+
+  if (!params.has('name') || !params.has('roomCode')) {
+    window.location = 'index.html';
+    throw new Error('El nombre y sala son necesarios');
+  }
+
+  var usuario = {
+    name: params.get('name'),
+    roomCode: params.get('roomCode'),
+    rol: params.get('rol')
+  };
+
+  socket.on('connect', function () {
+    console.log('Conectado al servidor(mensaje desde el cliente)');
+
+    socket.emit('joinRoom', usuario, function (resp) {
+      console.log('Usuario conectado dice', resp);
+    });
+
+    if (usuario.rol == 'admin') {
+      console.log("Usuario admin conectandose.")
+      const idPoll = '6509d0682bbb544c95860c94';
+      socket.emit('admin', idPoll, function (resp) {
+        console.log('Usuario conectado dice: ', resp);
+      });
+    }
+  });
+
+  socket.on('putPolls',
+    function (data) {
+      console.log(data);
+      const item = document.createElement('p');
+      item.textContent = JSON.stringify(data);
+      div.appendChild(item);
+
+  });
+
+  socket.on('crearMensaje', function(mensaje) {
+    console.log('Servidor:', mensaje);
+
+});
+  socket.on('disconnect', function () {
+    console.log('Usuario desconectado o perdimos conexión con el servidor.');
+  });
+
+</script>
