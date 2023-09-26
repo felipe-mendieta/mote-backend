@@ -25,23 +25,23 @@
 <script src="socket.io/socket.io.js"></script>
 <script>
   var params = new URLSearchParams(window.location.search);
-  if (!params.has('name') || !params.has('roomCode')) {
+  if (!params.has('email') || !params.has('roomCode')) {
     window.location = 'index.html';
     throw new Error('El nombre y sala son necesarios');
   }
+
+  const buttonSendActivitySleep = document.getElementById("sleep");
+  const buttonSendActivityIdontGetIt = document.getElementById("idontgetit");
+
   var usuario = {
-    name: params.get('name'),
+    email: params.get('email'),
     roomCode: params.get('roomCode'),
     rol: params.get('rol')
   };
-  const buttonSendPoll = document.getElementById("sendPoll");
-  const buttonClosePoll = document.getElementById("closePoll");
-  window.addEventListener('load', function () {
-    if (params.get('rol') === 'admin') {
-      buttonSendPoll.style.display = 'block';
-      buttonClosePoll.style.display = 'block';
-    }
-  });
+  data={
+      userId:'650f24f5b262e8e5612dab57',
+      idPoll: '650f24f5b262e8e5612dab79'
+    };
   var socket = io();
   console.log(socket)
   const div = document.getElementById('dataPoll');
@@ -65,6 +65,17 @@
 
   socket.on('disconnect', function () {
     console.log('Usuario desconectado o perdimos conexión con el servidor.');
+  });
+  buttonSendActivitySleep.addEventListener('click', (event) => {
+    socket.emit('saveActivitySleep', data, function (resp) {
+      console.log('Usuario conectado dice', resp);
+    });
+  });
+  buttonSendActivityIdontGetIt.addEventListener('click', (event) => {
+
+    socket.emit('saveActivityIdontGetIt', data, function (resp) {
+      console.log('Usuario conectado dice', resp);
+    });
   });
 
 </script>

@@ -2,7 +2,7 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const id = Joi.objectId();
-const activityType = Joi.string().valid('Sueño', "No entiendo");
+const activityType = Joi.string().valid('sleep', "i dont get it");
 const recordDate = Joi.date();
 const userId = Joi.objectId();
 

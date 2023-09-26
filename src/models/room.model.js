@@ -1,16 +1,11 @@
 class Room {
-  constructor(code, name) {
+  constructor(code) {
     this.code = code;
-    this.name = name;
     this.students = [];
   }
 
   setCode(newCode) {
     this.code = newCode;
-  }
-
-  setName(newName) {
-    this.name = newName;
   }
 
   getCode(){

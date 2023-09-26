@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-
+const activity = require('./../../../utils/enums/activity.enum')
 const recordActivitySchema = new mongoose.Schema({
   activityType: {
     type: String,
-    enum: ['Sueño', "No entiendo"], // Valores permitidos para el tipo de actividad
+    enum: [activity.sleep, activity.iDontGetIt], // Valores permitidos para el tipo de actividad
     required: true,
   },
   recordDate: {
@@ -12,8 +12,12 @@ const recordActivitySchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Users', // Nombre de la colección de estudiantes relacionada
+    ref: 'User', // Nombre de la colección de estudiantes relacionada
   },
+  roomId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Room', // Nombre de la colección de estudiantes relacionada
+  }
 });
 
 const RecordActivity = mongoose.model('RecordActivity', recordActivitySchema);

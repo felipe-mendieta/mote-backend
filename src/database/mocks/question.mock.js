@@ -1,12 +1,14 @@
 const { faker } = require('@faker-js/faker/locale/es');
+const typePoll = require('../../../utils/enums/poll-type.enum');
+
 // Función para generar una pregunta aleatoria
 const generateOneQuestion = () => {
-  const questionTypes = ['Likert', 'Multiple Option', 'Single Option'];
+  const questionTypes = [typePoll.likert, typePoll.multipleOption, typePoll.singleOption];
   const randomType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
 
   const questionText = faker.lorem.sentence();
 
-  if (randomType === 'Likert') {
+  if (randomType === typePoll.likert) {
     // Genera una escala de Likert con opciones predefinidas
     const likertScale = [
       'Muy insatisfecho',
@@ -30,7 +32,7 @@ const generateOneQuestion = () => {
   }
 
   const answers = [];
-  if (randomType === 'Multiple Option' || randomType === 'Single Option') {
+  if (randomType === typePoll.multipleOption || randomType === typePoll.singleOption) {
     for (let i = 1; i <= 3; i++) {
       answers.push({
         option: i,

@@ -4,19 +4,20 @@ const createApp = require('./app');
 const http = require('http');
 const { Server } = require('socket.io');
 const config = require('./config/config');
-const { socketController } = require('./websockets/controller');
+const { socketController } = require('./socketio/controller');
 
 getConnection();
 const app = createApp();
 
 //sockets
-const server = http.createServer(app);
-const io = new Server(server);
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
 socketController(io);
-server.listen(config.port || 3002,
+httpServer.listen(config.port || 3002,
   () => {
     console.log(`listening on ${config.port}`);
   }
 );
-//fin sockets
+//fin sockets con hhtp, para pasar a producción a https veR:
+//for httpS server https://socket.io/docs/v4/server-initialization/
 module.exports = app;

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-
+const typePoll = require('./../../../utils/enums/poll-type.enum');
 const questionSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ['Likert', 'Multiple Option', 'Single Option'],
+    enum: [typePoll.likert, typePoll.multipleOption, typePoll.singleOption],
     required: true,
   },
   question: {

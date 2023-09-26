@@ -31,12 +31,12 @@
 <script src="socket.io/socket.io.js"></script>
 <script>
   var params = new URLSearchParams(window.location.search);
-  if (!params.has('name') || !params.has('roomCode')) {
+  if (!params.has('email') || !params.has('roomCode')) {
     window.location = 'index.html';
     throw new Error('El nombre y sala son necesarios');
   }
   var usuario = {
-    name: params.get('name'),
+    email: params.get('name'),
     roomCode: params.get('roomCode'),
     rol: params.get('rol')
   };
@@ -63,8 +63,8 @@
     if (usuario.rol == 'admin') {
       console.log("Usuario admin permitido para enviar encuestas.")
       data = {
-        roomCode: '12345',
-        idPoll: '6509d0682bbb544c95860c98'
+        roomCode: 'gsbf',
+        idPoll: '650f24f5b262e8e5612dab79'
       }
       socket.emit('sendPoll', data, function (resp) {
         console.log('Admin conectado dice', resp);
@@ -77,7 +77,10 @@
 
   buttonClosePoll.addEventListener("click", (event) => {
     console.log("Cerrando encuesta");
-    data = null;
+    data = {
+        roomCode: 'gsbf',
+        idPoll: '650f24f5b262e8e5612dab79'
+      }
     socket.emit('closePoll', data, function (resp) {
       console.log('Usuario conectado dice', resp);
     });
