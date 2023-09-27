@@ -5,10 +5,9 @@ const activity = require('./../../utils/enums/activity.enum');
 const saveActivitySleep = (io, client) => {
   client.on('saveActivitySleep', async (data) => {
     try {
-      const { idRoom, userId } = data;
+      const { idRoom } = data;
       const newActivity = {
         activityType: activity.sleep,
-        userId: userId,
         idRoom: idRoom,
       };
       await recordActivityService.create(newActivity);
@@ -22,10 +21,9 @@ const saveActivitySleep = (io, client) => {
 const saveActivityIdontgetit = (io, client) => {
   client.on('saveActivityIdontGetIt', async (data) => {
     try {
-      const { idRoom, userId } = data;
+      const { idRoom } = data;
       const newActivity = {
         activityType: activity.iDontGetIt,
-        userId: userId,
         idRoom: idRoom,
       };
       await recordActivityService.create(newActivity);
