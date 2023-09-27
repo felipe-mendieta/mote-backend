@@ -5,8 +5,7 @@ let { setCurrentPoll, getEventRegistry } = require('./registries/poll.event.regi
 const sendPoll = (io, client) => {
   client.on('sendPoll', async (data) => {
     try {
-      const { roomCode, idPoll } = data;
-      if (idPoll && roomCode) {
+      const {idPoll, roomCode,  } = data;
         const poll = await pollService.getById(idPoll);
         const currentPoll = poll.toObject();// Actualiza la encuesta actual
         setCurrentPoll(currentPoll);
@@ -14,7 +13,6 @@ const sendPoll = (io, client) => {
         eventRegistry.push({ type: 'poll', data: currentPoll });
         client.broadcast.to(roomCode).emit('putPolls', currentPoll);
         client.emit('success', "Poll send success.");
-      }
     } catch (error) {
       console.error('Error sending poll:', error.message);
       client.emit('error', `Error sending poll. Stack: ' ${error.message}`);

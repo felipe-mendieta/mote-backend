@@ -31,12 +31,12 @@
 <script src="socket.io/socket.io.js"></script>
 <script>
   var params = new URLSearchParams(window.location.search);
-  if (!params.has('email') || !params.has('roomCode')) {
+  if (!params.has('roomCode')) {
     window.location = 'index.html';
     throw new Error('El nombre y sala son necesarios');
   }
   var usuario = {
-    email: params.get('name'),
+    //email: params.get('name'),
     roomCode: params.get('roomCode'),
     rol: params.get('rol')
   };

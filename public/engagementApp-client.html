@@ -25,21 +25,21 @@
 <script src="socket.io/socket.io.js"></script>
 <script>
   var params = new URLSearchParams(window.location.search);
-  if (!params.has('email') || !params.has('roomCode')) {
+  if (!params.has('roomCode')) {
     window.location = 'index.html';
-    throw new Error('El nombre y sala son necesarios');
+    throw new Error('La sala es necesaria');
   }
 
   const buttonSendActivitySleep = document.getElementById("sleep");
   const buttonSendActivityIdontGetIt = document.getElementById("idontgetit");
 
   var usuario = {
-    email: params.get('email'),
+    // email: params.get('email'),
     roomCode: params.get('roomCode'),
-    rol: params.get('rol')
+    // rol: params.get('rol')
   };
   data = {
-    userId: '650f24f5b262e8e5612dab57',
+    // userId: '650f24f5b262e8e5612dab57',
     idPoll: '650f24f5b262e8e5612dab79'
   };
   var socket = io();
@@ -67,6 +67,13 @@
       console.log(data);
     });
 
+  socket.on('putPolls',
+    function (data) {
+      console.log(data);
+      const item = document.createElement('p');
+      item.textContent = JSON.stringify(data);
+      div.appendChild(item);
+    });
   socket.on('disconnect', function () {
     console.log('Usuario desconectado o perdimos conexión con el servidor.');
   });
