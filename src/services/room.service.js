@@ -44,9 +44,9 @@ class RoomService {
     }
   }
 
-  async addUser(roomCode, userId) {
+  async addUser(id, userId) {
     try {
-      const room = await Room.findOne({ code: roomCode });
+      const room = await Room.findById(id);
       if (!room) {
         throw new Error('Room not found');
       }
@@ -63,9 +63,9 @@ class RoomService {
     }
   }
 
-  async addActivity(roomId, activityId) {
+  async addActivity(id, activityId) {
     try {
-      const room = await Room.findById(roomId);
+      const room = await Room.findById(id);
       if (!room) {
         throw new Error('Room not found');
       }
@@ -102,9 +102,9 @@ class RoomService {
     }
   }
 
-  async getDetails(roomCode) {
+  async getDetails(id) {
     try {
-      const room = await Room.findOne({ code: roomCode });
+      const room = await Room.findById(id);
 
       if (!room) {
         throw new Error('Room not found');

@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:roomCode', async (req, res, next) => {
   try {
     const { roomCode } = req.params;
-    const roomDetails = await roomService.getRoomDetails(roomCode);
+    const roomDetails = await roomService.getDetails(roomCode);
     res.json(roomDetails);
   } catch (error) {
     next(error);
@@ -34,7 +34,30 @@ router.post('/', async (req, res, next) => {
     next(error);
   }
 });
-
+router.put(
+  '/:id',
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const room = await roomService.update(id, body);
+      res.status(200).json(room); // Código de estado 200 para "OK"
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.patch('/:id',
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const updatedRoom = await roomService.patch(id, body);
+      res.status(200).json(updatedRoom); // Código de estado 200 para "OK"
+    } catch (error) {
+      next(error);
+    }
+  });
 // Ruta para verificar si una sala existe
 router.get('/:roomCode/exists', async (req, res, next) => {
   try {
