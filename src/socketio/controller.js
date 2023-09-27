@@ -5,22 +5,30 @@ const { saveActivitySleep, saveActivityIdontgetit } = require('./record-activity
 const socketController = async (io) => {
   io.on('connection', (client) => {
     try {
+      // Controlamos el acceso de los clientes a las salas
       joinRoom(io, client);
+
+      // Manejar eventos relacionados con las encuestas
       sendPoll(io, client);
       closePoll(io, client);
+
+      // Manejo de actividades, guardado
       saveActivitySleep(io, client);
       saveActivityIdontgetit(io, client);
 
       console.log("Clientes conectados: ", io.engine.clientsCount);
 
       client.on('disconnect', () => {
-        console.log("Cliente desconectado: ", client.id);
+        console.log("Cliente desconectado.", client.id);
       });
     } catch (error) {
-      console.error('Error handling socket event:', error.message);
-      client.emit('error', 'An error occurred while handling the socket event.');
+      console.error("Error in sockets controller:", error.message);
+      // Puedes emitir un mensaje de error al cliente si deseas
+      client.emit('error', 'Error server in sockets controller');
+      // También puedes desconectar al cliente si es necesario
+      client.disconnect();
     }
   });
-};
+}
 
 module.exports = { socketController };
