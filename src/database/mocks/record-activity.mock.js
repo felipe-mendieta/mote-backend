@@ -1,11 +1,9 @@
-const { faker } = require('@faker-js/faker/locale/es');
 const activity = require('./../../../utils/enums/activity.enum')
 const generateOneActivity = () => {
   const options = [activity.sleep, activity.iDontGetIt];
   const randomValue = options[Math.floor(Math.random() * options.length)];
   return {
     activityType: `${randomValue}`,
-    recordDate: faker.date.recent(),
   }
 }
 

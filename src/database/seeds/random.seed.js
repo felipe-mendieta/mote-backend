@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 const getConnection = require('../connection');
 const User = require('../entities/user.entity');
@@ -34,7 +35,6 @@ const randomSeedDB = async () => {
     await conn.connection.dropDatabase();
 
     const mockUsers = generateManyUsers();
-    const usersIds = getUserIDs();
     await User.insertMany(mockUsers);
 
 
@@ -53,48 +53,24 @@ const randomSeedDB = async () => {
     );
     await Poll.insertMany(manyPoll);
 
-
-    generateManyActivities();
     const mockActivities = generateManyActivities();
-    const roomIDs = await getRoomIDs(); // Obtener IDs reales de record activities
-    const manyActivitiesWithId = mockActivities.map(
-      (activity) => {
-        const userId = usersIds[Math.floor(Math.random() * usersIds.length)];
-        const newActivity = {//tener en cuenta que la variable user se mapeara al json entonces se debe llamar igual que en el schema
-          ...activity,
-          userId,
-          roomId: roomIDs[Math.floor(Math.random() * roomIDs.length)]
-        }
-        return newActivity;
-      });
-
-    await RecordActivity.insertMany(manyActivitiesWithId);
-    await Promise.all(manyActivitiesWithId);//para esperar a que todas las promesas se resuelvan antes de continuar.
-
-
-    //generate rooms
-    const userIDs = await getUserIDs(); // Obtener IDs reales de usuarios
-    const recordActivityIDs = await getRecordActivityIDs(); // Obtener IDs reales de record activities
-
     const mockRooms = generateManyRooms(3);
-    const roomsWithActivitiesAndUsers = mockRooms.map((room) => {
-      const roomUsers = getRandomItemsFromArray(userIDs, 5); // Obtener 5 IDs de usuarios aleatorios
-      const roomActivities = getRandomItemsFromArray(recordActivityIDs, 3); // Obtener 3 IDs de actividades aleatorios
+    const rooms = await Room.insertMany(mockRooms);
 
-      return {
-        ...room,
-        users: roomUsers,
-        recordActivities: roomActivities,
-      };
+    const insertActivitiesPromises = rooms.map(async (room) => {
+      const newActivities = mockActivities.map((activity) => {
+        return {
+          ...activity,
+          roomId: room._id
+        };
+      });
+      return RecordActivity.insertMany(newActivities);
     });
 
-    // Inserta las salas con los usuarios y actividades generados
-    await Room.insertMany(roomsWithActivitiesAndUsers);
+    await Promise.all(insertActivitiesPromises);
+
   } catch (error) {
     console.error(error);
   }
-
 };
-
-
 module.exports = randomSeedDB;

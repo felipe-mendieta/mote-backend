@@ -10,10 +10,6 @@ const roomSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }],
-  recordActivities: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'RecordActivity',
-  }],
   code: {
     type: String,
     required: true,
