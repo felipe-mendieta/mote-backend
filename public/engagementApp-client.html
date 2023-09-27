@@ -38,10 +38,10 @@
     roomCode: params.get('roomCode'),
     rol: params.get('rol')
   };
-  data={
-      userId:'650f24f5b262e8e5612dab57',
-      idPoll: '650f24f5b262e8e5612dab79'
-    };
+  data = {
+    userId: '650f24f5b262e8e5612dab57',
+    idPoll: '650f24f5b262e8e5612dab79'
+  };
   var socket = io();
   console.log(socket)
   const div = document.getElementById('dataPoll');
@@ -54,13 +54,17 @@
     });
 
   });
-
-  socket.on('putPolls',
+  socket.on('unauthorized',
+    function (data) {
+      console.log(data);//muestra mensaje de usuario no autorizado.
+    });
+  socket.on('success',
+    function (data) {
+      console.log(data);//muestra mensaje de usuario no autorizado.
+    });
+  socket.on('error',
     function (data) {
       console.log(data);
-      const item = document.createElement('p');
-      item.textContent = JSON.stringify(data);
-      div.appendChild(item);
     });
 
   socket.on('disconnect', function () {

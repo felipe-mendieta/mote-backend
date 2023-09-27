@@ -20,15 +20,21 @@ const randomSeedDB = async () => {
     const activities = await RecordActivity.find({}, '_id'); // Obtener solo los IDs de las record activities
     return activities.map(activity => activity._id);
   };
+  const getRoomIDs = async () => {
+    const rooms = await Room.find({}, '_id'); // Obtener solo los IDs de las record activities
+    return rooms.map(room => room._id);
+  };
   const getRandomItemsFromArray = (array, count) => {
     const shuffled = array.sort(() => 0.5 - Math.random()); // Mezcla el array de manera aleatoria
     return shuffled.slice(0, count); // Obtiene los primeros 'count' elementos
   };
+
   try {
     const conn = await getConnection();
     await conn.connection.dropDatabase();
 
     const mockUsers = generateManyUsers();
+    const usersIds = getUserIDs();
     await User.insertMany(mockUsers);
 
 
@@ -49,15 +55,15 @@ const randomSeedDB = async () => {
 
 
     generateManyActivities();
-
-    const usersIds = getUserIDs();
     const mockActivities = generateManyActivities();
+    const roomIDs = await getRoomIDs(); // Obtener IDs reales de record activities
     const manyActivitiesWithId = mockActivities.map(
       (activity) => {
         const userId = usersIds[Math.floor(Math.random() * usersIds.length)];
         const newActivity = {//tener en cuenta que la variable user se mapeara al json entonces se debe llamar igual que en el schema
           ...activity,
-          userId
+          userId,
+          roomId: roomIDs[Math.floor(Math.random() * roomIDs.length)]
         }
         return newActivity;
       });

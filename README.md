@@ -11,11 +11,12 @@ Este proyecto se basa en el manejo de datos relacionados con la medición en tie
 
 1. Hacer fork de este proyecto en tu espacio personal
 2. Clonar el repositorio desde tu espacio personal en tu computadora
-3. Instalar dependencias, con el comando `npm install`
-4. Iniciar mongo con Docker, con el comando, o cada vez que necesitemos desplegar el entorno de desarrollo `docker-compose up mongodb -d`
-5. Cargar datos iniciales, con el comando `npm run seed:random`
-6. Comprobar ambiente de desarrollo, con el comando `npm run dev`
-7. Probar endpoints con Postman o Insomnia.
+3. Crea en la raiz del proyecto el archivo dev.env, basate en el archivo .env.example, rellena todos los campos.
+4. Instalar dependencias, con el comando `npm install`
+5. Iniciar mongo con Docker, con el comando, o cada vez que necesitemos desplegar el entorno de desarrollo `docker-compose up -d mongodb`
+6. Cargar datos iniciales, con el comando `npm run seed:random`
+7. Comprobar ambiente de desarrollo, con el comando `npm run dev`
+8. Probar endpoints con Postman o Insomnia.
 
 ## Arquitectura
 Basamos la arquitectura del proyecto en CLEAN ARCHITECTURE
@@ -37,10 +38,10 @@ Controllers (Routes, Middlewares) <-> Services <-> Libs(Models)
 
 ### Flujo de Trabajo 
 
-Controladores: Encontramos los routes y middlewares.
+#### Controladores: Encontramos los routes y middlewares.
 - Los controladores acceden a la capa de servicios.
 
-Servicios: donde se encuentra la lógica de negocio
+#### Servicios: donde se encuentra la lógica de negocio
 - Los servicios usan las librerías.
 
 - Las librerías se encargan de contactarse a la capa de entidades
@@ -84,7 +85,6 @@ El proyecto ya viene con una configuración por defecto, de la siguiente manera:
 
 - El comando `npm run start` inicia el servidor de node en modo producción.
 - El comando `npm run dev` inicia un servidor con livereload.
-- El comando `npm run e2e` se corren pruebas e2e para verificiar el correcto funcionamiento de los endpoints.
 - El comando `npm run seed:random` corre un carga de datos inicial.
 
 

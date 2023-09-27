@@ -6,6 +6,7 @@ const recordActivitiesRouter = require('./record-activity.router'); // Importa e
 const questionsRouter = require('./question.router'); // Importa el router para "question"
 const authRouter = require('./auth.router');
 const authGoogleRouter = require('./auth-google.router');
+const roomRouter = require('./room.router');
 
 const endpoints = {
   baseApi: '/api/v1',
@@ -13,7 +14,8 @@ const endpoints = {
   polls: '/polls',
   recordActivities: '/recordActivities',
   questions: '/questions',
-  auth: '/auth'
+  auth: '/auth',
+  room: '/room'
 }
 function routerApi(app) {
   const router = express.Router();
@@ -24,6 +26,7 @@ function routerApi(app) {
   router.use(endpoints.questions, questionsRouter); // Agrega la ruta para "question"
   router.use(endpoints.auth, authRouter);
   router.use(endpoints.auth, authGoogleRouter);
+  router.use(endpoints.room, roomRouter);
 }
 
 module.exports = { routerApi, endpoints };

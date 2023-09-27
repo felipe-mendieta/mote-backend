@@ -8,6 +8,7 @@ const pollSchema = new mongoose.Schema({
   startDate: {
     type: Date,
     required: true,
+    default: Date.now,
   },
   endDate: {
     type: Date,

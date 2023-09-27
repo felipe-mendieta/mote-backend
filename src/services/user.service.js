@@ -4,52 +4,80 @@ const bcrypt = require('bcrypt');
 
 class UserService {
   async create(data) {
-    const { name, email, avatar, gender, password } = data;
+    try {
+      const { name, email, avatar, gender, password } = data;
+      const saltRounds = await bcryptjs.genSalt();
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Encripta la contraseña utilizando bcrypt
-    const saltRounds = await bcryptjs.genSalt(); // Define el número de rondas de sal para el hash
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const newUser = new User({
+        name,
+        email,
+        avatar,
+        gender,
+        password: hashedPassword,
+      });
 
-    // Crea un nuevo usuario con la contraseña encriptada
-    const newUser = new User({
-      name,
-      email,
-      avatar,
-      gender,
-      password: hashedPassword, // Almacena la contraseña encriptada en la base de datos
-    });
-
-    return await newUser.save();
+      return await newUser.save();
+    } catch (error) {
+      throw new Error(`Error creating user: ${error.message}`);
+    }
   }
+
   async createUserGoogle(data) {
-    const newUserGoogle = new User(data);
-    return await newUserGoogle.save();
+    try {
+      const newUserGoogle = new User(data);
+      return await newUserGoogle.save();
+    } catch (error) {
+      throw new Error(`Error creating user (Google): ${error.message}`);
+    }
   }
 
   async getAll() {
-    return await User.find();
+    try {
+      return await User.find();
+    } catch (error) {
+      throw new Error(`Error fetching all users: ${error.message}`);
+    }
   }
 
   async getById(id) {
-    return await User.findById(id);
+    try {
+      return await User.findById(id);
+    } catch (error) {
+      throw new Error(`Error fetching user by ID: ${error.message}`);
+    }
   }
 
   async update(id, changes) {
-    return await User.findByIdAndUpdate(id, changes, { upsert: true, new: true });
+    try {
+      return await User.findByIdAndUpdate(id, changes, { upsert: true, new: true });
+    } catch (error) {
+      throw new Error(`Error updating user: ${error.message}`);
+    }
   }
 
   async patch(id, changes) {
-    // Actualiza parcialmente un usuario por ID
-    return await User.findByIdAndUpdate(id, { $set: changes }, { new: true });
+    try {
+      return await User.findByIdAndUpdate(id, { $set: changes }, { new: true });
+    } catch (error) {
+      throw new Error(`Error patching user: ${error.message}`);
+    }
   }
 
   async deleteById(id) {
-    // Elimina un usuario por ID
-    return await User.findByIdAndDelete(id);
+    try {
+      return await User.findByIdAndDelete(id);
+    } catch (error) {
+      throw new Error(`Error deleting user: ${error.message}`);
+    }
   }
 
   async getByEmail(email) {
-    return await User.findOne({ email });
+    try {
+      return await User.findOne({ email });
+    } catch (error) {
+      throw new Error(`Error fetching user by email: ${error.message}`);
+    }
   }
 }
 

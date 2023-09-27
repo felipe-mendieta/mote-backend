@@ -1,17 +1,22 @@
 const Room = require('../database/entities/room.entity');
+const ShortUniqueId = require('short-unique-id');
 
 class RoomService {
   async create(name) {
-    const code = this.generateUniqueCode(4);
-    const newRoom = new Room({ name: name, code, status: true });
-    return await newRoom.save();
+    try {
+      const code = this.generateUniqueCode(4);
+      const newRoom = new Room({ name: name, code, status: true });
+      return await newRoom.save();
+    } catch (error) {
+      throw new Error(`Error creating room: ${error.message}`);
+    }
   }
 
   async getAll() {
     try {
       return await Room.find();
     } catch (error) {
-      throw new Error('Could not fetch rooms');
+      throw new Error(`Error fetching all rooms: ${error.message}`);
     }
   }
 
@@ -19,7 +24,7 @@ class RoomService {
     try {
       return await Room.findById(id);
     } catch (error) {
-      throw new Error('Could not fetch room');
+      throw new Error(`Error fetching room by ID: ${error.message}`);
     }
   }
 
@@ -27,7 +32,7 @@ class RoomService {
     try {
       return await Room.findByIdAndUpdate(id, changes, { new: true });
     } catch (error) {
-      throw new Error('Could not update room');
+      throw new Error(`Error updating room: ${error.message}`);
     }
   }
 
@@ -35,7 +40,7 @@ class RoomService {
     try {
       return await Room.findOne({ uniqueCode });
     } catch (error) {
-      throw new Error('Could not fetch room by unique code');
+      throw new Error(`Error fetching room by unique code: ${error.message}`);
     }
   }
 
@@ -46,17 +51,15 @@ class RoomService {
         throw new Error('Room not found');
       }
 
-      // Verificar si el usuario ya está en la lista de usuarios
       const isUserAlreadyAdded = room.users.some((existingUserId) => existingUserId.equals(userId));
       if (isUserAlreadyAdded) {
         throw new Error('User is already added to the room');
       }
 
-      // Agregar el usuario a la lista de usuarios
       room.users.push(userId);
       return await room.save();
     } catch (error) {
-      throw new Error('Could not add user to room');
+      throw new Error(`Could not add user to room: ${error.message}`);
     }
   }
 
@@ -67,27 +70,36 @@ class RoomService {
         throw new Error('Room not found');
       }
 
-      // Agregar la actividad a la lista de actividades
       room.recordActivities.push(activityId);
       return await room.save();
     } catch (error) {
-      throw new Error('Could not add activity to room');
+      throw new Error(`Could not add activity to room: ${error.message}`);
     }
   }
+
   async exists(roomCode) {
     try {
       const room = await Room.findOne({ code: roomCode });
       return !!room;
     } catch (error) {
-      throw new Error('Error checking if room exists');
+      throw new Error(`Error checking if room exists: ${error.message}`);
     }
   }
+
   async patch(id, changes) {
-    return await Room.findByIdAndUpdate(id, { $set: changes }, { new: true });
+    try {
+      return await Room.findByIdAndUpdate(id, { $set: changes }, { new: true });
+    } catch (error) {
+      throw new Error(`Error patching room: ${error.message}`);
+    }
   }
 
   async delete(id) {
-    return await Room.findByIdAndDelete(id);
+    try {
+      return await Room.findByIdAndDelete(id);
+    } catch (error) {
+      throw new Error(`Error deleting room: ${error.message}`);
+    }
   }
 
   async getDetails(roomCode) {
@@ -100,17 +112,14 @@ class RoomService {
 
       return room;
     } catch (error) {
-      throw new Error('Could not fetch room details');
+      throw new Error(`Could not fetch room details: ${error.message}`);
     }
   }
-  generateUniqueCode() {
-    // Lógica para generar un código único (aquí se usa shortid)
-    return Math.round(Math.random() * 10);//generate code with 4 digits;
+
+  generateUniqueCode(size) {
+    const { randomUUID } = new ShortUniqueId({ length: size });
+    return randomUUID;
   }
-
-
-
 }
-
 
 module.exports = RoomService;

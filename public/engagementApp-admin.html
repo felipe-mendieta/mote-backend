@@ -63,8 +63,8 @@
     if (usuario.rol == 'admin') {
       console.log("Usuario admin permitido para enviar encuestas.")
       data = {
-        roomCode: 'gsbf',
-        idPoll: '650f24f5b262e8e5612dab79'
+        roomCode: 'gw2L',
+        idPoll: '651391c0bd27fd024d5ae976'
       }
       socket.emit('sendPoll', data, function (resp) {
         console.log('Admin conectado dice', resp);
@@ -78,8 +78,8 @@
   buttonClosePoll.addEventListener("click", (event) => {
     console.log("Cerrando encuesta");
     data = {
-        roomCode: 'gsbf',
-        idPoll: '650f24f5b262e8e5612dab79'
+        roomCode: 'gw2L',
+        idPoll: '651391c0bd27fd024d5ae976'
       }
     socket.emit('closePoll', data, function (resp) {
       console.log('Usuario conectado dice', resp);

@@ -4,6 +4,16 @@ const RoomService = require('../services/room.service');
 
 const roomService = new RoomService();
 
+// Ruta para obtener todas las salas
+router.get('/', async (req, res, next) => {
+  try {
+    const rooms = await roomService.getAll();
+    res.json(rooms);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Ruta para obtener detalles de una sala
 router.get('/:roomCode', async (req, res, next) => {
   try {
