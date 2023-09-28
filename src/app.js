@@ -11,11 +11,10 @@ const session = require('express-session');
 
 const createApp = () => {
   const app = express();
-
+  app.use(cors(optionsCors));
   //middlewares
   app.use(express.static('public'))
   app.use(express.json());
-  app.use(cors(optionsCors));
   app.use(session(optionsSessionGoogle));
   app.use(passport.initialize());//iniciamos la sesion
   app.use(passport.session());//habilitamos el manejo de sesiones
