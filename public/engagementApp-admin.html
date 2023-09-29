@@ -15,7 +15,7 @@
   <div class="d-flex justify-content-center">
     <button id="generateRoom" type="button" class="btn btn-warning m-2">Generar nueva sala</button>
   </div>
-  <p class="border d-flex justify-content-center font-weight-bold">Código de la sala</p>
+  <p id="roomCode" class="border d-flex justify-content-center font-weight-bold">Código de la sala</p>
   <hr>
   <div class="d-flex justify-content-center">
     <button id="sendPoll" type="button" class="btn btn-info m-2">Enviar encuesta</button>
@@ -63,8 +63,8 @@
     if (usuario.rol == 'admin') {
       console.log("Usuario admin permitido para enviar encuestas.")
       data = {
-        roomCode: 'gw2L',
-        idPoll: '651391c0bd27fd024d5ae976'
+        roomCode: 'MRA123',
+        idPoll: '6514b01a8c3c10f5b3e3134c'
       }
       socket.emit('sendPoll', data, function (resp) {
         console.log('Admin conectado dice', resp);
@@ -78,8 +78,8 @@
   buttonClosePoll.addEventListener("click", (event) => {
     console.log("Cerrando encuesta");
     data = {
-        roomCode: 'gw2L',
-        idPoll: '651391c0bd27fd024d5ae976'
+        roomCode: 'MRA123',
+        idPoll: '6514b01a8c3c10f5b3e3134c'
       }
     socket.emit('closePoll', data, function (resp) {
       console.log('Usuario conectado dice', resp);
@@ -88,6 +88,10 @@
 
   buttonGenerateRoom.addEventListener("click", (event) => {
     console.log('Generando code Room');
+    const item= document.getElementById('roomCode');
+    item.textContent="MRA123";
+
+
   });
 
   socket.on('putRecordActivitySleep',

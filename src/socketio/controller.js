@@ -15,11 +15,13 @@ const socketController = async (io) => {
       // Manejo de actividades, guardado
       saveActivitySleep(io, client);
       saveActivityIdontgetit(io, client);
-
+      console.log("Id cliente: ",client.id)
       console.log("Clientes conectados: ", io.engine.clientsCount);
 
       client.on('disconnect', () => {
         console.log("Cliente desconectado.", client.id);
+
+        console.log("Clientes conectados: ", io.engine.clientsCount);
       });
     } catch (error) {
       console.error("Error in sockets controller:", error.message);

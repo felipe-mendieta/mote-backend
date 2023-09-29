@@ -62,7 +62,7 @@ router.patch('/:id',
 router.get('/:roomCode/exists', async (req, res, next) => {
   try {
     const { roomCode } = req.params;
-    const exists = await roomService.roomExists(roomCode);
+    const exists = await roomService.exists(roomCode);
     res.json({ exists });
   } catch (error) {
     next(error);
