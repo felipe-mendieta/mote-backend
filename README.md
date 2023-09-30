@@ -20,6 +20,7 @@ Este proyecto se basa en el manejo de datos relacionados con la medición en tie
 
 ## Arquitectura
 Basamos la arquitectura del proyecto en CLEAN ARCHITECTURE
+![Image Clean Achitecture](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*0R0r00uF1RyRFxkxo3HVDg.png)
 ```
 └── Frameworks, Web: Frontend en Angular
   ├── Controllers: routes, middlewares
@@ -47,14 +48,17 @@ Controllers (Routes, Middlewares) <-> Services <-> Libs(Models)
 - Las librerías se encargan de contactarse a la capa de entidades
 - Las librerías se contactan a otras fuentes de datos: API externa o base de datos.
 
-Nota: El flujo de los middlewares es: 
-
+#### Middlewares
+El flujo de los middlewares es: 
 Request -> Middlewares -> Response
 
 ### Entidades
 
 - User: Colección de usuarios
-
+- Poll: Colección de encuestas.
+- Question: Colección de preguntas de encuestas.
+- Record-Activity: Colección de actividades que realiza el usuario durante la clase.
+- Room: Colección de salas creadas para los usuarios.
 
 ## Configuración
 
@@ -76,16 +80,18 @@ El proyecto ya viene con una configuración por defecto, de la siguiente manera:
   ├── config
   ├── database
   ├── dtos
+  ├── helpers
   ├── middlewares
   ├── routes
-  └── services
+  ├── services
+  └── socketio
 ```
 
 ### Scripts
 
 - El comando `npm run start` inicia el servidor de node en modo producción.
 - El comando `npm run dev` inicia un servidor con livereload.
-- El comando `npm run seed:random` corre un carga de datos inicial.
+- El comando `npm run seed:random` corre un carga de datos aleatorios inicial.
 
 
 ## Licencia
