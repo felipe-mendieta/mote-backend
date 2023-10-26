@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const config = require('./config/config');
 const { socketController } = require('./socketio/controller');
 
-getConnection();
+getConnection()
 const app = createApp();
 
 //sockets
@@ -18,6 +18,6 @@ httpServer.listen(config.port || 3002,
     console.log(`listening on ${config.port}`);
   }
 );
-//fin sockets con hhtp, para pasar a producción a https veR:
+//fin sockets con http, para pasar a producción a https veR:
 //for httpS server https://socket.io/docs/v4/server-initialization/
 module.exports = app;

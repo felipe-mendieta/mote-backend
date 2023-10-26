@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const RoomService = require('../services/room.service');
-
+const { generateJWT } = require('./../helpers/generate-jwt.helper');
+const { UserContainer } = require('../models/classes/user.container');
 const roomService = new RoomService();
-
+const crypto = require('crypto');
 // Ruta para obtener todas las salas
 router.get('/', async (req, res, next) => {
   try {
@@ -61,9 +62,26 @@ router.patch('/:id',
 // Ruta para verificar si una sala existe
 router.get('/:roomCode/exists', async (req, res, next) => {
   try {
+    let token = '';
     const { roomCode } = req.params;
     const exists = await roomService.exists(roomCode);
-    res.json({ exists });
+    if (exists) {
+      //Aqui se debe reemplazar con el id del usuario cuando ya esté la parte de logueo con google
+      /***************************************************************************** */
+      const userRandom = crypto.randomUUID();
+      const userContainer = new UserContainer();
+      userContainer.addUser({
+        id: userRandom,
+        name: 'Anonimo',
+        roomCode: roomCode
+      });
+      /***************************************************************************** */
+      token = await generateJWT(userRandom,roomCode);
+    }
+    res.status(200).json({
+      ok: exists,
+      token: token
+    });
   } catch (error) {
     next(error);
   }
