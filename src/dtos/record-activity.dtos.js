@@ -1,8 +1,10 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
+// import sleep from activity.enum.js
+const activites= require('./../../utils/enums/activity.enum');
 
 const id = Joi.objectId();
-const activityType = Joi.string().valid('sleep', "i dont get it");
+const activityType = Joi.string().valid(activites);
 const recordDate = Joi.date();
 const userId = Joi.objectId();
 

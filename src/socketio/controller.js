@@ -1,6 +1,6 @@
 const { joinRoom } = require('./room.event.controller');
 const { sendPoll, closePoll } = require('./poll.event.controller');
-const { saveActivitySleep, saveActivityIdontgetit } = require('./record-activity.event.controller');
+const { saveActivity } = require('./record-activity.event.controller');
 
 const socketController = async (io) => {
   io.on('connection', (client) => {
@@ -13,8 +13,7 @@ const socketController = async (io) => {
       closePoll(io, client);
 
       // Manejo de actividades, guardado
-      saveActivitySleep(io, client);
-      saveActivityIdontgetit(io, client);
+      saveActivity(io, client);
       console.log("Id cliente: ",client.id)
       console.log("Clientes conectados: ", io.engine.clientsCount);
 

@@ -2,36 +2,20 @@ const RecordActivity = require('./../services/record-activity.service');
 const recordActivityService = new RecordActivity();
 const activity = require('./../../utils/enums/activity.enum');
 
-const saveActivitySleep = (io, client) => {
-  client.on('saveActivitySleep', async (data) => {
+const saveActivity = (io, client) => {
+  client.on(`saveActivity`, async (data) => {
     try {
-      const { idRoom } = data;
+      const { roomCode, activityType } = data;
       const newActivity = {
-        activityType: activity.sleep,
-        idRoom: idRoom,
+        activityType: activity[activityType],
+        idRoom: roomCode,
       };
       await recordActivityService.create(newActivity);
-      client.emit('success', "Activity Sleep saved.");
+      client.emit('success', `Activity ${activityType} saved.`);
     } catch (error) {
-      client.emit('error', `Error saving Activity Sleep: ${error.message}`);
+      client.emit('error', `Error saving Activity: ${error.message}`);
     }
   });
 };
 
-const saveActivityIdontgetit = (io, client) => {
-  client.on('saveActivityIdontGetIt', async (data) => {
-    try {
-      const { idRoom } = data;
-      const newActivity = {
-        activityType: activity.iDontGetIt,
-        idRoom: idRoom,
-      };
-      await recordActivityService.create(newActivity);
-      client.emit('success', "Activity IdontGetIt saved.");
-    } catch (error) {
-      client.emit('error', `Error saving Activity IdontGetIt: ${error.message}`);
-    }
-  });
-};
-
-module.exports = { saveActivitySleep, saveActivityIdontgetit };
+module.exports = { saveActivity };
