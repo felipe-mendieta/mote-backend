@@ -80,7 +80,7 @@ class RoomService {
   async exists(roomCode) {
     try {
       const room = await Room.findOne({ code: roomCode });
-      return !!room;
+      return room;
     } catch (error) {
       throw new Error(`Error checking if room exists: ${error.message}`);
     }

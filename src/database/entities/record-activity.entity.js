@@ -3,7 +3,7 @@ const activity = require('./../../../utils/enums/activity.enum')
 const recordActivitySchema = new mongoose.Schema({
   activityType: {
     type: String,
-    enum: [activity.sleep, activity.iDontGetIt], // Valores permitidos para el tipo de actividad
+    enum: Object.values(activity), // Valores permitidos para el tipo de actividad
     required: true,
   },
   recordDate: {

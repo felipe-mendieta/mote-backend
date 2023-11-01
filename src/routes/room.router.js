@@ -79,8 +79,9 @@ router.get('/:roomCode/exists', async (req, res, next) => {
       token = await generateJWT(userRandom,roomCode);
     }
     res.status(200).json({
-      ok: exists,
-      token: token
+      ok: true,
+      token: token,
+      roomId: exists._id
     });
   } catch (error) {
     next(error);
