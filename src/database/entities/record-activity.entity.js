@@ -6,7 +6,7 @@ const recordActivitySchema = new mongoose.Schema({
     enum: Object.values(activity), // Valores permitidos para el tipo de actividad
     required: true,
   },
-  recordDate: {
+  date: {
     type: Date,
     default: Date.now, // Valor predeterminado para la fecha de registro
   },
@@ -17,6 +17,10 @@ const recordActivitySchema = new mongoose.Schema({
   roomId:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room', // Nombre de la colección de estudiantes relacionada
+  },
+  text: {
+    type: String,
+    default: '',
   }
 });
 

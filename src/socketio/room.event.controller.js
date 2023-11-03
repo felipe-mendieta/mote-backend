@@ -5,12 +5,12 @@ const joinRoom = (io, client) => {
   client.on('joinRoom', async (data) => {
     try {
       const { roomCode, } = data;
-      // Verificar si la sala existe
+      // Verify if room exists
 
       client.join(roomCode);
 
-      client.emit('success', "Room exist. User authorized.");
-      //verifica si hay polls pendientes de enviar
+      client.emit('success', `Room exist. User ${client.id} authorized.`);
+      //verify if there is pending poll for send
       const currentPoll = getCurrentPoll();
       if (currentPoll) {
         client.emit('putPolls', currentPoll);

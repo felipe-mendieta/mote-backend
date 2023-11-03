@@ -70,13 +70,15 @@ router.get('/:roomCode/exists', async (req, res, next) => {
       /***************************************************************************** */
       const userRandom = crypto.randomUUID();
       const userContainer = new UserContainer();
+
+      /***************************************************************************** */
+      token = await generateJWT(userRandom,roomCode);
       userContainer.addUser({
         id: userRandom,
         name: 'Anonimo',
-        roomCode: roomCode
+        roomCode: roomCode,
+        token: token
       });
-      /***************************************************************************** */
-      token = await generateJWT(userRandom,roomCode);
     }
     res.status(200).json({
       ok: true,

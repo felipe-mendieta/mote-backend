@@ -51,6 +51,9 @@ class RecordActivityService {
       throw new Error(`Error deleting record activity by ID: ${error.message}`);
     }
   }
+
+  //create a function for return all record activities by roomId that have atributte text different that '
+
 }
 
 module.exports = RecordActivityService;

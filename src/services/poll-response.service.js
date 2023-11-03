@@ -1,41 +1,39 @@
-const PollResponse = require('../database/entities/poll-response.entity');
+const PollResponse = require('./../database/entities/poll-response.entity');
 
 class PollResponseService {
-  // Método para guardar una respuesta del usuario
-  async create(pollId, questionId, option) {
-    try {
-      const response = new PollResponse({
-        pollId,
-        questionId,
-        option,
-      });
-
-      const savedResponse = await response.save();
-      return savedResponse;
-    } catch (error) {
-      throw new Error(`Error saving the answer: ${error.message}`);
-    }
+  async create(pollResponseData) {
+    const pollResponse = new PollResponse(pollResponseData);
+    return await pollResponse.save();
   }
 
-  // Método para consultar respuestas para una pregunta específica
-  async getResponsesForQuestion(questionId) {
-    try {
-      const responses = await PollResponse.find({ questionId }).exec();
-      return responses;
-    } catch (error) {
-      throw new Error(`Error when querying answers: ${error.message}`);
-    }
+  async getById(id) {
+    return await PollResponse.findById(id);
   }
 
-  // Por ejemplo, podrías tener un método para obtener todas las respuestas para una encuesta específica
   async getResponsesForPoll(pollId) {
     try {
-      const responses = await PollResponse.find({ pollId }).exec();
-      return responses;
+      return await PollResponse.find({ pollId: pollId });
     } catch (error) {
-      throw new Error(`Error querying survey responses: ${error.message}`);
+      throw new Error(`Error in obtaining survey responses for survey with ID ${pollId}: ${error.message}`);
     }
+  }
+
+  async update(id, pollResponseData) {
+    const pollResponse = await PollResponse.findById(id);
+    if (!pollResponse) {
+      throw new Error('Poll response not found');
+    }
+    Object.assign(pollResponse, pollResponseData);
+    return await pollResponse.save();
+  }
+
+  async delete(id) {
+    const pollResponse = await PollResponse.findById(id);
+    if (!pollResponse) {
+      throw new Error('Poll response not found');
+    }
+    return await pollResponse.remove();
   }
 }
 
-module.exports = PollResponseService;
+module.exports = new PollResponseService();
