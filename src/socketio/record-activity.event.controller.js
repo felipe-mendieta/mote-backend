@@ -1,7 +1,7 @@
 const RecordActivity = require('./../services/record-activity.service');
 const recordActivityService = new RecordActivity();
-
-
+const { UserContainer } = require('../models/classes/user.container');
+const users = new UserContainer();
 const saveActivity = (io, client) => {
   client.on(`saveActivity`, async (data) => {
     try {
@@ -11,7 +11,11 @@ const saveActivity = (io, client) => {
         roomId: roomId,
       };
       await recordActivityService.create(newActivity);
-      client.emit('success', `Activity ${activityType} saved.`);
+      client.emit('success', `Activity ${activityType} saved. Hello from backend`);
+
+      const admin=users.getUserAdmin()
+      console.log("usuarios: ",admin);
+      client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
@@ -25,7 +29,8 @@ const saveActivity = (io, client) => {
         text:text
       };
       await recordActivityService.create(newActivity);
-      client.emit('success', `Activity ${activityType} saved.`);
+      client.emit('success', `Activity ${activityType} saved. Hello from backend`);
+      client.emit('activityRealTime',newActivity);//return data for dashboard
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }

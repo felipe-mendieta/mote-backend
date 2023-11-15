@@ -4,8 +4,8 @@ class UserContainer {
     if (UserContainer.instance) {
       return UserContainer.instance;
     }
-    this.users = [];
     UserContainer.instance = this;
+    this.users = [];
   }
 
   addUser(user) {
@@ -22,6 +22,10 @@ class UserContainer {
 
   getAllUsers() {
     return this.users;
+  }
+
+  getUserAdmin(){
+    return this.users.find(user => user.rol === "admin");
   }
 }
 

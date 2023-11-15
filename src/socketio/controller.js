@@ -15,7 +15,7 @@ const socketController = async (io) => {
 
       // Manejo de actividades, guardado
       saveActivity(io, client);
-      console.log("Id cliente: ",client.id)
+      console.log("Id cliente: ",client.id);
       console.log("Clientes conectados: ", io.engine.clientsCount);
 
       client.on('disconnect', () => {

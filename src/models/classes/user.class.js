@@ -1,7 +1,11 @@
 class User {
-  constructor(codeRoom, uuid) {
+  constructor(codeRoom, id, token) {
     this.codeRoom = codeRoom;
-    this.uuid = uuid;
+    this.id = id;
+    this.token= token
+  }
+  addIdSocket(idSocket) {
+    this.idSocket = idSocket;
   }
 }
 module.exports = {User};

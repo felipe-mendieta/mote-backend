@@ -2,10 +2,10 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const { UserContainer } = require('../models/classes/user.container');
 
-const generateJWT = (uid = '', roomCode) => {
+const generateJWT = (uuid = '', roomCode) => {
   return new Promise((resolve, reject) => {
 
-    const payload = { uid, roomCode };
+    const payload = { uuid, roomCode };
 
     jwt.sign(payload, config.secretPrivateKey, {
       expiresIn: '2h'// El token expira en 4 horas (ajusta según tus necesidades)
@@ -28,11 +28,12 @@ const checkJWT = async (token = '') => {
       return null;
     }
 
-    const { uid } = jwt.verify(token, config.secretPrivateKey);
-    const usuario = await UserContainer.findById(uid);
-
-    if (usuario) {
-      return usuario;
+    const { uuid, roomCode } = jwt.verify(token, config.secretPrivateKey);
+    console.log("uuid, romCode: ",uuid,roomCode);
+    const user = await UserContainer.getUser(uuid);//se remplazaria con la busqueda en la base de datos
+    console.log("user ram: ",user);
+    if (user) {
+      return user;
     } else {
       return null;
     }

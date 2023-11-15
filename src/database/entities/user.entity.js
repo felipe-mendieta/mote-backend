@@ -43,13 +43,12 @@ const userSchema = new mongoose.Schema({
     trim: true,
   }
 });
-//quitamos la contraseña hasheada al devolver la información del usuario y cambios el nombre de _id por uid(user id)
-//quitamos __v
 userSchema.methods.toJSON = function () {
   // eslint-disable-next-line no-unused-vars
   const { __v, password, _id, ...user } = this.toObject();
   return user;
-}
+}//quitamos la contraseña hasheada al devolver la información del usuario y cambios el nombre de _id por uid(user id)
+//quitamos __v
 
 const User = mongoose.model('User', userSchema);
 

@@ -63,21 +63,22 @@ router.patch('/:id',
 router.get('/:roomCode/exists', async (req, res, next) => {
   try {
     let token = '';
+    //get header rol from request
+    const { rol } = req.headers;
     const { roomCode } = req.params;
     const exists = await roomService.exists(roomCode);
     if (exists) {
       //Aqui se debe reemplazar con el id del usuario cuando ya esté la parte de logueo con google
       /***************************************************************************** */
-      const userRandom = crypto.randomUUID();
+      const userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
       const userContainer = new UserContainer();
-
       /***************************************************************************** */
       token = await generateJWT(userRandom,roomCode);
       userContainer.addUser({
-        id: userRandom,
-        name: 'Anonimo',
+        uuid: userRandom,
         roomCode: roomCode,
-        token: token
+        token: token,
+        rol: rol
       });
     }
     res.status(200).json({
