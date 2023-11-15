@@ -1,4 +1,4 @@
-const PollResponse = require('./../database/entities/poll-response.entity');
+const {PollResponse} = require('./../database/entities/poll-respose.entity');
 
 class PollResponseService {
   async create(pollResponseData) {
@@ -36,4 +36,4 @@ class PollResponseService {
   }
 }
 
-module.exports = new PollResponseService();
+module.exports =  {PollResponseService};

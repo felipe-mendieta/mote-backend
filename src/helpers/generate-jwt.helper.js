@@ -8,7 +8,7 @@ const generateJWT = (uid = '', roomCode) => {
     const payload = { uid, roomCode };
 
     jwt.sign(payload, config.secretPrivateKey, {
-      expiresIn: '4h'// El token expira en 4 horas (ajusta según tus necesidades)
+      expiresIn: '2h'// El token expira en 4 horas (ajusta según tus necesidades)
     }, (err, token) => {
       if (err) {
         console.log(err);

@@ -22,4 +22,4 @@ const pollResponseSchema = new mongoose.Schema({
 });
 const PollResponse = mongoose.model('PollResponse', pollResponseSchema);
 
-module.exports = PollResponse;
+module.exports = {PollResponse};
