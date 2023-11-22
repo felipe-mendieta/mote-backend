@@ -1,5 +1,10 @@
 const RecordActivity = require('./../services/record-activity.service');
 const recordActivityService = new RecordActivity();
+
+const {ViewActivityService} = require('./../services/view-activity.service');
+const viewActivityService = new ViewActivityService();
+
+
 const { UserContainer } = require('../models/classes/user.container');
 const users = new UserContainer();
 const saveActivity = (io, client) => {
@@ -31,6 +36,19 @@ const saveActivity = (io, client) => {
       await recordActivityService.create(newActivity);
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);
       client.emit('activityRealTime',newActivity);//return data for dashboard
+
+      if (activityType === 'emotion') {
+        // Buscar si ya existe un registro con el mismo 'text'
+        console.log("Buscando emotion : ",text);
+        viewActivityService.findEmotion(text);
+      } else {
+        // Si no existe, crea un nuevo registro con contador igual a 1
+        console.log("Creando emotion : ",text);
+        viewActivityService.insertNew({ _id: text, count: 1 });
+
+      }
+
+
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }

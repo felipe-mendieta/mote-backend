@@ -14,7 +14,7 @@ const sendPoll = (io, client) => {
       const eventRegistry = getEventRegistry();
       eventRegistry.push({ type: 'poll', data: currentPoll });
       client.broadcast.to(roomCode).emit('putPolls', currentPoll);
-      client.emit('success', "Poll send success.");
+      client.broadcast.to(roomCode).emit('success', "Poll send success.");
     } catch (error) {
       console.error('Error sending poll:', error.message);
       client.emit('error', `Error sending poll. Stack: ' ${error.message}`);
@@ -25,12 +25,9 @@ const sendPoll = (io, client) => {
 const closePoll = (io, client) => {
   client.on('closePoll', async (data) => {
     try {
-      const { roomCode, pollId } = data;
-      if (pollId && roomCode) {
-        const currentPoll = null; // Encuesta actual se cierra, esto evita que el eventRegistry actue, en la condición anterior
-        setCurrentPoll(currentPoll);
-        client.emit('success', "Poll closed.");
-      }
+      const { roomCode } = data;
+      setCurrentPoll(null);// Encuesta actual se cierra, esto evita que el eventRegistry actue, en la condición anterior
+      client.broadcast.to(roomCode).emit('closePoll', "Poll closed.");
     } catch (error) {
       console.error('Error closing poll:', error.message);
       client.emit('error', `Error closing poll. Stack  ${error.message}`);

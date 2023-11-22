@@ -52,7 +52,7 @@ class RecordActivityService {
     }
   }
 
-  //create a function for return all record activities by roomId that have atributte text different that '
+
 
 }
 

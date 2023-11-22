@@ -21,9 +21,12 @@ const joinRoom = (io, client) => {
         return;
       }
       const admin=users.getUser(user.uuid);
-      admin.idSocket=client.id;
+      if(admin){
+        admin.idSocket=client.id;
+      }
+
       client.join(roomCode);
-      client.emit('success', `Room exist. User ${ user.idSocket} authorized.`);
+      client.emit('success', `Room exist. User ${ client.id} authorized.`);
       console.log("Clientes conectados autorizados: ", io.engine.clientsCount);
 
 
