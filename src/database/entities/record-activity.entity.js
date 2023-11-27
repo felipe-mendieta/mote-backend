@@ -10,9 +10,13 @@ const recordActivitySchema = new mongoose.Schema({
     type: Date,
     default: Date.now, // Valor predeterminado para la fecha de registro
   },
+  // userId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User', // Nombre de la colección de estudiantes relacionada
+  // },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Nombre de la colección de estudiantes relacionada
+    type: String,
+    default: '',
   },
   roomId:{
     type: mongoose.Schema.Types.ObjectId,
@@ -26,4 +30,4 @@ const recordActivitySchema = new mongoose.Schema({
 
 const RecordActivity = mongoose.model('RecordActivity', recordActivitySchema);
 
-module.exports = RecordActivity;
+module.exports = {RecordActivity};

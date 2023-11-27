@@ -118,7 +118,7 @@ class RoomService {
 
   generateUniqueCode(size) {
     const { randomUUID } = new ShortUniqueId({ length: size });
-    return randomUUID;
+    return randomUUID();
   }
 }
 

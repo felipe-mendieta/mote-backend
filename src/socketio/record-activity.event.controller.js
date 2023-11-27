@@ -1,54 +1,48 @@
-const RecordActivity = require('./../services/record-activity.service');
-const recordActivityService = new RecordActivity();
-
-const {ViewActivityService} = require('./../services/view-activity.service');
+const RecordActivityService = require('./../services/record-activity.service');
+const recordActivityService = new RecordActivityService();
+const { ViewActivityService } = require('./../services/view-activity.service');
 const viewActivityService = new ViewActivityService();
 
 
-const { UserContainer } = require('../models/classes/user.container');
-const users = new UserContainer();
+//const { UserContainer } = require('../models/classes/user.container');
+//const users = new UserContainer();
 const saveActivity = (io, client) => {
   client.on(`saveActivity`, async (data) => {
     try {
-      const { roomId, activityType } = data;
+      const { roomId, activityType, userId } = data;
       const newActivity = {
-        activityType:activityType,
+        activityType: activityType,
         roomId: roomId,
+        userId: userId
       };
       await recordActivityService.create(newActivity);
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);
 
-      const admin=users.getUserAdmin()
-      console.log("usuarios: ",admin);
-      client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
+      // const admin = users.getUserAdmin()
+      // console.log("usuarios: ", admin);
+      // client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
   });
   client.on(`saveActivityComment`, async (data) => {
     try {
-      const { roomId, activityType,text } = data;
+      const { roomId, activityType, text, userId } = data;
       const newActivity = {
-        activityType:activityType,
+        activityType: activityType,
         roomId: roomId,
-        text:text
+        text: text,
+        userId: userId
       };
-      await recordActivityService.create(newActivity);
-      client.emit('success', `Activity ${activityType} saved. Hello from backend`);
-      client.emit('activityRealTime',newActivity);//return data for dashboard
 
       if (activityType === 'emotion') {
-        // Buscar si ya existe un registro con el mismo 'text'
-        console.log("Buscando emotion : ",text);
-        viewActivityService.findEmotion(text);
-      } else {
-        // Si no existe, crea un nuevo registro con contador igual a 1
-        console.log("Creando emotion : ",text);
-        viewActivityService.insertNew({ _id: text, count: 1 });
+        //
+        await viewActivityService.findEmotion(text, userId);
 
       }
-
-
+      await recordActivityService.create(newActivity);
+      client.emit('success', `Activity ${activityType} saved. Hello from backend`);
+      client.emit('activityRealTime', newActivity);//return data for dashboard
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }

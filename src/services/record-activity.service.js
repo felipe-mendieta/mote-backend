@@ -1,4 +1,4 @@
-const RecordActivity = require('./../database/entities/record-activity.entity');
+const {RecordActivity} = require('./../database/entities/record-activity.entity');
 
 class RecordActivityService {
   async create(data) {
