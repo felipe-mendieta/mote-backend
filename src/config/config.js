@@ -1,18 +1,17 @@
 /* eslint-disable no-undef */
 
-const env = process.env.NODE_ENV || 'dev';//Leermos en que entorno estamos, por defecto en desarrollo
+const env = 'production';//Leermos en que entorno estamos, por defecto en desarrollo
 const envs = {
-  'dev': 'dev.env',
   'production': '.env'
 }
 
 require('dotenv').config({
-  path: envs[env] ?? 'dev.env'
+  path: envs[env]
 });
 
 const config = {
   env,
-  isProd: process.env.NODE_ENV == "production",
+  isProd: process.env.NODE_ENV == env,
   port: process.env.BACKEND_PORT || 3002,
   dbUser: process.env.MONGO_USER,
   dbPassword: process.env.MONGO_PASSWORD,
@@ -25,5 +24,4 @@ const config = {
   googleSecretId: process.env.GOOGLE_SECRET_ID,
   myDomainApp: process.env.MYDOMAINAPP
 }
-
 module.exports = config;

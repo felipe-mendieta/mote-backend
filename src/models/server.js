@@ -2,15 +2,15 @@
 const express = require('express');
 const config = require('./../config/config');
 const optionsCors = require('./config/configCors');
-const optionsSessionGoogle = require('./config/configSessionGoogle');
+//const optionsSessionGoogle = require('./config/configSessionGoogle');
 const cors = require('cors');
 const getConnection = require('./../database/connection');
 const { routerApi } = require('./../routes/index');
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
 const { socketController } = require('../websockets/controller');
 //passport libraries************************
-const passport = require('passport');
-const session = require('express-session');
+//const passport = require('passport');
+//const session = require('express-session');
 //End passoport librearies******************
 class Server {
 
@@ -41,9 +41,9 @@ class Server {
   middlewares() {
     this.app.use(express.json());
     this.app.use(cors(optionsCors));
-    this.app.use(session(optionsSessionGoogle));
-    this.app.use(passport.initialize());//iniciamos la sesion
-    this.app.use(passport.session());//habilitamos el manejo de sesiones
+    //this.app.use(session(optionsSessionGoogle));
+    // this.app.use(passport.initialize());//iniciamos la sesion
+    // this.app.use(passport.session());//habilitamos el manejo de sesiones
     require('./../utils/auth/index');
     //we use middlwares for catch errors and manages status code by https responses
     this.app.use(logErrors);

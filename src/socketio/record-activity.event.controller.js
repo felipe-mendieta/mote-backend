@@ -41,7 +41,7 @@ const saveActivity = (io, client) => {
 
       if (activityType === 'emotion') {
         //
-        await viewActivityService.findEmotion(text, userId);
+        // await viewActivityService.findEmotion(text, userId);
 
       }
       await recordActivityService.create(newActivity);
