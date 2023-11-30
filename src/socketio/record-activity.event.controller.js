@@ -1,7 +1,7 @@
 const RecordActivityService = require('./../services/record-activity.service');
 const recordActivityService = new RecordActivityService();
-const { ViewActivityService } = require('./../services/view-activity.service');
-const viewActivityService = new ViewActivityService();
+//const { ViewActivityService } = require('./../services/view-activity.service');
+//const viewActivityService = new ViewActivityService();
 
 
 //const { UserContainer } = require('../models/classes/user.container');
