@@ -21,6 +21,10 @@ const saveActivity = (io, client) => {
       // const admin = users.getUserAdmin()
       // console.log("usuarios: ", admin);
       // client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
+      io.emit(
+        'activityRealTime',
+        newActivity,
+      );//emit to all users
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
@@ -42,7 +46,8 @@ const saveActivity = (io, client) => {
       }
       await recordActivityService.create(newActivity);
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);
-      client.emit('activityRealTime', newActivity);//return data for dashboard
+      //client.emit('activityRealTime', newActivity);//return data for dashboard
+      io.emit('activityCommentRealTime',newActivity);
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
