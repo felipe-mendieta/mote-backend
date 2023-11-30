@@ -2,7 +2,8 @@
 
 const env = process.env.NODE_ENV || 'dev';//Leermos en que entorno estamos, por defecto en desarrollo
 const envs = {
-  'dev': 'dev.env'
+  'dev': 'dev.env',
+  'production': 'prod.env'
 }
 
 require('dotenv').config({
