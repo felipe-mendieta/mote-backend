@@ -13,7 +13,7 @@ const app = createApp();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 socketController(io);
-httpServer.listen(config.port || 3002,
+httpServer.listen(config.port || 3000,
   () => {
     console.log(`listening on ${config.port}`);
   }

@@ -12,7 +12,7 @@ require('dotenv').config({
 const config = {
   env,
   isProd: process.env.NODE_ENV == env,
-  port: process.env.BACKEND_PORT || 3002,
+  port: process.env.BACKEND_PORT || 3000,
   dbUser: process.env.MONGO_USER,
   dbPassword: process.env.MONGO_PASSWORD,
   dbHost: process.env.MONGO_HOST,

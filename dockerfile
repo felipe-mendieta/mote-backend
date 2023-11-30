@@ -10,8 +10,8 @@ COPY . .
 #insall node dependencies
 RUN npm install
 
-#Expose port 3002
-EXPOSE 3002
+#Expose port 3000
+EXPOSE 3000
 
 #set environment variable
 ENV NODE_ENV=production

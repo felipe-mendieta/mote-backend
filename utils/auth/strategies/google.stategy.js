@@ -11,7 +11,7 @@ const configureGoogleStrategy = () => {
       clientID: `${config.googleClienteId}`,
       clientSecret: `${config.googleSecretId}`,
       callbackURL: `${config.myDomainApp}:${config.port}${endpoints.baseApi}${endpoints.auth}/google/callback`, // Ajusta la URL de callback según tu configuración
-      //http://localhost:3002/api/v1/auth/google/callback
+      //http://localhost:3000/api/v1/auth/google/callback
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
