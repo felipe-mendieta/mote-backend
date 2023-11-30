@@ -1,7 +1,7 @@
 const config = require('../config/config');
 const whitelist = [
   `${config.myDomainApp}:80`,
-  `${config.myDomainApp}:443`,
+  `${config.myDomainApp}`,
   `${config.myDomainApp}:4200`,
   `${config.myDomainApp}:${config.port}`,
 ];
