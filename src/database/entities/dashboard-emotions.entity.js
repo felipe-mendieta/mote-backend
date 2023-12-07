@@ -1,7 +1,7 @@
 //id, count,
 const mongoose = require('mongoose');
-const emotion = require('./../../../utils/enums/emotion.enum')
-const viewActivitySchema = new mongoose.Schema({
+const emotion = require('../../../utils/enums/emotion.enum')
+const dashboardEmotions = new mongoose.Schema({
   _id: {
     type: String,
     trim: true,
@@ -15,5 +15,5 @@ const viewActivitySchema = new mongoose.Schema({
   },
 });
 
-const ViewActivity = mongoose.model('ViewActivity', viewActivitySchema);
-module.exports = {ViewActivity};
+const DashboardEmotions = mongoose.model('DashboardEmotions', dashboardEmotions);
+module.exports = {DashboardEmotions};

@@ -1,7 +1,7 @@
 const RecordActivityService = require('./../services/record-activity.service');
 const recordActivityService = new RecordActivityService();
-const { ViewActivityService } = require('./../services/view-activity.service');
-const viewActivityService = new ViewActivityService();
+const { DashboardEmotionsService } = require('../services/dashboard-emotions.service');
+const dashboardEmotionsService = new DashboardEmotionsService();
 
 
 //const { UserContainer } = require('../models/classes/user.container');
@@ -41,7 +41,7 @@ const saveActivity = (io, client) => {
 
       if (activityType === 'emotion') {
         //
-        await viewActivityService.findEmotion(text, userId);
+        await dashboardEmotionsService.updateEmotion(text, userId);
 
       }
       await recordActivityService.create(newActivity);
