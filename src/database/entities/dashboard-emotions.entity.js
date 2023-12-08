@@ -1,19 +1,38 @@
 //id, count,
 const mongoose = require('mongoose');
-const emotion = require('../../../utils/enums/emotion.enum')
+
 const dashboardEmotions = new mongoose.Schema({
-  _id: {
-    type: String,
-    trim: true,
-    required: true,
-    enum: Object.values(emotion), // Valores permitidos para el tipo de actividad
-  },
-  count: {
+  surprised: {
     type: Number,
-    trim: true,
     required: true,
+    default: 0
   },
+  afraid: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  angry: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  sad: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  happy: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  roomId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Room',
+    required: true
+  }
 });
 
 const DashboardEmotions = mongoose.model('DashboardEmotions', dashboardEmotions);
-module.exports = {DashboardEmotions};
+module.exports = { DashboardEmotions };

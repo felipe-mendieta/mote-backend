@@ -1,22 +1,16 @@
 const { DashboardEmotions } = require('../database/entities/dashboard-emotions.entity');
-const emotion = require('../../utils/enums/emotion.enum');
-
 const previousEmotionUser = {};
 
 class DashboardEmotionsService {
-  //construcctor, incitialize ViewActivity with emotions with counts 0
   constructor() {
-    if (DashboardEmotions) {
-      DashboardEmotions.collection.drop();
-      this.emotions = Object.values(emotion);
-      this.emotions.forEach(async (emotion) => {
-        const newViewActivity = new DashboardEmotions({ _id: emotion, count: 0 });
-        await newViewActivity.save();
-
-      });
+  }
+  async create(data) {
+    try {
+      const newDashboardEmotions = new DashboardEmotions(data);
+      return await newDashboardEmotions.save();
+    } catch (error) {
+      throw new Error(`Error creating ViewActivity: ${error.message}`);
     }
-
-
   }
 
   async getAll() {
@@ -33,30 +27,33 @@ class DashboardEmotionsService {
       throw new Error(`Error fetching ViewActivity by ID: ${error.message}`);
     }
   }
-  async updateEmotion(emotion, userId) {
+  async updateEmotion(emotion, userId, roomId) {
     console.log("dictionary: ", previousEmotionUser);
     //find the registry more actual
     //fin in diccionary if existe userId
     console.log("previous emotion: ", previousEmotionUser[userId])
     if (previousEmotionUser[userId]) {
-      const previousEmotion = await DashboardEmotions.findOne({ _id: previousEmotionUser[userId] })
-      if (previousEmotion.count != 0) {
+      const documentEmotions = await DashboardEmotions.findOne({ roomId: roomId });
+      //if value of emotion is 0, not update
+      if (documentEmotions[previousEmotionUser[userId]] != 0) {
         await DashboardEmotions.updateOne(
-          { _id: previousEmotionUser[userId] },
-          { $inc: { count: -1 } }
+          { roomId: roomId },
+          { $inc: { [previousEmotionUser[userId]]: -1 } },
+          { new: true }
         );
+        console.log("update emotion: ", previousEmotionUser[userId]);
       }
       // Actualizar el registro del usuario con la nueva emoción
       await DashboardEmotions.updateOne(
-        { _id: emotion },
-        { $inc: { count: +1 } },
-        //{ upsert: true } // Inserta un nuevo registro si no existe para este usuario
+        { roomId: roomId },
+        { $inc: { [emotion]: +1 } },
+        { new: true }
       );
     } else {
       await DashboardEmotions.updateOne(
-        { _id: emotion },
-        { $inc: { count: +1 } },
-        { upsert: true } // Inserta un nuevo registro si no existe para este usuario
+        { roomId: roomId },
+        { $inc: { [emotion]: +1 } },
+        { new: true }
       );
     }
     previousEmotionUser[userId] = emotion;

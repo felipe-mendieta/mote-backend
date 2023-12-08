@@ -41,7 +41,7 @@ const saveActivity = (io, client) => {
 
       if (activityType === 'emotion') {
         //
-        await dashboardEmotionsService.updateEmotion(text, userId);
+        await dashboardEmotionsService.updateEmotion(text, userId,roomId);
 
       }
       await recordActivityService.create(newActivity);
