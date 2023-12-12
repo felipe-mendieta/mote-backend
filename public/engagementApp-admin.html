@@ -45,7 +45,8 @@
   const buttonGenerateRoom = document.getElementById("generateRoom");
   const spanRecordActivitySleep = document.getElementById("idontgetit");
   const spanRecordActivityIdontgetit = document.getElementById("idontgetit");
-
+  const roomCode = 'MRA123';
+  const idPoll = '6577c3fd7be3e4528aac6277'
 
   const socket = io();
   console.log(socket);
@@ -63,8 +64,8 @@
     if (usuario.rol == 'admin') {
       console.log("Usuario admin permitido para enviar encuestas.")
       data = {
-        roomCode: 'MRA123',
-        idPoll: '6514b01a8c3c10f5b3e3134c'
+        roomCode: roomCode,
+        idPoll: idPoll
       }
       socket.emit('sendPoll', data, function (resp) {
         console.log('Admin conectado dice', resp);
@@ -78,9 +79,9 @@
   buttonClosePoll.addEventListener("click", (event) => {
     console.log("Cerrando encuesta");
     data = {
-        roomCode: 'MRA123',
-        idPoll: '6514b01a8c3c10f5b3e3134c'
-      }
+      roomCode: roomCode,
+      idPoll: idPoll
+    }
     socket.emit('closePoll', data, function (resp) {
       console.log('Usuario conectado dice', resp);
     });
@@ -88,8 +89,8 @@
 
   buttonGenerateRoom.addEventListener("click", (event) => {
     console.log('Generando code Room');
-    const item= document.getElementById('roomCode');
-    item.textContent="MRA123";
+    const item = document.getElementById('roomCode');
+    item.textContent = roomCode;
 
 
   });
