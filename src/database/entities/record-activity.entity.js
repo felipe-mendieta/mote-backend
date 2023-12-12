@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const activity = require('./../../../utils/enums/activity.enum')
+const activity = require('./../../../utils/enums/activity.enum');
 const recordActivitySchema = new mongoose.Schema({
   activityType: {
     type: String,

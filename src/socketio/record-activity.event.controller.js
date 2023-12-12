@@ -41,13 +41,16 @@ const saveActivity = (io, client) => {
 
       if (activityType === 'emotion') {
         //
-        await dashboardEmotionsService.updateEmotion(text, userId,roomId);
-
+        const documentEmotions = await dashboardEmotionsService.updateEmotion(text, userId, roomId);
+        if (documentEmotions) {
+          io.emit('dashboardEmotions', documentEmotions.toObject());
+          console.log("update emotion: ", documentEmotions.toObject());
+        }
       }
       await recordActivityService.create(newActivity);
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);
       //client.emit('activityRealTime', newActivity);//return data for dashboard
-      io.emit('activityCommentRealTime',newActivity);
+      io.emit('activityCommentRealTime', newActivity);
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }

@@ -20,14 +20,15 @@ class DashboardEmotionsService {
       throw new Error(`Error fetching all ViewActivity: ${error.message}`);
     }
   }
-  async getById(id) {
+  async getById(roomId) {
     try {
-      return await DashboardEmotions.findById(id);
+      return await DashboardEmotions.findOne({ roomId: roomId });
     } catch (error) {
       throw new Error(`Error fetching ViewActivity by ID: ${error.message}`);
     }
   }
   async updateEmotion(emotion, userId, roomId) {
+    let emotionsDashboard;
     console.log("dictionary: ", previousEmotionUser);
     //find the registry more actual
     //fin in diccionary if existe userId
@@ -36,7 +37,7 @@ class DashboardEmotionsService {
       const documentEmotions = await DashboardEmotions.findOne({ roomId: roomId });
       //if value of emotion is 0, not update
       if (documentEmotions[previousEmotionUser[userId]] != 0) {
-        await DashboardEmotions.updateOne(
+        emotionsDashboard=await DashboardEmotions.findOneAndUpdate(
           { roomId: roomId },
           { $inc: { [previousEmotionUser[userId]]: -1 } },
           { new: true }
@@ -44,19 +45,20 @@ class DashboardEmotionsService {
         console.log("update emotion: ", previousEmotionUser[userId]);
       }
       // Actualizar el registro del usuario con la nueva emoción
-      await DashboardEmotions.updateOne(
+      emotionsDashboard=await DashboardEmotions.findOneAndUpdate(
         { roomId: roomId },
         { $inc: { [emotion]: +1 } },
         { new: true }
       );
     } else {
-      await DashboardEmotions.updateOne(
+      emotionsDashboard=await DashboardEmotions.findOneAndUpdate(
         { roomId: roomId },
         { $inc: { [emotion]: +1 } },
         { new: true }
       );
     }
     previousEmotionUser[userId] = emotion;
+    return emotionsDashboard;
   }
   //create a service for use updateoNE
 }
