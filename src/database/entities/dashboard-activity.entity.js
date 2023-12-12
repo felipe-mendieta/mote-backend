@@ -31,3 +31,10 @@ const dashboardActivity = new mongoose.Schema({
 
 const DashboardActivity = mongoose.model('DashboardActivity', dashboardActivity);
 module.exports = { DashboardActivity };
+// {
+//   "activity": "login",
+//   "count": 10,
+//   "roomId": "60aebd6c8e1c6a0015e7a8d2",
+//   "updateAt": "2021-06-01T12:00:00Z",
+//   "historial": [5, 8, 12, 15]
+// }
