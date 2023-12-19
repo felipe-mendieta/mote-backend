@@ -57,7 +57,7 @@ const saveActivity = (io, client) => {
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
       //dashboard emits
       io.emit('activityCommentRealTime', newActivity); //dashboard
-
+      await dashboardActivityService.updateDataDashboardActivity(roomId,activityType);
 
 
     } catch (error) {
