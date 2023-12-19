@@ -9,7 +9,7 @@ class DashboardEmotionsService {
       const newDashboardEmotions = new DashboardEmotions(data);
       return await newDashboardEmotions.save();
     } catch (error) {
-      throw new Error(`Error creating ViewActivity: ${error.message}`);
+      throw new Error(`Error creating DashboardEmotions: ${error.message}`);
     }
   }
 
@@ -17,14 +17,14 @@ class DashboardEmotionsService {
     try {
       return await DashboardEmotions.find();
     } catch (error) {
-      throw new Error(`Error fetching all ViewActivity: ${error.message}`);
+      throw new Error(`Error fetching all DashboardEmotions: ${error.message}`);
     }
   }
   async getById(roomId) {
     try {
       return await DashboardEmotions.findOne({ roomId: roomId });
     } catch (error) {
-      throw new Error(`Error fetching ViewActivity by ID: ${error.message}`);
+      throw new Error(`Error fetching DashboardEmotions by ID: ${error.message}`);
     }
   }
   async updateEmotion(emotion, userId, roomId) {

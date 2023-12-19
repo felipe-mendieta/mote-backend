@@ -7,6 +7,8 @@ const { UserContainer } = require('../models/classes/user.container');
 const roomService = new RoomService();
 const dashboardEmotionsService = new DashboardEmotionsService();
 const crypto = require('crypto');
+const { DashboardActivityService } = require('../services/dashboard-activity.service');
+const dashboardActivityService = new DashboardActivityService();
 // Ruta para obtener todas las salas
 router.get('/', async (req, res, next) => {
   try {
@@ -33,7 +35,11 @@ router.post('/', async (req, res, next) => {
   try {
     const { name } = req.body;
     const newRoom = await roomService.create(name);
+    //initialize data for show in dashboard
     await dashboardEmotionsService.create({ roomId: newRoom._id });//init dashboard emotions data
+    await dashboardActivityService.createAll( newRoom._id );//init dashboard activity data
+
+
     res.status(201).json(newRoom); // Código de estado 201 para "Created"
   } catch (error) {
     next(error);
