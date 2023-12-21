@@ -40,14 +40,14 @@ class DashboardActivityService {
     }
   }
 
-  async getById(roomId, activityType) {
+  async getById(roomId) {
     try {
-      return await DashboardActivity.findOne({ roomId: roomId, activityType: activityType });
+      return await DashboardActivity.find({ roomId: roomId });
     } catch (error) {
       throw new Error(`Error fetching DashboardActivity by ID: ${error.message}`);
     }
   }
-  async
+
   //updateDataDashboardActivity
   async updateDataDashboardActivity(roomId, activityType) {
     //get document by roomId and activityType

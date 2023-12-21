@@ -2,8 +2,7 @@ const { DashboardEmotions } = require('../database/entities/dashboard-emotions.e
 const previousEmotionUser = {};
 
 class DashboardEmotionsService {
-  constructor() {
-  }
+
   async create(data) {
     try {
       const newDashboardEmotions = new DashboardEmotions(data);

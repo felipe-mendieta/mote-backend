@@ -27,9 +27,8 @@ const saveActivity = (io, client) => {
         newActivity,
       );//emit to all users
 
-        await dashboardActivityService.updateDataDashboardActivity(roomId,activityType);
+      const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,activityType);
         //emit all dashboard activity
-        const dashboardActivity = await dashboardActivityService.getAll();
         io.emit('dashboardActivity', dashboardActivity);
         console.log("update dashboard activity: ", dashboardActivity);
     } catch (error) {

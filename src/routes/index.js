@@ -7,6 +7,9 @@ const questionsRouter = require('./question.router'); // Importa el router para 
 const authRouter = require('./auth.router');
 const authGoogleRouter = require('./auth-google.router');
 const roomRouter = require('./room.router');
+const dashboardEmotionsRouter = require('./dashboard-emotions.router');
+const dashboardActivityRouter = require('./dashboard-activity.router');
+
 
 const endpoints = {
   baseApi: '/api/v1',
@@ -15,7 +18,10 @@ const endpoints = {
   recordActivities: '/recordActivities',
   questions: '/questions',
   auth: '/auth',
-  room: '/room'
+  room: '/room',
+  dashoardEmotions: '/dashboard-emotions',
+  dashboardActivity: '/dashboard-activities',
+
 }
 function routerApi(app) {
   const router = express.Router();
@@ -27,6 +33,8 @@ function routerApi(app) {
   router.use(endpoints.auth, authRouter);
   router.use(endpoints.auth, authGoogleRouter);
   router.use(endpoints.room, roomRouter);
+  router.use(endpoints.dashoardEmotions, dashboardEmotionsRouter);
+  router.use(endpoints.dashboardActivity, dashboardActivityRouter);
 }
 
 module.exports = { routerApi, endpoints };
