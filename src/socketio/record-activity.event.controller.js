@@ -27,10 +27,13 @@ const saveActivity = (io, client) => {
         newActivity,
       );//emit to all users
 
-      const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,activityType);
+      const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
         //emit all dashboard activity
-        io.emit('dashboardActivity', dashboardActivity);
-        console.log("update dashboard activity: ", dashboardActivity);
+        if(dashboardActivity){
+          io.emit('dashboardActivity', dashboardActivity);
+          console.log("update dashboard activity: ", dashboardActivity);
+        }
+
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
@@ -56,7 +59,7 @@ const saveActivity = (io, client) => {
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
       //dashboard emits
       io.emit('activityCommentRealTime', newActivity); //dashboard
-      await dashboardActivityService.updateDataDashboardActivity(roomId,activityType);
+      await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
 
 
     } catch (error) {

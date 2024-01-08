@@ -1,6 +1,6 @@
 const { DashboardActivity } = require('../database/entities/dashboard-activity.entity');
 const activity = require('./../../utils/enums/activity.enum');
-
+let previousActivityUser = {};
 
 class DashboardActivityService {
   constructor() {
@@ -15,7 +15,7 @@ class DashboardActivityService {
       }
 
       //initialize interval for update historial for each activityType in activities
-      const tenMinutes = 1 * 60 * 1000;
+      const tenMinutes = 2 * 60 * 1000; // 2 minutes for test
       const intervalId = setInterval(async () => {
         for (const activityType of activities) {
           await this.updateHistorialDashboardActivity(roomId, activityType);
@@ -49,19 +49,26 @@ class DashboardActivityService {
   }
 
   //updateDataDashboardActivity
-  async updateDataDashboardActivity(roomId, activityType) {
+  async updateDataDashboardActivity(roomId, userId, activityType) {
     //get document by roomId and activityType
 
     //findOneAndUpdate to update count
-    return await DashboardActivity.findOneAndUpdate(
-      { roomId: roomId, activityType: activityType },
-      { $inc: { count: +1 } },
-      { new: true }
-    );
+    if (!previousActivityUser[userId]) {
+      const updateActivity = await DashboardActivity.findOneAndUpdate(
+        { roomId: roomId, activityType: activityType },
+        { $inc: { count: +1 } },
+        { new: true }
+      );
+      previousActivityUser[userId] = activityType;
+      return updateActivity;
+    }
+
+
   }
   async updateHistorialDashboardActivity(roomId, activityType) {
     const doc = await DashboardActivity.findOne({ roomId: roomId, activityType: activityType });
-
+    //restart previousActivityUser
+    previousActivityUser = {};
     return await DashboardActivity.findOneAndUpdate(
       { roomId: roomId, activityType: activityType },
       {
