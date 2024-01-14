@@ -53,7 +53,7 @@ class DashboardActivityService {
     //get document by roomId and activityType
 
     //findOneAndUpdate to update count
-    if (!previousActivityUser[userId]) {
+    //if (!previousActivityUser[userId]) {
       const updateActivity = await DashboardActivity.findOneAndUpdate(
         { roomId: roomId, activityType: activityType },
         { $inc: { count: +1 } },
@@ -61,7 +61,7 @@ class DashboardActivityService {
       );
       previousActivityUser[userId] = activityType;
       return updateActivity;
-    }
+    //}
 
 
   }

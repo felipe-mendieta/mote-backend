@@ -84,10 +84,9 @@ router.get('/:roomCode/exists', async (req, res, next) => {
       userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
       const userContainer = new UserContainer();
       /***************************************************************************** */
-      token = await generateJWT(userRandom,roomCode);
+      token = await generateJWT(userRandom);
       userContainer.addUser({
         uuid: userRandom,
-        roomCode: roomCode,
         token: token,
         rol: rol
       });

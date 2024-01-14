@@ -5,7 +5,7 @@ const pollsRouter = require('./poll.router'); // Importa el router para "poll"
 const recordActivitiesRouter = require('./record-activity.router'); // Importa el router para "recordActivities"
 const questionsRouter = require('./question.router'); // Importa el router para "question"
 const authRouter = require('./auth.router');
-const authGoogleRouter = require('./auth-google.router');
+
 const roomRouter = require('./room.router');
 const dashboardEmotionsRouter = require('./dashboard-emotions.router');
 const dashboardActivityRouter = require('./dashboard-activity.router');
@@ -31,7 +31,6 @@ function routerApi(app) {
   router.use(endpoints.recordActivities, recordActivitiesRouter); // Agrega la ruta para "recordActivities"
   router.use(endpoints.questions, questionsRouter); // Agrega la ruta para "question"
   router.use(endpoints.auth, authRouter);
-  router.use(endpoints.auth, authGoogleRouter);
   router.use(endpoints.room, roomRouter);
   router.use(endpoints.dashoardEmotions, dashboardEmotionsRouter);
   router.use(endpoints.dashboardActivity, dashboardActivityRouter);

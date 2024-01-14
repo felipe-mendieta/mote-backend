@@ -1,22 +1,33 @@
 const express = require('express');
-const passport = require('passport');
+const crypto = require('crypto');
 const { generateJWT } = require('./../helpers/generate-jwt.helper')
 const router = express.Router();
-
+const { UserContainer } = require('../models/classes/user.container');
 
 // Ruta para autenticar un usuario
 router.post('/login',
-  passport.authenticate('local', { session: false }),
+
   async (req, res, next) => {
     try {
-      const user = req.user;//se resuelve lo del archivo local strategy
-      const token = await generateJWT(user.id);
+      const { rol, } = req.headers;
+      let userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
+      const userContainer = new UserContainer();
+      /***************************************************************************** */
+      let token = await generateJWT(userRandom);
+      userContainer.addUser({
+        uuid: userRandom,
+        token: token,
+        rol: rol
+      });
       res.status(200).json({
-        user,
-        token
+        ok: true,
+        token: token,
+        userId: userRandom,
       });
     } catch (error) {
       next(error);
     }
   });
 module.exports = router;
+
+
