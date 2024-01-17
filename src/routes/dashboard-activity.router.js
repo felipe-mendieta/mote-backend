@@ -14,7 +14,16 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
-
+//router for clean intervals
+router.get('/clearIntervals', async (req, res, next) => {
+  try {
+    //wait to all promises to resolve
+    dashboardActivityService.clearAllIntervals();
+    res.json({ message: 'Intervals cleared.' });
+  } catch (error) {
+    next(error);
+  }
+});
 // Ruta para obtener una actividad de dashboard por roomId
 router.get('/:roomId', async (req, res, next) => {
   const { roomId } = req.params;
@@ -25,5 +34,6 @@ router.get('/:roomId', async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = router;
