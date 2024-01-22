@@ -7,6 +7,8 @@ const { UserContainer } = require('../models/classes/user.container');
 const roomService = new RoomService();
 const dashboardEmotionsService = new DashboardEmotionsService();
 const crypto = require('crypto');
+const { DashboardActivityService } = require('../services/dashboard-activity.service');
+const dashboardActivityService = new DashboardActivityService();
 // Ruta para obtener todas las salas
 router.get('/', async (req, res, next) => {
   try {
@@ -33,7 +35,11 @@ router.post('/', async (req, res, next) => {
   try {
     const { name } = req.body;
     const newRoom = await roomService.create(name);
+    //initialize data for show in dashboard
     await dashboardEmotionsService.create({ roomId: newRoom._id });//init dashboard emotions data
+    await dashboardActivityService.createAll( newRoom._id );//init dashboard activity data
+
+
     res.status(201).json(newRoom); // Código de estado 201 para "Created"
   } catch (error) {
     next(error);
@@ -78,10 +84,9 @@ router.get('/:roomCode/exists', async (req, res, next) => {
       userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
       const userContainer = new UserContainer();
       /***************************************************************************** */
-      token = await generateJWT(userRandom,roomCode);
+      token = await generateJWT(userRandom);
       userContainer.addUser({
         uuid: userRandom,
-        roomCode: roomCode,
         token: token,
         rol: rol
       });

@@ -52,7 +52,14 @@ class RecordActivityService {
     }
   }
 
-
+  //GET acitivities by room id and activityType
+  async getByRoomIdAndActivityType(roomId, activityType) {
+    try {
+      return await RecordActivity.find({ roomId: roomId, activityType: activityType });
+    } catch (error) {
+      throw new Error(`Error fetching record activity by room ID and activity type: ${error.message}`);
+    }
+  }
 
 }
 

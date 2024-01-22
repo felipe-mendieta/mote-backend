@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const activity = require('./../../../utils/enums/activity.enum');
 const dashboardActivity = new mongoose.Schema({
-  activity: {
+  activityType: {
     type: String,
     required: true,
     enum: Object.values(activity),
@@ -9,12 +9,16 @@ const dashboardActivity = new mongoose.Schema({
   count: {
     type: Number,
     required: true,
-    default: 0
+    default: 0,
   },
   roomId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room',
     required: true
+  },
+  createAt: {
+    type: Date,
+    default: Date.now
   },
   updateAt: {
     type: Date,
@@ -24,7 +28,6 @@ const dashboardActivity = new mongoose.Schema({
   historial: [
     {
       type: Number,
-      default: 0
     }
   ]
 });

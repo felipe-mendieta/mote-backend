@@ -645,6 +645,25 @@
 					"response": []
 				},
 				{
+					"name": "get exists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/room/MRA123/exists",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"room",
+								"MRA123",
+								"exists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getOne",
 					"request": {
 						"method": "GET",
@@ -669,7 +688,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"Andrea\",\r\n\t\"email\": \"andre3@gmail.com\",\r\n\t\"password\": \"12345678\",\r\n\t\"avatar\": \"https://api.lorem.space/image/face?w=480&h=480&r=9297\",\r\n    \"gender\": \"Male\",\r\n    \"rol\": \"USER_ROLE\",\r\n    \"google\": true,\r\n    \"idGoogle\": \"1234567890abc1\"\r\n}",
+							"raw": "{\r\n\t\"name\": \"test dashboard activities\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -677,12 +696,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/users",
+							"raw": "{{url}}/room",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"users"
+								"room"
 							]
 						}
 					},
@@ -755,6 +774,52 @@
 							"path": [
 								"rooms",
 								"6514b33cdd661ef4f5ea814e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard Activities",
+			"item": [
+				{
+					"name": "get all data dashboard activities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/dashboard-activities/6577c3fd7be3e4528aac6279",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dashboard-activities",
+								"6577c3fd7be3e4528aac6279"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dashboard emotions",
+			"item": [
+				{
+					"name": "get emotions dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/dashboard-emotions/6580e5f3c2f3a6195cfc402f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dashboard-emotions",
+								"6580e5f3c2f3a6195cfc402f"
 							]
 						}
 					},

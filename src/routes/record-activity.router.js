@@ -33,6 +33,20 @@ router.get(
   }
 );
 
+//get activities by room id and activityType
+router.get(
+  '/:roomId/:activityType',
+  async (req, res, next) => {
+    try {
+      const { roomId, activityType } = req.params;
+      const recordActivity = await recordActivityService.getByRoomIdAndActivityType(roomId, activityType);
+      res.status(200).json(recordActivity);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post(
   '/',
   validatorHandler(createRecordActivityDto, 'body'),

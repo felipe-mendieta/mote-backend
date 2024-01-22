@@ -2,7 +2,8 @@ const RecordActivityService = require('./../services/record-activity.service');
 const recordActivityService = new RecordActivityService();
 const { DashboardEmotionsService } = require('../services/dashboard-emotions.service');
 const dashboardEmotionsService = new DashboardEmotionsService();
-
+const { DashboardActivityService } = require('../services/dashboard-activity.service');
+const dashboardActivityService = new DashboardActivityService();
 
 //const { UserContainer } = require('../models/classes/user.container');
 //const users = new UserContainer();
@@ -25,6 +26,14 @@ const saveActivity = (io, client) => {
         'activityRealTime',
         newActivity,
       );//emit to all users
+
+      const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
+        //emit all dashboard activity
+        if(dashboardActivity){
+          io.emit('dashboardActivity', dashboardActivity);
+          console.log("update dashboard activity: ", dashboardActivity);
+        }
+
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
@@ -40,7 +49,6 @@ const saveActivity = (io, client) => {
       };
 
       if (activityType === 'emotion') {
-        //
         const documentEmotions = await dashboardEmotionsService.updateEmotion(text, userId, roomId);
         if (documentEmotions) {
           io.emit('dashboardEmotions', documentEmotions.toObject());
@@ -48,9 +56,12 @@ const saveActivity = (io, client) => {
         }
       }
       await recordActivityService.create(newActivity);
-      client.emit('success', `Activity ${activityType} saved. Hello from backend`);
-      //client.emit('activityRealTime', newActivity);//return data for dashboard
-      io.emit('activityCommentRealTime', newActivity);
+      client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
+      //dashboard emits
+      io.emit('activityCommentRealTime', newActivity); //dashboard
+      await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
+
+
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }

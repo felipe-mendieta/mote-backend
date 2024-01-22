@@ -11,7 +11,6 @@ const joinRoom = (io, client) => {
       //esto noralmente se deberia buscar en la base de datos, saber si un usuario es admin o user, por ahora
       //asignamos segun venga del front
 
-
       // Verify if room exists
       const user = checkJWT(token);
       if(!user){
@@ -41,6 +40,12 @@ const joinRoom = (io, client) => {
       console.log(error);
     }
   });
+  //logout
+  client.on('leaveRoom', async () => {
+    client.disconnect();
+    console.log("Cliente desconectado: ", client.id);
+  });
+
 
 };
 
