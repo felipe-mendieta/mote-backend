@@ -16,7 +16,7 @@ class DashboardActivityService {
       }
 
       //initialize interval for update historial for each activityType in activities
-      const tenMinutes = 2 * 60 * 1000; // 2 minutes for test
+      const tenMinutes = 10 * 60 * 1000; // 2 minutes for test
       const intervalId = setInterval(async () => {
         for (const activityType of activities) {
           await this.updateHistorialDashboardActivity(roomId, activityType);
