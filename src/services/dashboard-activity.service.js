@@ -1,6 +1,8 @@
 const { DashboardActivity } = require('../database/entities/dashboard-activity.entity');
 const activity = require('./../../utils/enums/activity.enum');
-let previousActivityUser = {};
+
+const usersByActivity = new Map(Object.values(activity).map(activityType => [activityType, new Set()]));
+
 let intervalIds = [];
 class DashboardActivityService {
   constructor() {
@@ -16,7 +18,7 @@ class DashboardActivityService {
       }
 
       //initialize interval for update historial for each activityType in activities
-      const tenMinutes = 10 * 60 * 1000; // 2 minutes for test
+      const tenMinutes = 1 * 60 * 1000; // 1 minutes for test
       const intervalId = setInterval(async () => {
         for (const activityType of activities) {
           await this.updateHistorialDashboardActivity(roomId, activityType);
@@ -69,23 +71,24 @@ class DashboardActivityService {
   async updateDataDashboardActivity(roomId, userId, activityType) {
     //get document by roomId and activityType
 
-    //findOneAndUpdate to update count
-    //if (!previousActivityUser[userId]) {
-    const updateActivity = await DashboardActivity.findOneAndUpdate(
-      { roomId: roomId, activityType: activityType },
-      { $inc: { count: +1 } },
-      { new: true }
-    );
-    previousActivityUser[userId] = activityType;
-    return updateActivity;
-    //}
+    //verify if the user exists in previousActivityUser
+    console.log('activityMap', activityType,usersByActivity.get(activityType));
+    if (!usersByActivity.get(activityType).has(userId)) {
+      const updateActivity = await DashboardActivity.findOneAndUpdate(
+        { roomId: roomId, activityType: activityType },
+        { $inc: { count: +1 } },
+        { new: true }
+      );
+      usersByActivity.get(activityType).add(userId);
+      return updateActivity;
+    }
 
 
   }
   async updateHistorialDashboardActivity(roomId, activityType) {
     const doc = await DashboardActivity.findOne({ roomId: roomId, activityType: activityType });
     //restart previousActivityUser
-    previousActivityUser = {};
+    usersByActivity.get(activityType).clear();
     return await DashboardActivity.findOneAndUpdate(
       { roomId: roomId, activityType: activityType },
       {
