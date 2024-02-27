@@ -5,6 +5,13 @@ class PollResponseService {
     const pollResponse = new PollResponse(pollResponseData);
     return await pollResponse.save();
   }
+  async getAll() {
+    try {
+      return await PollResponse.find();
+    } catch (error) {
+      throw new Error(`Error fetching all polls: ${error.message}`);
+    }
+  }
 
   async getById(id) {
     return await PollResponse.findById(id);

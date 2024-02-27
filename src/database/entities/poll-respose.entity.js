@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const pollResponseSchema = new mongoose.Schema({
+  roomId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Room',
+  },
   pollId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Poll',

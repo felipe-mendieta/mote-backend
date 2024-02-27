@@ -4,6 +4,10 @@ const pollService = new PollService();
 const pollResponseService = new PollResponseService();
 let { setCurrentPoll, getEventRegistry } = require('./registries/poll.event.registry'); // Encuesta actual
 
+const { DashboardPollResponseService } = require('../services/dashboard-poll-response.service');
+const dashboardPollResponseService = new DashboardPollResponseService();
+let totalResponses=0;
+
 const sendPoll = (io, client) => {
   client.on('sendPoll', async (data) => {
     try {
@@ -38,18 +42,31 @@ const closePoll = (io, client) => {
 const savePollResponses = (io, client) => {
   client.on('savePollResponses', async (data) => {
     //use poll-response.service and poll-response.entity
+
     console.log('savePollResponses', data);
     try {
-      const { pollId, responses } = data;
+      const {roomId, pollId, responses } = data;
 
       if (pollId && responses) {
         const newPollResponse = {
+          roomId,
           pollId,
           responses
         }
         pollResponseService.create(newPollResponse);
+        totalResponses=totalResponses+1;
+        //update dashboards
+        const updates = {
+          cognitive: responses[0].option[0],
+          emotional: responses[1].option[0],
+          behavioral: responses[2].option[0]
+        };
+        console.log(updates);
 
+        const responsePolls=await dashboardPollResponseService.updateResponses(roomId,updates,totalResponses);
         client.emit('success', "Poll responses saved.");
+        io.emit('dashboardPollsEngagement', responsePolls.toObject());
+        console.log(responsePolls.toObject());
       }
     } catch (error) {
       console.error('Error closing poll:', error.message);
