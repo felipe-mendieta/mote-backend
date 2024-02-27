@@ -8,6 +8,14 @@ const { DashboardPollResponseService } = require('../services/dashboard-poll-res
 const dashboardPollResponseService = new DashboardPollResponseService();
 let totalResponses=0;
 
+const dicValuesLikert={
+  1: 5,
+  2:4,
+  3:3,
+  4:1,
+  5:1
+};
+
 const sendPoll = (io, client) => {
   client.on('sendPoll', async (data) => {
     try {
@@ -57,9 +65,9 @@ const savePollResponses = (io, client) => {
         totalResponses=totalResponses+1;
         //update dashboards
         const updates = {
-          cognitive: responses[0].option[0],
-          emotional: responses[1].option[0],
-          behavioral: responses[2].option[0]
+          cognitive: dicValuesLikert[responses[0].option[0]],
+          emotional: dicValuesLikert[responses[1].option[0]],
+          behavioral: dicValuesLikert[responses[2].option[0]]
         };
         console.log(updates);
 
