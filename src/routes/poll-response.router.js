@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PollResponseService = require('../services/poll-response.service');
+const {PollResponseService} = require('../services/poll-response.service');
 
 const pollResponseService = new PollResponseService();
 
@@ -20,6 +20,15 @@ router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     const pollResponse = await pollResponseService.getById(id);
     res.json(pollResponse);
+  } catch (error) {
+    next(error);
+  }
+});
+// Ruta para obtener todas las respuestas de encuesta relacionadas con una encuesta específica
+router.get('/', async (req, res, next) => {
+  try {
+    const responses = await pollResponseService.getAll();
+    res.json(responses);
   } catch (error) {
     next(error);
   }

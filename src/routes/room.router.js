@@ -9,6 +9,9 @@ const dashboardEmotionsService = new DashboardEmotionsService();
 const crypto = require('crypto');
 const { DashboardActivityService } = require('../services/dashboard-activity.service');
 const dashboardActivityService = new DashboardActivityService();
+
+const { DashboardPollResponseService } = require('../services/dashboard-poll-response.service');
+const dashboardPollResponseService = new DashboardPollResponseService();
 // Ruta para obtener todas las salas
 router.get('/', async (req, res, next) => {
   try {
@@ -38,7 +41,7 @@ router.post('/', async (req, res, next) => {
     //initialize data for show in dashboard
     await dashboardEmotionsService.create({ roomId: newRoom._id });//init dashboard emotions data
     await dashboardActivityService.createAll( newRoom._id );//init dashboard activity data
-
+    await dashboardPollResponseService.create({ roomId: newRoom._id })//init dashboard poll-responses-engagement
 
     res.status(201).json(newRoom); // Código de estado 201 para "Created"
   } catch (error) {
