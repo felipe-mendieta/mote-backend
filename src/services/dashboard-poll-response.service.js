@@ -66,7 +66,6 @@ class DashboardPollResponseService {
         { $set: dividedValues },
         { new: true }
       );
-      roomIdAux = roomId;
       return finalUpdatedResponse;
     } catch (error) {
       throw new Error(`Error updating fields in DashboardPollResponse: ${error.message}`);
