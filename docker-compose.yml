@@ -1,12 +1,27 @@
 version: '3.9'
 
 services:
+  mote-backend:
+    image: mote-backend:1.0.0
+    env_file:
+      - ./prod.env
+    networks:
+      - mote-backend-nk
+    depends_on:
+      - mongodb
   mongodb:
     image: mongo:latest
-    ports:
-      - 27017:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root123
+    env_file:
+      - ./prod.env
     volumes:
-      - ./mongo_data:/data/db
+      - mongo-data:/data/db
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    networks:
+      - mote-backend-nk
+volumes:
+  mongo-data:
+    driver: local
+
+networks:
+  mote-backend-nk:
+    driver: bridge
