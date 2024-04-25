@@ -9,7 +9,7 @@ services:
     networks:
       - mote-network
     ports:
-      - "443:80"
+      - "80:80"
     depends_on:
       - mote-backend
   mote-backend:
@@ -19,8 +19,6 @@ services:
       - ./prod.env
     networks:
       - mote-network
-    ports:
-      - "3000:3000"
     depends_on:
       - mongodb
   mongodb:
