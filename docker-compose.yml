@@ -1,20 +1,20 @@
-version: '3.9'
-
 services:
   mote-frontend:
     container_name: mote-frontend
-    image: felipe98mz/mote-frontend:1.0.0
+    image: felipe98mz/mote-frontend:1.0.2
     env_file:
       - ./prod.env
     networks:
       - mote-network
     ports:
       - "80:80"
+    volumes:
+      - ./scripts/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - mote-backend
   mote-backend:
     container_name: mote-backend
-    image: felipe98mz/mote-backend:1.0.0
+    image: felipe98mz/mote-backend:1.0.1
     env_file:
       - ./prod.env
     networks:
