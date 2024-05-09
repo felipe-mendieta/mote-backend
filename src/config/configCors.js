@@ -1,5 +1,7 @@
 const config = require('../config/config');
 const whitelist = [
+  `http//:mote-frontend:80`,
+  `http//:mote-frontend:443`,
   `${config.myDomainApp}:80`,
   `${config.myDomainApp}:443`,
   `${config.myDomainApp}:4200`,

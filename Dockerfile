@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 # Install node dependencies
 # Copy package.json and package-lock.json first to leverage Docker cache
 COPY package*.json ./
-RUN npm install --production
+RUN npm install
 
 # Copy the rest of your application code after npm install
 COPY . .
