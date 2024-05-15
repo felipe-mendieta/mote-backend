@@ -3,13 +3,19 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
+    //required: true,
+  },
+
+  uid: {
+    type: String,
     required: true,
+    unique: [true, 'Uid already used!'],
   },
   email: {
     type: String,
     trim: true,
-    required: true,
-    unique: [true, 'Email already used!'],
+    //required: true,
+    //unique: [true, 'Email already used!'],
   },
   password: {
     type: String,
@@ -25,7 +31,7 @@ const userSchema = new mongoose.Schema({
   },
   rol: {
     type: String,
-    required: true,
+    //required: true,
     trim: true,
     default: 'USER_ROLE',
     emun: ['ADMIN_ROLE', 'USER_ROLE']
@@ -45,7 +51,7 @@ const userSchema = new mongoose.Schema({
 });
 userSchema.methods.toJSON = function () {
   // eslint-disable-next-line no-unused-vars
-  const { __v, password, _id, ...user } = this.toObject();
+  const { __v, password, ...user } = this.toObject();
   return user;
 }//quitamos la contraseña hasheada al devolver la información del usuario y cambios el nombre de _id por uid(user id)
 //quitamos __v

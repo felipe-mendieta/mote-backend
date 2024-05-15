@@ -62,7 +62,13 @@ class RoomService {
       throw new Error(`Could not add user to room: ${error.message}`);
     }
   }
-
+  async deleteUser(roomId, userId) {
+    try {
+      await Room.updateOne({ _id: roomId }, { $pull: { users: userId } });
+    } catch (error) {
+      console.error(`Could not delete user from room: ${error.message}`);
+    }
+  }
   async addActivity(id, activityId) {
     try {
       const room = await Room.findById(id);
@@ -94,7 +100,7 @@ class RoomService {
     }
   }
 
-  async delete(id) {
+  async deleteRoom(id) {
     try {
       return await Room.findByIdAndDelete(id);
     } catch (error) {

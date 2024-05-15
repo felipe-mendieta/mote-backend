@@ -5,16 +5,17 @@ const bcrypt = require('bcrypt');
 class UserService {
   async create(data) {
     try {
-      const { name, email, avatar, gender, password } = data;
-      const saltRounds = await bcryptjs.genSalt();
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+      const uid = data;
+      //const { name, email, avatar, gender, password } = data;
+      //const saltRounds = await bcryptjs.genSalt();
+      //const hashedPassword = await bcrypt.hash(password, saltRounds);
       const newUser = new User({
-        name,
-        email,
-        avatar,
-        gender,
-        password: hashedPassword,
+        uid: uid
+        //name,
+        //email,
+        //avatar,
+        //gender,
+        //password: hashedPassword,
       });
 
       return await newUser.save();
@@ -45,6 +46,14 @@ class UserService {
       return await User.findById(id);
     } catch (error) {
       throw new Error(`Error fetching user by ID: ${error.message}`);
+    }
+  }
+  async getByUuid(uid) {
+    try {
+      const user = await User.findOne({ uid: uid });
+      return user;
+    } catch (error) {
+      throw new Error(`Error checking if room exists: ${error.message}`);
     }
   }
 

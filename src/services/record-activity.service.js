@@ -1,4 +1,4 @@
-const {RecordActivity} = require('./../database/entities/record-activity.entity');
+const { RecordActivity } = require('./../database/entities/record-activity.entity');
 
 class RecordActivityService {
   async create(data) {
@@ -58,6 +58,14 @@ class RecordActivityService {
       return await RecordActivity.find({ roomId: roomId, activityType: activityType });
     } catch (error) {
       throw new Error(`Error fetching record activity by room ID and activity type: ${error.message}`);
+    }
+  }
+  //get the last user activity
+  async getByUserId(userId) {
+    try {
+      return await RecordActivity.findOne({ userId: userId }).sort({ date: -1 });
+    } catch (error) {
+      throw new Error(`Error fetching record activity by user ID: ${error.message}`);
     }
   }
 
