@@ -7,12 +7,12 @@ const socketController = async (io) => {
     try {
       // Controlamos el acceso de los clientes a las salas
       joinRoom(io, client);
-
+      
       // Manejar eventos relacionados con las encuestas
       sendPoll(io, client);
       savePollResponses(io, client);
       closePoll(io, client);
-
+      
       // Manejo de actividades, guardado
       saveActivity(io, client);
       console.log("Id cliente: ",client.id);

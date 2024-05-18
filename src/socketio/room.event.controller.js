@@ -4,13 +4,15 @@ const { checkJWT } = require('./../helpers/generate-jwt.helper');
 const { UserContainer } = require('../models/classes/user.container');
 const UserService = require('../services/user.service');
 const RoomService = require('../services/room.service');
-const mongoose = require('mongoose');
 const InactiveTimeService = require('../services/inactive-time.service');
+const RecordActivityService = require('../services/record-activity.service');
+const activity = require('../../utils/enums/activity.enum');
 const joinRoom = (io, client) => {
   const users = new UserContainer();
   const userService = new UserService();
   const roomService = new RoomService();
   const inactiveTimeService = new InactiveTimeService();
+  const recordActivityService = new RecordActivityService();
 
   client.on('joinRoom', async (data) => {
     try {
@@ -32,17 +34,20 @@ const joinRoom = (io, client) => {
         admin.idSocket = client.id;
       }
       client.join(roomCode);
-      const newUser = await userService.create(userId);
-      const room = await roomService.exists(roomCode);
-      console.log(room);
-      roomService.addUser(room._id, newUser._id);
-      inactiveTimeService.create(newUser._id);
+      if (await userService.getByUuid(userId) == null) {
+        //create user on DB
+        const newUser = await userService.create(userId);
+        const room = await roomService.exists(roomCode);
+        //add user to room on DB
+        await roomService.addUser(room._id, newUser._id);
+        //await recordActivityService.create({ activityType: activity.joinRoom, userId: newUser.uid, roomId: room._id });
+        //create and start timer
+        await inactiveTimeService.create(newUser._id);
+        await inactiveTimeService.initTimer(newUser, client);
+      }
+
       client.emit('success', `Room exist. User ${client.id} authorized.`);
       console.log("Clientes conectados autorizados: ", io.engine.clientsCount);
-      setTimeout(async function(){
-        const timer = await inactiveTimeService.getTimerByUserId(newUser.uid);
-        client.emit('timeOut', `TimeOut para: ${timer}`);
-      },5000)
 
 
       //verify if there is pending poll for send
@@ -58,15 +63,29 @@ const joinRoom = (io, client) => {
   });
   //logout
   client.on('leaveRoom', async (data) => {
+    console.log('se ha ejecutado el evento leaveroom')
     const { roomCode, token, userId } = data;
+    console.log(`codigo de sala: ${roomCode}`);
+    console.log(`Id de usuario: ${userId}`);
     //Get user _id and room _id to delete user from room when disconnect
-    // const user = await userService.getByUuid(userId)
-    // await userService.deleteById(user._id);
-    // const room = await roomService.exists(roomCode);
-    // roomService.deleteUser(room._id,user._id);
-    // userService.deleteById(user._id);
+    const user = await userService.getByUuid(userId)
+    room = await roomService.exists(roomCode);
+    roomService.deleteUser(room._id, user._id);
+    await userService.deleteById(user._id);
     client.disconnect();
     console.log("Cliente desconectado: ", client.id);
+  });
+  client.on('studentLeaveRoom', async (data) => {
+    const { roomCode, token, userId } = data;
+    console.log(`codigo de sala: ${roomCode}`);
+    console.log(`Id de usuario: ${userId}`);
+    //Get user _id and room _id to delete user from room when disconnect
+    const user = await userService.getByUuid(userId)
+    room = await roomService.exists(roomCode);
+    roomService.deleteUser(room._id, user._id);
+    await userService.deleteById(user._id);
+    //client.disconnect();
+    //console.log("Cliente desconectado: ", client.id);
   });
 
 

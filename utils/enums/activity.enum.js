@@ -6,6 +6,7 @@ const activity = {
   comment: "comment",
   question: "question",
   emotion: "emotion",
+  joinRoom: "join room",
 }
 
 module.exports = activity;
