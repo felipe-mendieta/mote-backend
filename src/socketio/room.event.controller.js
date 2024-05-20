@@ -67,11 +67,6 @@ const joinRoom = (io, client) => {
     const { roomCode, token, userId } = data;
     console.log(`codigo de sala: ${roomCode}`);
     console.log(`Id de usuario: ${userId}`);
-    //Get user _id and room _id to delete user from room when disconnect
-    const user = await userService.getByUuid(userId)
-    room = await roomService.exists(roomCode);
-    roomService.deleteUser(room._id, user._id);
-    await userService.deleteById(user._id);
     client.disconnect();
     console.log("Cliente desconectado: ", client.id);
   });
@@ -85,7 +80,6 @@ const joinRoom = (io, client) => {
     roomService.deleteUser(room._id, user._id);
     await userService.deleteById(user._id);
     //client.disconnect();
-    //console.log("Cliente desconectado: ", client.id);
   });
 
 

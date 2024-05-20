@@ -55,7 +55,7 @@ class InactiveTimeService {
         const timerObj = await this.update(inactiveTime._id,{inactiveTime: timer});
         if (timerObj.inactiveTime >= 15) {
           notificationsService.InactiveTimeNotification(client)
-          clearInterval(interval);
+          this.stopTimer(interval);
         }
       }, 5000);
     } catch (error) {
