@@ -5,14 +5,12 @@ const { UserContainer } = require('../models/classes/user.container');
 const UserService = require('../services/user.service');
 const RoomService = require('../services/room.service');
 const InactiveTimeService = require('../services/inactive-time.service');
-const RecordActivityService = require('../services/record-activity.service');
-const activity = require('../../utils/enums/activity.enum');
 const joinRoom = (io, client) => {
   const users = new UserContainer();
   const userService = new UserService();
   const roomService = new RoomService();
   const inactiveTimeService = new InactiveTimeService();
-  const recordActivityService = new RecordActivityService();
+
 
   client.on('joinRoom', async (data) => {
     try {
@@ -34,7 +32,7 @@ const joinRoom = (io, client) => {
         admin.idSocket = client.id;
       }
       client.join(roomCode);
-      if (await userService.getByUuid(userId) == null) {
+      if (await userService.getByUuid(userId) == null) { //control of users that will be created for send notifications
         //create user on DB
         const newUser = await userService.create(userId);
         const room = await roomService.exists(roomCode);
@@ -42,8 +40,8 @@ const joinRoom = (io, client) => {
         await roomService.addUser(room._id, newUser._id);
         //await recordActivityService.create({ activityType: activity.joinRoom, userId: newUser.uid, roomId: room._id });
         //create and start timer
-        await inactiveTimeService.create(newUser._id);
-        await inactiveTimeService.initTimer(newUser, client);
+        await inactiveTimeService.create(newUser._id); //create time in DB
+        await inactiveTimeService.initTimer(newUser, client); //init timer db
       }
 
       client.emit('success', `Room exist. User ${client.id} authorized.`);
@@ -76,10 +74,13 @@ const joinRoom = (io, client) => {
     console.log(`Id de usuario: ${userId}`);
     //Get user _id and room _id to delete user from room when disconnect
     const user = await userService.getByUuid(userId)
-    room = await roomService.exists(roomCode);
+    let room = await roomService.exists(roomCode);
+    if(!room || !user){
+      return;
+    }
     roomService.deleteUser(room._id, user._id);
     await userService.deleteById(user._id);
-    //client.disconnect();
+    client.disconnect();
   });
 
 

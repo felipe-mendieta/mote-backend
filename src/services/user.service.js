@@ -50,13 +50,13 @@ class UserService {
   }
   async getByUuid(uid) {
     try {
-      const user = await User.findOne({ uid: uid });
-      return user;
+      return await User.findOne({ uid
+      });
+
     } catch (error) {
-      throw new Error(`Error checking if room exists: ${error.message}`);
+      throw new Error(`Error fetching user by UUID: ${error.message}`);
     }
   }
-
   async update(id, changes) {
     try {
       return await User.findByIdAndUpdate(id, changes, { upsert: true, new: true });
