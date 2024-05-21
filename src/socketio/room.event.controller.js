@@ -78,7 +78,9 @@ const joinRoom = (io, client) => {
     if(!room || !user){
       return;
     }
-    roomService.deleteUser(room._id, user._id);
+    //delete timer and user on db
+    await inactiveTimeService.deleteByUserId(user._id);
+    await roomService.deleteUser(room._id, user._id);
     await userService.deleteById(user._id);
     client.disconnect();
   });

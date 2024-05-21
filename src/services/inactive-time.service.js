@@ -1,6 +1,7 @@
 const InactiveTime = require('../database/entities/inactive-time.entity');
 const RecordActivityService = require('./record-activity.service');
 const NotificationsService = require('./notifications.service');
+const activity = require('../../utils/enums/activity.enum');
 const moment = require('moment');
 const recordActivityService = new RecordActivityService();
 const notificationsService = new NotificationsService();
@@ -17,9 +18,16 @@ class InactiveTimeService {
       throw new Error(`Error creating timer: ${error.message}`);
     }
   }
-  async stop(id) {
+  async delete(id) {
     try {
-      InactiveTime.findByIdAndDelete(id);
+      return await InactiveTime.findByIdAndDelete(id);
+    } catch (error) {
+      throw new Error(`Error deleting timer: ${error.message}`);
+    }
+  }
+  async deleteByUserId(userId) {
+    try {
+      return await InactiveTime.findOneAndDelete({ userId: userId });
     } catch (error) {
       throw new Error(`Error deleting timer: ${error.message}`);
     }
@@ -49,13 +57,14 @@ class InactiveTimeService {
   }
   async initTimer(user, client) {
     try {
-      const interval = setInterval( async () => {
+      const interval = setInterval(async () => {
         const timer = await this.getTimerByUserId(user.uid);
         const inactiveTime = await this.getByUuid(user._id);
-        const timerObj = await this.update(inactiveTime._id,{inactiveTime: timer});
+        const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
         if (timerObj.inactiveTime >= 15) {
-          notificationsService.InactiveTimeNotification(client)
-          this.stopTimer(interval);
+          notificationsService.InactiveTimeNotification(client);
+          await recordActivityService.create({activityType: activity.inactivity,userId: user.uid});
+          //this.stopTimer(interval);
         }
       }, 5000);
     } catch (error) {
