@@ -4,7 +4,7 @@ const { checkJWT } = require('./../helpers/generate-jwt.helper');
 const { UserContainer } = require('../models/classes/user.container');
 const UserService = require('../services/user.service');
 const RoomService = require('../services/room.service');
-const {InactiveTimeService} = require('../services/inactive-time.service');
+const { InactiveTimeService } = require('../services/inactive-time.service');
 const joinRoom = (io, client) => {
   const users = new UserContainer();
   const userService = new UserService();
@@ -70,7 +70,7 @@ const joinRoom = (io, client) => {
     //Get user _id and room _id to delete user from room when disconnect
     const user = await userService.getByUuid(userId)
     let room = await roomService.exists(roomCode);
-    if(!room || !user){
+    if (!room || !user) {
       return;
     }
     //delete timer and user on db

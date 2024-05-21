@@ -5,15 +5,15 @@ const inactiveTimeSchema = new mongoose.Schema({
     required: true,
     unique: [true, 'Uid already used!'],
   },
-lastActivity: {
+  lastActivity: {
     type: Date,
     required: true,
-},
-inactiveTime:{
+  },
+  inactiveTime: {
     type: Number,
     required: true,
     default: 0
-}
+  }
 })
 const InactiveTime = mongoose.model('InactiveTime', inactiveTimeSchema);
 

@@ -20,8 +20,8 @@ const socketController = async (io) => {
 
       client.on('disconnect', () => {
         console.log("Cliente desconectado.", client.id);
-
         console.log("Clientes conectados: ", io.engine.clientsCount);
+        
       });
     } catch (error) {
       console.error("Error in sockets controller:", error.message);

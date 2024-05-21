@@ -58,15 +58,28 @@ class InactiveTimeService {
   async initTimer(user, client) {
     try {
       const interval = setInterval(async () => {
-        const timer = await this.getTimerByUserId(user.uid);
-        const inactiveTime = await this.getByUuid(user._id);
-        const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
-        if (timerObj.inactiveTime >= 15) {
-          notificationsService.InactiveTimeNotification(client);
-          await recordActivityService.create({activityType: activity.inactivity,userId: user.uid});
-          //this.stopTimer(interval);
+        try {
+          const timer = await this.getTimerByUserId(user.uid);
+          const inactiveTime = await this.getByUuid(user._id);
+          const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
+          //change 'if' limit if you want to increase-decrease timeout limits (seconds)
+          if (timerObj.inactiveTime >= 15) {
+            notificationsService.InactiveTimeNotification(client);
+            await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
+            //this.stopTimer(interval);
+          }
+        } catch (error) {
+          //stop timer when client disconnect
+          this.stopTimer(interval);
+          //throw new Error(`Error executing interval: ${error.message}`);
+
         }
-      }, 5000);
+      }, 5000);//change if you want to modify validation frequency
+      //set ttl for the timer (class duration maybe)
+      setTimeout(() => {
+        this.stopTimer(interval);
+      }, 30000)
+
     } catch (error) {
       throw new Error(`Error creating interval: ${error.message}`);
     }
@@ -80,4 +93,4 @@ class InactiveTimeService {
   }
 }
 
-module.exports = {InactiveTimeService};
+module.exports = { InactiveTimeService };
