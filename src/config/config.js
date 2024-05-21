@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const env = 'production';//Leermos en que entorno estamos, por defecto en desarrollo
+const env = 'prod';//Leermos en que entorno estamos, por defecto en desarrollo
 const envs = {
   'dev': 'dev.env',
   'prod': 'prod.env'
