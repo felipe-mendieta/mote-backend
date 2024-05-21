@@ -1,14 +1,16 @@
 const config = require('../config/config');
 const whitelist = [
-  `http//:mote-frontend:80`,
-  `http//:mote-frontend:443`,
-  `${config.myDomainApp}:80`,
+  `http://mote-frontend`,
   `${config.myDomainApp}`,
-  `${config.myDomainApp}:4200`,
-  `${config.myDomainApp}:${config.port}`,
+  'mote-frontend',
+  'mote.ucuenca.edu.ec',
+  'http://mote-frontend',
+  'https://mote.ucuenca.edu.ec'
 ];
+console.log("Whitelist: ", whitelist);
 const options = {
   origin: (origin, callback) => {
+    console.log("Origin: ", origin);
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);//error, permiso : no hay ningun error por eso null, por lo tanto permitir
     } else {
