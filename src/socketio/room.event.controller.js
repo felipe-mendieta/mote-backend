@@ -4,7 +4,7 @@ const { checkJWT } = require('./../helpers/generate-jwt.helper');
 const { UserContainer } = require('../models/classes/user.container');
 const UserService = require('../services/user.service');
 const RoomService = require('../services/room.service');
-const InactiveTimeService = require('../services/inactive-time.service');
+const {InactiveTimeService} = require('../services/inactive-time.service');
 const joinRoom = (io, client) => {
   const users = new UserContainer();
   const userService = new UserService();
@@ -82,6 +82,7 @@ const joinRoom = (io, client) => {
     await inactiveTimeService.deleteByUserId(user._id);
     await roomService.deleteUser(room._id, user._id);
     await userService.deleteById(user._id);
+    inactiveTimeService.deleteByUserId(user._id);
     client.disconnect();
   });
 
