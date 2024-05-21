@@ -78,15 +78,6 @@ class InactiveTimeService {
       throw new Error(`Error deleting interval: ${error.message}`);
     }
   }
-  async deleteByUserId(userId) {
-    try {
-      return InactiveTime.findOneAndDelete({userId: userId});
-    } catch (error) {
-      throw new Error(`Error deleting timer: ${error.message}`);
-    }
-  }
-
-
 }
 
 module.exports = {InactiveTimeService};

@@ -61,17 +61,12 @@ const joinRoom = (io, client) => {
   });
   //logout
   client.on('leaveRoom', async (data) => {
-    console.log('se ha ejecutado el evento leaveroom')
     const { roomCode, token, userId } = data;
-    console.log(`codigo de sala: ${roomCode}`);
-    console.log(`Id de usuario: ${userId}`);
     client.disconnect();
     console.log("Cliente desconectado: ", client.id);
   });
   client.on('studentLeaveRoom', async (data) => {
     const { roomCode, token, userId } = data;
-    console.log(`codigo de sala: ${roomCode}`);
-    console.log(`Id de usuario: ${userId}`);
     //Get user _id and room _id to delete user from room when disconnect
     const user = await userService.getByUuid(userId)
     let room = await roomService.exists(roomCode);
@@ -82,7 +77,6 @@ const joinRoom = (io, client) => {
     await inactiveTimeService.deleteByUserId(user._id);
     await roomService.deleteUser(room._id, user._id);
     await userService.deleteById(user._id);
-    inactiveTimeService.deleteByUserId(user._id);
     client.disconnect();
   });
 
