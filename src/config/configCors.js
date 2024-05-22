@@ -1,11 +1,9 @@
 const config = require('../config/config');
 const whitelist = [
-  `http//:mote-frontend:80`,
-  `http//:mote-frontend:443`,
+  `http://mote-frontend`,
   `${config.myDomainApp}:80`,
-  `${config.myDomainApp}`,
   `${config.myDomainApp}:4200`,
-  `${config.myDomainApp}:${config.port}`,
+  `${config.myDomainApp}`,
 ];
 const options = {
   origin: (origin, callback) => {
