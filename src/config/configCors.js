@@ -5,7 +5,8 @@ const whitelist = [
   'mote-frontend',
   'mote.ucuenca.edu.ec',
   'http://mote-frontend',
-  'https://mote.ucuenca.edu.ec'
+  'https://mote.ucuenca.edu.ec',
+  'http://localhost'
 ];
 console.log("Whitelist: ", whitelist);
 const options = {
@@ -14,7 +15,7 @@ const options = {
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);//error, permiso : no hay ningun error por eso null, por lo tanto permitir
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error(`Origin: ${origin}\nWhitelist: ${whitelist}`))
     }
   }
 }
