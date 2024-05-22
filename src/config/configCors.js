@@ -1,11 +1,6 @@
 const config = require('../config/config');
 const whitelist = [
-  `http://mote-frontend`,
-  `${config.myDomainApp}`,
-  'mote-frontend',
-  'mote.ucuenca.edu.ec',
-  'http://mote-frontend',
-  'https://mote.ucuenca.edu.ec',
+  `${config.myDomainApp}:4200`,
   'http://localhost'
 ];
 console.log("Whitelist: ", whitelist);
