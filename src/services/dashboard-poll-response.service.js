@@ -1,10 +1,11 @@
 // Import the DashboardPollResponse entity
 const { DashboardPollResponse } = require('../database/entities/dashboard-poll-response.entity');
-const updatesAcumulate = {
+let updatesAcumulate = {
   cognitive: 0,
   emotional: 0,
   behavioral: 0
 };
+let lastRoomId = null;
 class DashboardPollResponseService {
 
 
@@ -34,7 +35,19 @@ class DashboardPollResponseService {
   }
 
   async updateResponses(roomId, updateValues, totalResponses) {
+
+
+
     try {
+      if (roomId !== lastRoomId) {
+        // Reset updatesAcumulate if the roomId has changed
+        updatesAcumulate = {
+          cognitive: 0,
+          emotional: 0,
+          behavioral: 0
+        };
+        lastRoomId = roomId; // Update lastRoomId to the current roomId
+      }
       // Iterar sobre cada clave en updates y sumar los valores a updatesAcumulate
       Object.keys(updateValues).forEach(key => {
         if (Object.prototype.hasOwnProperty.call(updatesAcumulate, key)) {
@@ -53,13 +66,14 @@ class DashboardPollResponseService {
         { $set: dividedValues },
         { new: true }
       );
-
       return finalUpdatedResponse;
     } catch (error) {
       throw new Error(`Error updating fields in DashboardPollResponse: ${error.message}`);
     }
-  }
 
+
+
+  }
 
 }
 

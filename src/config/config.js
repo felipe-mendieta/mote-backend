@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 
-const env = process.env.NODE_ENV || 'dev';//Leermos en que entorno estamos, por defecto en desarrollo
+const env = 'prod';//Leermos en que entorno estamos, por defecto en desarrollo
 const envs = {
   'dev': 'dev.env',
   'prod': 'prod.env'
 }
 
 require('dotenv').config({
-  path: envs[env] ?? 'dev.env'
+  path: envs[env]
 });
 
 const config = {
