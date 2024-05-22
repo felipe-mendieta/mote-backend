@@ -76,9 +76,10 @@ class InactiveTimeService {
         }
       }, 5000);//change if you want to modify validation frequency
       //set ttl for the timer (class duration maybe)
+      const ttl = 60 * 60 * 1000;
       setTimeout(() => {
         this.stopTimer(interval);
-      }, 30000)
+      }, ttl)
 
     } catch (error) {
       throw new Error(`Error creating interval: ${error.message}`);
