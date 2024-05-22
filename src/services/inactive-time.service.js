@@ -63,7 +63,7 @@ class InactiveTimeService {
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
           //change 'if' limit if you want to increase-decrease timeout limits (seconds)
-          if (timerObj.inactiveTime >= 15) {
+          if (timerObj.inactiveTime >= 900) {
             notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
             //this.stopTimer(interval);
@@ -76,7 +76,7 @@ class InactiveTimeService {
         }
       }, 5000);//change if you want to modify validation frequency
       //set ttl for the timer (class duration maybe)
-      const ttl = 60 * 60 * 1000;
+      const ttl = 120 * 60 * 1000;
       setTimeout(() => {
         this.stopTimer(interval);
       }, ttl)
