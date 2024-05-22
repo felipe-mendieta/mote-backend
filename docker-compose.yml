@@ -14,7 +14,7 @@ services:
       - mote-backend
   mote-backend:
     container_name: mote-backend
-    image: felipe98mz/mote-backend:1.0.1
+    image: felipe98mz/mote-backend:1.0.2
     env_file:
       - ./prod.env
     networks:
