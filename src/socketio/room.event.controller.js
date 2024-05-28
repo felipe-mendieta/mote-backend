@@ -1,4 +1,3 @@
-
 const { getCurrentPoll } = require('./registries/poll.event.registry'); // Encuesta actual
 const { checkJWT } = require('./../helpers/generate-jwt.helper');
 const { UserContainer } = require('../models/classes/user.container');
@@ -10,7 +9,6 @@ const joinRoom = (io, client) => {
   const userService = new UserService();
   const roomService = new RoomService();
   const inactiveTimeService = new InactiveTimeService();
-
 
   client.on('joinRoom', async (data) => {
     try {
@@ -32,7 +30,7 @@ const joinRoom = (io, client) => {
         admin.idSocket = client.id;
       }
       client.join(roomCode);
-      console.log("user id: ", userId);
+      //console.log("New user id is: ", userId);
       if (userId && await userService.getByUuid(userId) == null) { //control of users that will be created for send notifications
         //create user on DB
         const newUser = await userService.create(userId);
@@ -63,24 +61,11 @@ const joinRoom = (io, client) => {
   //logout
   client.on('leaveRoom', async (data) => {
     const { roomCode, token, userId } = data;
+    const interval =  inactiveTimeService.getInterval();
+    inactiveTimeService.stopTimer(interval);
     client.disconnect();
     console.log("Cliente desconectado: ", client.id);
   });
-  client.on('studentLeaveRoom', async (data) => {
-    const { roomCode, token, userId } = data;
-    //Get user _id and room _id to delete user from room when disconnect
-    const user = await userService.getByUuid(userId)
-    let room = await roomService.exists(roomCode);
-    if (!room || !user) {
-      return;
-    }
-    //delete timer and user on db
-    await inactiveTimeService.deleteByUserId(user._id);
-    await roomService.deleteUser(room._id, user._id);
-    await userService.deleteById(user._id);
-    client.disconnect();
-  });
-
 
 };
 

@@ -6,6 +6,13 @@ const moment = require('moment');
 const recordActivityService = new RecordActivityService();
 const notificationsService = new NotificationsService();
 class InactiveTimeService {
+  interval;
+  getInterval(){
+    if (this.interval) {
+      return this.interval;
+    }
+    return null;
+  }
   async create(userId) {
     try {
       const newTimer = new InactiveTime({
@@ -57,19 +64,18 @@ class InactiveTimeService {
   }
   async initTimer(user, client) {
     try {
-      const interval = setInterval(async () => {
+      this.interval = setInterval(async () => {
         try {
           const timer = await this.getTimerByUserId(user.uid);
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
-          //change 'if' limit if you want to increase-decrease timeout limits (seconds)
-          if (timerObj.inactiveTime >= 900) {
+          //change 'if' limit if you want to increase-decrease timeout limits (seconds) 900
+          if (timerObj.inactiveTime >= 15) {
             notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
-            //this.stopTimer(interval);
           }
         } catch (error) {
-          //stop timer when client disconnect
+          //stop timer
           this.stopTimer(interval);
           //throw new Error(`Error executing interval: ${error.message}`);
 
