@@ -4,6 +4,8 @@ const { DashboardEmotionsService } = require('../services/dashboard-emotions.ser
 const dashboardEmotionsService = new DashboardEmotionsService();
 const { DashboardActivityService } = require('../services/dashboard-activity.service');
 const dashboardActivityService = new DashboardActivityService();
+const RoomService  = require('../services/room.service');
+const roomService = new RoomService();
 
 //const { UserContainer } = require('../models/classes/user.container');
 //const users = new UserContainer();
@@ -47,7 +49,7 @@ const saveActivity = (io, client) => {
         text: text,
         userId: userId
       };
-
+      
       if (activityType === 'emotion') {
         const documentEmotions = await dashboardEmotionsService.updateEmotion(text, userId, roomId);
         if (documentEmotions) {
@@ -58,10 +60,11 @@ const saveActivity = (io, client) => {
       await recordActivityService.create(newActivity);
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
       //dashboard emits
-      io.emit('activityCommentRealTime', newActivity); //dashboard
+      const room = await roomService.getById(roomId);
+      io.to(room.code).emit('activityCommentRealTime', newActivity); //dashboard
       await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
-
-
+      
+      
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }

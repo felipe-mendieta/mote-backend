@@ -6,12 +6,13 @@ const { generateJWT } = require('./../helpers/generate-jwt.helper');
 const { UserContainer } = require('../models/classes/user.container');
 const roomService = new RoomService();
 const dashboardEmotionsService = new DashboardEmotionsService();
-const crypto = require('crypto');
 const { DashboardActivityService } = require('../services/dashboard-activity.service');
 const dashboardActivityService = new DashboardActivityService();
 
 const { DashboardPollResponseService } = require('../services/dashboard-poll-response.service');
 const dashboardPollResponseService = new DashboardPollResponseService();
+const UserService = require('../services/user.service');
+const userService = new UserService();
 // Ruta para obtener todas las salas
 router.get('/', async (req, res, next) => {
   try {
@@ -76,20 +77,21 @@ router.patch('/:id',
 router.get('/:roomCode/exists', async (req, res, next) => {
   try {
     let token = '';
-    let userRandom= '';
+    //let userRandom= '';
     //get header rol from request
     const { rol } = req.headers;
     const { roomCode } = req.params;
     const exists = await roomService.exists(roomCode);
     if (exists) {
+      const user = await userService.create({rol: 'USER_ROLE'});
       //Aqui se debe reemplazar con el id del usuario cuando ya esté la parte de logueo con google
       /***************************************************************************** */
-      userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
+      //userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
       const userContainer = new UserContainer();
       /***************************************************************************** */
-      token = await generateJWT(userRandom);
+      token = await generateJWT(user._id);
       userContainer.addUser({
-        uuid: userRandom,
+        uuid: user._id,
         token: token,
         rol: rol
       });
@@ -97,7 +99,7 @@ router.get('/:roomCode/exists', async (req, res, next) => {
     res.status(200).json({
       ok: true,
       token: token,
-      userId: userRandom,
+      userId: user._id,
       roomId: exists._id
     });
 

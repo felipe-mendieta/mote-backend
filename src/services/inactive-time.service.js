@@ -55,7 +55,7 @@ class InactiveTimeService {
     }
   }
   async getTimerByUserId(userId) {
-
+    console.log('Variable: '+userId);
     const actualDate = moment();
     const lastActivity = await recordActivityService.getByUserId(userId);
     const timer = actualDate.diff(lastActivity.date);
@@ -66,11 +66,12 @@ class InactiveTimeService {
     try {
       this.interval = setInterval(async () => {
         try {
-          const timer = await this.getTimerByUserId(user.uid);
+          
+          const timer = await this.getTimerByUserId(user._id);
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
           //change 'if' limit if you want to increase-decrease timeout limits (seconds) 900
-          if (timerObj.inactiveTime >= 15) {
+          if (timerObj.inactiveTime >= 900) {
             notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
           }

@@ -5,18 +5,26 @@ const bcrypt = require('bcrypt');
 class UserService {
   async create(data) {
     try {
-      const uid = data;
       //const { name, email, avatar, gender, password } = data;
       //const saltRounds = await bcryptjs.genSalt();
       //const hashedPassword = await bcrypt.hash(password, saltRounds);
       const newUser = new User({
-        uid: uid
+        rol: data.rol
         //name,
-        //email,
+        //email: undefined,
         //avatar,
         //gender,
         //password: hashedPassword,
       });
+
+      return await newUser.save();
+    } catch (error) {
+      throw new Error(`Error creating user: ${error.message}`);
+    }
+  }
+  async createAdmin(data) {
+    try {
+      const newUser = new User(data);
 
       return await newUser.save();
     } catch (error) {
@@ -48,15 +56,7 @@ class UserService {
       throw new Error(`Error fetching user by ID: ${error.message}`);
     }
   }
-  async getByUuid(uid) {
-    try {
-      return await User.findOne({ uid
-      });
-
-    } catch (error) {
-      throw new Error(`Error fetching user by UUID: ${error.message}`);
-    }
-  }
+  
   async update(id, changes) {
     try {
       return await User.findByIdAndUpdate(id, changes, { upsert: true, new: true });
