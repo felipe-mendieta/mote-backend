@@ -15,13 +15,19 @@ router.post('/login',
       //let userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
       const userContainer = new UserContainer();
       /***************************************************************************** */
-      const newUser = await userService.createAdmin({
-        name: data.name,
-        email: data.email,
-        idGoogle: data.aud,
-        rol: data.rol,
-        avatar: data.picture
-      });
+      let newUser;
+      try {
+        newUser = await userService.createAdmin({
+          name: data.name,
+          email: data.email,
+          idGoogle: data.aud,
+          rol: data.rol,
+          avatar: data.picture
+        });
+
+      } catch (error) {
+        newUser = await userService.getByEmail(data.email);
+      }
       let token = await generateJWT(newUser._id);
       userContainer.addUser({
         uuid: newUser._id,

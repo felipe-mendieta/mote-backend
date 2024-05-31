@@ -24,15 +24,16 @@ const saveActivity = (io, client) => {
       // const admin = users.getUserAdmin()
       // console.log("usuarios: ", admin);
       // client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
-      io.emit(
+      const room = await roomService.getById(roomId);
+      io.to(room.code).emit(
         'activityRealTime',
         newActivity,
-      );//emit to all users
+      );//emit to all users on room
 
       const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
         //emit all dashboard activity
         if(dashboardActivity){
-          io.emit('dashboardActivity', dashboardActivity);
+          io.to(room.code).emit('dashboardActivity', dashboardActivity);
           console.log("update dashboard activity: ", dashboardActivity);
         }
 
@@ -53,7 +54,8 @@ const saveActivity = (io, client) => {
       if (activityType === 'emotion') {
         const documentEmotions = await dashboardEmotionsService.updateEmotion(text, userId, roomId);
         if (documentEmotions) {
-          io.emit('dashboardEmotions', documentEmotions.toObject());
+          const room = await roomService.getById(roomId);
+          io.to(room.code).emit('dashboardEmotions', documentEmotions.toObject());
           console.log("update emotion: ", documentEmotions.toObject());
         }
       }

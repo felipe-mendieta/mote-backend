@@ -6,14 +6,14 @@ let { setCurrentPoll, getEventRegistry } = require('./registries/poll.event.regi
 
 const { DashboardPollResponseService } = require('../services/dashboard-poll-response.service');
 const dashboardPollResponseService = new DashboardPollResponseService();
-let totalResponses=0;
+let totalResponses = 0;
 
-const dicValuesLikert={
+const dicValuesLikert = {
   1: 5,
-  2:4,
-  3:3,
-  4:1,
-  5:1
+  2: 4,
+  3: 3,
+  4: 1,
+  5: 1
 };
 
 const sendPoll = (io, client) => {
@@ -53,7 +53,7 @@ const savePollResponses = (io, client) => {
 
     console.log('savePollResponses', data);
     try {
-      const {roomId, pollId, responses } = data;
+      const { roomId, pollId, responses } = data;
 
       if (pollId && responses) {
         const newPollResponse = {
@@ -62,7 +62,7 @@ const savePollResponses = (io, client) => {
           responses
         }
         pollResponseService.create(newPollResponse);
-        totalResponses=totalResponses+1;
+        totalResponses = totalResponses + 1;
         //update dashboards
         const updates = {
           cognitive: dicValuesLikert[responses[0].option[0]],
@@ -71,9 +71,10 @@ const savePollResponses = (io, client) => {
         };
         console.log(updates);
 
-        const responsePolls=await dashboardPollResponseService.updateResponses(roomId,updates,totalResponses);
+        const responsePolls = await dashboardPollResponseService.updateResponses(roomId, updates, totalResponses);
         client.emit('success', "Poll responses saved.");
-        io.emit('dashboardPollsEngagement', responsePolls.toObject());
+        const room = await roomService.getById(roomId);
+        io.to(room.code).emit('dashboardPollsEngagement', responsePolls.toObject());
         console.log(responsePolls.toObject());
       }
     } catch (error) {
