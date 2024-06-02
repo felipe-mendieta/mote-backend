@@ -25,7 +25,7 @@ const saveActivity = (io, client) => {
       // console.log("usuarios: ", admin);
       // client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
       const room = await roomService.getById(roomId);
-      io.to(room.code).emit(
+      io.to(`${room.code}_AD`).emit(
         'activityRealTime',
         newActivity,
       );//emit to all users on room
@@ -33,7 +33,7 @@ const saveActivity = (io, client) => {
       const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
         //emit all dashboard activity
         if(dashboardActivity){
-          io.to(room.code).emit('dashboardActivity', dashboardActivity);
+          io.to(`${room.code}_AD`).emit('dashboardActivity', dashboardActivity);
           console.log("update dashboard activity: ", dashboardActivity);
         }
 
@@ -55,7 +55,7 @@ const saveActivity = (io, client) => {
         const documentEmotions = await dashboardEmotionsService.updateEmotion(text, userId, roomId);
         if (documentEmotions) {
           const room = await roomService.getById(roomId);
-          io.to(room.code).emit('dashboardEmotions', documentEmotions.toObject());
+          io.to(`${room.code}_AD`).emit('dashboardEmotions', documentEmotions.toObject());
           console.log("update emotion: ", documentEmotions.toObject());
         }
       }
@@ -63,7 +63,7 @@ const saveActivity = (io, client) => {
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
       //dashboard emits
       const room = await roomService.getById(roomId);
-      io.to(room.code).emit('activityCommentRealTime', newActivity); //dashboard
+      io.to(`${room.code}_AD`).emit('activityCommentRealTime', newActivity); //dashboard
       await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
       
       

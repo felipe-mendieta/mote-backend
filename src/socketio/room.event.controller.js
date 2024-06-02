@@ -29,11 +29,15 @@ const joinRoom = (io, client) => {
       if (admin) {
         admin.idSocket = client.id;
       }
-      client.join(roomCode);
-      console.log("New user id is: ", userId);
-      if (userId && await userService.getById(userId) != null) { //control of users that will be created for send notifications
+      if (await userService.isAdmin(userId)) {
+        client.join(`${roomCode}_AD`);
+      } else {
+        client.join(roomCode);
+      }
+      if (await userService.getById(userId) == null) { //control of users that will be created for send notifications
         //create user on DB
         const newUser = await userService.getById(userId);
+        console.log(`Ingreso a la sala: ${newUser}`);
         const room = await roomService.exists(roomCode);
         //add user to room on DB
         await roomService.addUser(room._id, newUser._id);

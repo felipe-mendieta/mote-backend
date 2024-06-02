@@ -74,7 +74,7 @@ const savePollResponses = (io, client) => {
         const responsePolls = await dashboardPollResponseService.updateResponses(roomId, updates, totalResponses);
         client.emit('success', "Poll responses saved.");
         const room = await roomService.getById(roomId);
-        io.to(room.code).emit('dashboardPollsEngagement', responsePolls.toObject());
+        io.to(`${room.code}_AD`).emit('dashboardPollsEngagement', responsePolls.toObject());
         console.log(responsePolls.toObject());
       }
     } catch (error) {

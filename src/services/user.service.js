@@ -88,6 +88,14 @@ class UserService {
       throw new Error(`Error fetching user by email: ${error.message}`);
     }
   }
+  async isAdmin(userId){
+    const user = await this.getById(userId);
+    if (user.rol=='admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 module.exports = UserService;
