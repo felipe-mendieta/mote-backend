@@ -3,7 +3,6 @@ const router = express.Router();
 const RoomService = require('../services/room.service');
 const {DashboardEmotionsService} = require('../services/dashboard-emotions.service');
 const { generateJWT } = require('./../helpers/generate-jwt.helper');
-const { UserContainer } = require('../models/classes/user.container');
 const roomService = new RoomService();
 const dashboardEmotionsService = new DashboardEmotionsService();
 const { DashboardActivityService } = require('../services/dashboard-activity.service');
@@ -84,18 +83,7 @@ router.get('/:roomCode/exists', async (req, res, next) => {
     const exists = await roomService.exists(roomCode);
     if (exists) {
       const user = await userService.create({rol: 'USER_ROLE'});
-      //Aqui se debe reemplazar con el id del usuario cuando ya esté la parte de logueo con google
-      /***************************************************************************** */
-      //userRandom = crypto.randomUUID();//aqui se reemplazaria con el ID del usuario guardado en la base de datos
-      const userContainer = new UserContainer();
-      /***************************************************************************** */
       token = await generateJWT(user._id);
-      userContainer.addUser({
-        uuid: user._id,
-        token: token,
-        rol: rol
-      });
-
     res.status(200).json({
       ok: true,
       token: token,

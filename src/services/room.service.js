@@ -126,6 +126,21 @@ class RoomService {
     const { randomUUID } = new ShortUniqueId({ length: size });
     return randomUUID();
   }
+
+  async isUserInRoom (roomId, userId) {
+    try {
+      const room = await Room.findOne({
+        _id: roomId,
+        users: { $in: [userId] }
+      });
+  
+      return room !== null;
+    } catch (error) {
+      console.error('Error checking if user is in room:', error);
+      return false;
+    }
+  }
+
 }
 
 module.exports = RoomService;

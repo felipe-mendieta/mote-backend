@@ -7,8 +7,7 @@ const dashboardActivityService = new DashboardActivityService();
 const RoomService  = require('../services/room.service');
 const roomService = new RoomService();
 
-//const { UserContainer } = require('../models/classes/user.container');
-//const users = new UserContainer();
+
 const saveActivity = (io, client) => {
   client.on(`saveActivity`, async (data) => {
     try {

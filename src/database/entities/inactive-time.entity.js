@@ -5,6 +5,10 @@ const inactiveTimeSchema = new mongoose.Schema({
     required: true,
     unique: [true, 'Uid already used!'],
   },
+  intervalId:{
+    type: Number,
+    required: true
+  },
   lastActivity: {
     type: Date,
     required: true,
