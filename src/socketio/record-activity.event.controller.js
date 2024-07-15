@@ -42,12 +42,13 @@ const saveActivity = (io, client) => {
   });
   client.on(`saveActivityComment`, async (data) => {
     try {
-      const { roomId, activityType, text, userId } = data;
+      const { roomId, activityType, text, userId, done } = data;
       const newActivity = {
         activityType: activityType,
         roomId: roomId,
         text: text,
-        userId: userId
+        userId: userId,
+        done: done
       };
       
       if (activityType === 'emotion') {
@@ -62,6 +63,7 @@ const saveActivity = (io, client) => {
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
       //dashboard emits
       const room = await roomService.getById(roomId);
+      console.log("Excecuting saveActivityComment");
       io.to(`${room.code}_AD`).emit('activityCommentRealTime', newActivity); //dashboard
       await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
       
@@ -70,6 +72,15 @@ const saveActivity = (io, client) => {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
   });
+  client.on('markAsDone', async (data) => {
+    console.log(data);
+    try {
+      await recordActivityService.update(data.id, { done: data.done });
+      console.log('Activity marked as done');
+    } catch (error) {
+      console.log('Error marking activity as done: ', error.message);
+    }
+  })
 };
 
 module.exports = { saveActivity };

@@ -28,6 +28,7 @@ class RecordActivityService {
 
   async update(id, changes) {
     try {
+      console.log("changes: ", changes)
       return await RecordActivity.findByIdAndUpdate(id, changes, { upsert: true, new: true });
     } catch (error) {
       throw new Error(`Error updating record activity: ${error.message}`);

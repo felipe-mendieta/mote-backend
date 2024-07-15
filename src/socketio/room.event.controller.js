@@ -64,6 +64,11 @@ const joinRoom = (io, client) => {
     client.disconnect();
     console.log("Cliente desconectado: ", client.id);
   });
+  client.on('adminLeaveRoom', async (data) => {
+    console.log(`evento leaveroom ejecutando`);
+    client.disconnect();
+    console.log("Cliente desconectado: ", client.id);
+  });
 
 };
 
