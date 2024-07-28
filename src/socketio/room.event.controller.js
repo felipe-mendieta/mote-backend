@@ -15,7 +15,7 @@ const joinRoom = (io, client) => {
       //asignamos segun venga del front
 
       // Verify if room exists
-      const user = checkJWT(token);
+      const user = await checkJWT(token);
       if (!user) {
         //disconnect client
         client.emit('error', `Error join room.`);
@@ -35,7 +35,6 @@ const joinRoom = (io, client) => {
       const newUser = await userService.getById(userId);
       if (await userService.isAdmin(newUser._id) ==false && await roomService.isUserInRoom(room._id,newUser._id) == false) { //control of users that will be created for send notifications
         //create user on DB
-        console.log(`Ingreso a la sala: ${newUser}`);
         //add user to room on DB
         await roomService.addUser(room._id, newUser._id);
         //await recordActivityService.create({ activityType: activity.joinRoom, userId: newUser.uid, roomId: room._id });
