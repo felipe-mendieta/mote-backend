@@ -93,7 +93,7 @@ class InactiveTimeService {
     try {
       clearInterval(interval);
     } catch (error) {
-      throw new Error(`Error deleting interval: ${error.message}`);
+      //throw new Error(`Error deleting interval: ${error.message}`);
     }
   }
 }
