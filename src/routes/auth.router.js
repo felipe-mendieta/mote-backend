@@ -1,5 +1,4 @@
 const express = require('express');
-const crypto = require('crypto');
 const { generateJWT } = require('./../helpers/generate-jwt.helper')
 const router = express.Router();
 const UserService = require('../services/user.service');
