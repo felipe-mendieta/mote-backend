@@ -1,5 +1,6 @@
 const { joinRoom } = require('./room.event.controller');
 const { sendPoll, closePoll, savePollResponses } = require('./poll.event.controller');
+const { sendFlashQuestion } = require('./flashquestion.event.controller');
 const { saveActivity } = require('./record-activity.event.controller');
 
 const socketController = async (io) => {
@@ -7,12 +8,13 @@ const socketController = async (io) => {
     try {
       // Controlamos el acceso de los clientes a las salas
       joinRoom(io, client);
-      
+
       // Manejar eventos relacionados con las encuestas
       sendPoll(io, client);
+      sendFlashQuestion(io, client);
       savePollResponses(io, client);
       closePoll(io, client);
-      
+
       // Manejo de actividades, guardado
       saveActivity(io, client);
       //console.log("Id cliente: ",client.id);
