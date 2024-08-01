@@ -66,7 +66,7 @@ class InactiveTimeService {
     try {
       this.interval = setInterval(async () => {
         try {
-          
+
           const timer = await this.getTimerByUserId(user._id);
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
@@ -81,7 +81,7 @@ class InactiveTimeService {
       //set ttl for the timer (class duration maybe)
       const ttl = 120 * 60 * 1000;
       setTimeout(() => {
-        this.stopTimer(interval);
+        this.stopTimer(this.interval);
       }, ttl)
 
     } catch (error) {
