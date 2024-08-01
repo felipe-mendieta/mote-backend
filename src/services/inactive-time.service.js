@@ -76,7 +76,9 @@ class InactiveTimeService {
             notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
           }
-        } catch (error) {}
+        } catch (error) {
+          throw new Error(`Error in timer: ${error.message || error}`);
+        }
       }, 5000);//change if you want to modify validation frequency
       //set ttl for the timer (class duration maybe)
       const ttl = 120 * 60 * 1000;
