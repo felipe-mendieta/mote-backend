@@ -1,5 +1,6 @@
 const { joinRoom } = require('./room.event.controller');
 const { sendPoll, closePoll, savePollResponses } = require('./poll.event.controller');
+const { sendFlashQuestion } = require('./flashquestion.event.controller');
 const { saveActivity } = require('./record-activity.event.controller');
 
 const socketController = async (io) => {
@@ -10,18 +11,19 @@ const socketController = async (io) => {
 
       // Manejar eventos relacionados con las encuestas
       sendPoll(io, client);
+      sendFlashQuestion(io, client);
       savePollResponses(io, client);
       closePoll(io, client);
 
       // Manejo de actividades, guardado
       saveActivity(io, client);
-      console.log("Id cliente: ",client.id);
-      console.log("Clientes conectados: ", io.engine.clientsCount);
+      //console.log("Id cliente: ",client.id);
+      //console.log("Clientes conectados: ", io.engine.clientsCount);
 
       client.on('disconnect', () => {
         console.log("Cliente desconectado.", client.id);
-
         console.log("Clientes conectados: ", io.engine.clientsCount);
+        //console.log('Aqui se puede eliminar el usuario de la sala');
       });
     } catch (error) {
       console.error("Error in sockets controller:", error.message);

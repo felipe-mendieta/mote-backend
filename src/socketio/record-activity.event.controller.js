@@ -4,9 +4,10 @@ const { DashboardEmotionsService } = require('../services/dashboard-emotions.ser
 const dashboardEmotionsService = new DashboardEmotionsService();
 const { DashboardActivityService } = require('../services/dashboard-activity.service');
 const dashboardActivityService = new DashboardActivityService();
+const RoomService  = require('../services/room.service');
+const roomService = new RoomService();
 
-//const { UserContainer } = require('../models/classes/user.container');
-//const users = new UserContainer();
+
 const saveActivity = (io, client) => {
   client.on(`saveActivity`, async (data) => {
     try {
@@ -22,15 +23,16 @@ const saveActivity = (io, client) => {
       // const admin = users.getUserAdmin()
       // console.log("usuarios: ", admin);
       // client.to(admin.idSocket).emit('activityRealTime', newActivity); // emit to specific user
-      io.emit(
+      const room = await roomService.getById(roomId);
+      io.to(`${room.code}_AD`).emit(
         'activityRealTime',
         newActivity,
-      );//emit to all users
+      );//emit to all users on room
 
       const dashboardActivity = await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
         //emit all dashboard activity
         if(dashboardActivity){
-          io.emit('dashboardActivity', dashboardActivity);
+          io.to(`${room.code}_AD`).emit('dashboardActivity', dashboardActivity);
           console.log("update dashboard activity: ", dashboardActivity);
         }
 
@@ -40,32 +42,45 @@ const saveActivity = (io, client) => {
   });
   client.on(`saveActivityComment`, async (data) => {
     try {
-      const { roomId, activityType, text, userId } = data;
+      const { roomId, activityType, text, userId, done } = data;
       const newActivity = {
         activityType: activityType,
         roomId: roomId,
         text: text,
-        userId: userId
+        userId: userId,
+        done: done
       };
-
+      
       if (activityType === 'emotion') {
         const documentEmotions = await dashboardEmotionsService.updateEmotion(text, userId, roomId);
         if (documentEmotions) {
-          io.emit('dashboardEmotions', documentEmotions.toObject());
+          const room = await roomService.getById(roomId);
+          io.to(`${room.code}_AD`).emit('dashboardEmotions', documentEmotions.toObject());
           console.log("update emotion: ", documentEmotions.toObject());
         }
       }
       await recordActivityService.create(newActivity);
       client.emit('success', `Activity ${activityType} saved. Hello from backend`);//msg for success
       //dashboard emits
-      io.emit('activityCommentRealTime', newActivity); //dashboard
+      const room = await roomService.getById(roomId);
+      console.log("Excecuting saveActivityComment");
+      io.to(`${room.code}_AD`).emit('activityCommentRealTime', newActivity); //dashboard
       await dashboardActivityService.updateDataDashboardActivity(roomId,userId,activityType);
-
-
+      
+      
     } catch (error) {
       client.emit('error', `Error saving Activity: ${error.message}`);
     }
   });
+  client.on('markAsDone', async (data) => {
+    console.log(data);
+    try {
+      await recordActivityService.update(data.id, { done: data.done });
+      console.log('Activity marked as done');
+    } catch (error) {
+      console.log('Error marking activity as done: ', error.message);
+    }
+  })
 };
 
 module.exports = { saveActivity };

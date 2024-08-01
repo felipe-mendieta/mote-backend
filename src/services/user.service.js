@@ -5,17 +5,26 @@ const bcrypt = require('bcrypt');
 class UserService {
   async create(data) {
     try {
-      const { name, email, avatar, gender, password } = data;
-      const saltRounds = await bcryptjs.genSalt();
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+      //const { name, email, avatar, gender, password } = data;
+      //const saltRounds = await bcryptjs.genSalt();
+      //const hashedPassword = await bcrypt.hash(password, saltRounds);
       const newUser = new User({
-        name,
-        email,
-        avatar,
-        gender,
-        password: hashedPassword,
+        rol: data.rol
+        //name,
+        //email: undefined,
+        //avatar,
+        //gender,
+        //password: hashedPassword,
       });
+
+      return await newUser.save();
+    } catch (error) {
+      throw new Error(`Error creating user: ${error.message}`);
+    }
+  }
+  async createAdmin(data) {
+    try {
+      const newUser = new User(data);
 
       return await newUser.save();
     } catch (error) {
@@ -47,7 +56,7 @@ class UserService {
       throw new Error(`Error fetching user by ID: ${error.message}`);
     }
   }
-
+  
   async update(id, changes) {
     try {
       return await User.findByIdAndUpdate(id, changes, { upsert: true, new: true });
@@ -77,6 +86,14 @@ class UserService {
       return await User.findOne({ email });
     } catch (error) {
       throw new Error(`Error fetching user by email: ${error.message}`);
+    }
+  }
+  async isAdmin(userId){
+    const user = await this.getById(userId);
+    if (user.rol=='admin') {
+      return true;
+    } else {
+      return false;
     }
   }
 }

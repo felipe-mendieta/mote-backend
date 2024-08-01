@@ -25,7 +25,10 @@ const recordActivitySchema = new mongoose.Schema({
   text: {
     type: String,
     default: '',
-  }
+  },
+  done: {
+    type: Boolean
+  },
 });
 
 const RecordActivity = mongoose.model('RecordActivity', recordActivitySchema);

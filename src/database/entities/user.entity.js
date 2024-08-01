@@ -3,21 +3,20 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    required: true,
+    //required: true,
   },
   email: {
     type: String,
-    trim: true,
-    required: true,
     unique: [true, 'Email already used!'],
+    //required: true
+    sparse: true
   },
   password: {
     type: String,
   },
   avatar: {
     type: String,
-    trim: true,
-    required: false,
+    trim: true
   },
   gender: {
     type: String,
@@ -25,7 +24,7 @@ const userSchema = new mongoose.Schema({
   },
   rol: {
     type: String,
-    required: true,
+    //required: true,
     trim: true,
     default: 'USER_ROLE',
     emun: ['ADMIN_ROLE', 'USER_ROLE']
@@ -43,9 +42,10 @@ const userSchema = new mongoose.Schema({
     trim: true,
   }
 });
+userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { email: { $exists: true, $ne: null } } });
 userSchema.methods.toJSON = function () {
   // eslint-disable-next-line no-unused-vars
-  const { __v, password, _id, ...user } = this.toObject();
+  const { __v, password, ...user } = this.toObject();
   return user;
 }//quitamos la contraseña hasheada al devolver la información del usuario y cambios el nombre de _id por uid(user id)
 //quitamos __v

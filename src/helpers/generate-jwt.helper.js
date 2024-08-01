@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
-const { UserContainer } = require('../models/classes/user.container');
+const UserService = require('../services/user.service');
+const userService = new UserService();
 
 const generateJWT = (uuid = '') => {
   return new Promise((resolve, reject) => {
@@ -30,7 +31,7 @@ const checkJWT = async (token = '') => {
 
     const { uuid } = jwt.verify(token, config.secretPrivateKey);
     console.log("uuid: ",uuid);
-    const user = await UserContainer.getUser(uuid);//se remplazaria con la busqueda en la base de datos
+    const user = await userService.getById(uuid);
     console.log("user in ram: ",user);
     if (user) {
       return user;
