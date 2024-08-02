@@ -59,7 +59,7 @@ const joinRoom = (io, client) => {
   client.on('leaveRoom', async (data) => {
     const { roomCode, token, userId } = data;
     const interval = await inactiveTimeService.getByUuid(userId);
-    inactiveTimeService.stopTimer(interval.intervalId);
+    await inactiveTimeService.stopTimer(interval.intervalId);
     console.log(`evento leaveroom ejecutando`);
     client.disconnect();
     console.log("Cliente desconectado: ", client.id);
