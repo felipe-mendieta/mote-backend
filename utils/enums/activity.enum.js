@@ -7,7 +7,8 @@ const activity = {
   question: "question",
   emotion: "emotion",
   joinRoom: "join room",
-  inactivity: "inactive user"
+  inactivity: "inactive user",
+  flashquestion: "flashquestion",
 }
 
 module.exports = activity;

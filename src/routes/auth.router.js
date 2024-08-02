@@ -1,8 +1,8 @@
 import express from 'express';
-import crypto from 'crypto';
 import { generateJWT } from './../helpers/generate-jwt.helper';
 import UserService from '../services/user.service';
-
+const express = require('express');
+const { generateJWT } = require('./../helpers/generate-jwt.helper')
 const router = express.Router();
 const userService = new UserService();
 

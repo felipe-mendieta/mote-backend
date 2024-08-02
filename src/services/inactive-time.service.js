@@ -66,7 +66,7 @@ class InactiveTimeService {
     try {
       this.interval = setInterval(async () => {
         try {
-          
+
           const timer = await this.getTimerByUserId(user._id);
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
@@ -76,12 +76,14 @@ class InactiveTimeService {
             notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
           }
-        } catch (error) {}
+        } catch (error) {
+          throw new Error(`Error in timer: ${error.message || error}`);
+        }
       }, 5000);//change if you want to modify validation frequency
       //set ttl for the timer (class duration maybe)
       const ttl = 120 * 60 * 1000;
       setTimeout(() => {
-        this.stopTimer(interval);
+        this.stopTimer(this.interval);
       }, ttl)
 
     } catch (error) {
@@ -93,7 +95,7 @@ class InactiveTimeService {
     try {
       clearInterval(interval);
     } catch (error) {
-      throw new Error(`Error deleting interval: ${error.message}`);
+      //throw new Error(`Error deleting interval: ${error.message}`);
     }
   }
 }
