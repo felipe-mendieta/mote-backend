@@ -1,9 +1,7 @@
-import express from 'express';
-import { generateJWT } from './../helpers/generate-jwt.helper';
-import UserService from '../services/user.service';
 const express = require('express');
 const { generateJWT } = require('./../helpers/generate-jwt.helper')
 const router = express.Router();
+const UserService = require('../services/user.service');
 const userService = new UserService();
 
 // Ruta para autenticar un usuario
@@ -40,4 +38,4 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;
