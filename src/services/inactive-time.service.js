@@ -62,7 +62,7 @@ class InactiveTimeService {
     if (!lastActivity) {
       //create a new record activity
       //create a new record activity
-      this.newActivity = await recordActivityService.create({ activityType: activity.inactivity, userId: userId });
+      this.newActivity = await recordActivityService.create({ activityType: activity.joinRoom, userId: userId });
       lastActivity = await recordActivityService.getByUserId(userId);
     }
     const timer = actualDate.diff(lastActivity.date);
@@ -77,19 +77,21 @@ class InactiveTimeService {
           const timer = await this.getTimerByUserId(user._id);
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
-          console.log('Variable: '+Number(this.interval));
-          //change 'if' limit if you want to increase-decrease timeout limits (seconds) 900
-          if (timerObj.inactiveTime >= 100) {
+          console.log('Variable: ', timerObj.inactiveTime);
+          //change 'if' limit if you want to increase-decrease timeout limits (seconds) (900 seconds = 15 minutes)
+          if (timerObj.inactiveTime >= 900) {
+            this.newActivity = await recordActivityService.create({ activityType: activity.inactivity, userId: user._id });
             notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
           }
         } catch (error) {
           throw new Error(`Error in timer: ${error.message || error}`);
         }
-      }, 5000);//change if you want to modify validation frequency
+      }, 60000);//change if you want to modify validation frequency (milliseconds) (60000 = 1 minute)
       //set ttl for the timer (class duration maybe)
       const ttl = 120 * 60 * 1000;
       setTimeout(() => {
+        console.log('Timer stopped');
         this.stopTimer(this.interval);
       }, ttl)
 
