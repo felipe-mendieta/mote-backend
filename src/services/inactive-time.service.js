@@ -77,7 +77,7 @@ class InactiveTimeService {
           const timer = await this.getTimerByUserId(user._id);
           const inactiveTime = await this.getByUuid(user._id);
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
-          console.log('Variable: ', timerObj.inactiveTime);
+          //console.log('Variable: ', timerObj.inactiveTime);
           //change 'if' limit if you want to increase-decrease timeout limits (seconds) (900 seconds = 15 minutes)
           if (timerObj.inactiveTime >= 900) {
             this.newActivity = await recordActivityService.create({ activityType: activity.inactivity, userId: user._id });
@@ -91,7 +91,7 @@ class InactiveTimeService {
       //set ttl for the timer (class duration maybe)
       const ttl = 120 * 60 * 1000;
       setTimeout(() => {
-        console.log('Timer stopped');
+        //console.log('Timer stopped');
         this.stopTimer(this.interval);
       }, ttl)
 
