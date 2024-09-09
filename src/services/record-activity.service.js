@@ -62,13 +62,18 @@ class RecordActivityService {
     }
   }
   //get the last user activity
-  async getByUserId(userId) {
-    try {
-      return await RecordActivity.findOne({ userId: userId }).sort({ date: -1 });
-    } catch (error) {
-      throw new Error(`Error fetching record activity by user ID: ${error.message}`);
+ // src/services/record-activity.service.js
+async getByUserId(userId) {
+  try {
+    const activity = await RecordActivity.findOne({ userId: userId }).sort({ date: -1 });
+    if (!activity) {
+      console.log(`No activity found for user with ID: ${userId}`);
     }
+    return activity;
+  } catch (error) {
+    throw new Error(`Error fetching record activity by user ID: ${error.message}`);
   }
+}
 
 }
 

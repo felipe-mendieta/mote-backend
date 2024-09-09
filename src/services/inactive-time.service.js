@@ -7,6 +7,7 @@ const recordActivityService = new RecordActivityService();
 const notificationsService = new NotificationsService();
 class InactiveTimeService {
   interval;
+  newActivity;
   getInterval(){
     if (this.interval) {
       return this.interval;
@@ -57,7 +58,13 @@ class InactiveTimeService {
   }
   async getTimerByUserId(userId) {
     const actualDate = moment();
-    const lastActivity = await recordActivityService.getByUserId(userId);
+    let lastActivity = await recordActivityService.getByUserId(userId);
+    if (!lastActivity) {
+      //create a new record activity
+      //create a new record activity
+      this.newActivity = await recordActivityService.create({ activityType: activity.inactivity, userId: userId });
+      lastActivity = await recordActivityService.getByUserId(userId);
+    }
     const timer = actualDate.diff(lastActivity.date);
     const timerSeconds = moment.duration(timer).asSeconds();
     return timerSeconds;
@@ -72,8 +79,8 @@ class InactiveTimeService {
           const timerObj = await this.update(inactiveTime._id, { inactiveTime: timer });
           console.log('Variable: '+Number(this.interval));
           //change 'if' limit if you want to increase-decrease timeout limits (seconds) 900
-          if (timerObj.inactiveTime >= 900) {
-            notificationsService.InactiveTimeNotification(client);
+          if (timerObj.inactiveTime >= 100) {
+            //notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
           }
         } catch (error) {
