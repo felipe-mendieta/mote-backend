@@ -13,14 +13,24 @@ router.post('/login', async (req, res, next) => {
     // Check if user exists
     const userExists = await userService.getByEmail(data.email);
 
-    if (!userExists) {
+    if (!userExists) {  
       // Create new user
-      newUser = await userService.create({
-        name: data.name,
-        email: data.email,
-        idGoogle: data.aud,
-        avatar: data.picture
-      });
+      if(data.rol == 'admin'){
+        newUser = await userService.createAdmin({
+          name: data.name,
+          email: data.email,
+          avatar: data.avatar,
+          rol: data.rol
+        });
+      } else {
+
+        newUser = await userService.create({
+          name: data.name,
+          email: data.email,
+          idGoogle: data.aud,
+          avatar: data.picture
+        });
+      }
     } else {
       // Get user from database
       newUser = userExists;

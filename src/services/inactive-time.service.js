@@ -80,7 +80,7 @@ class InactiveTimeService {
           console.log('Variable: '+Number(this.interval));
           //change 'if' limit if you want to increase-decrease timeout limits (seconds) 900
           if (timerObj.inactiveTime >= 100) {
-            //notificationsService.InactiveTimeNotification(client);
+            notificationsService.InactiveTimeNotification(client);
             await recordActivityService.create({ activityType: activity.inactivity, userId: user.uid });
           }
         } catch (error) {
