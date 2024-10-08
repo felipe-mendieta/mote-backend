@@ -14,9 +14,8 @@ This project is based on the management of data related to real-time student eng
 3. Create the dev.env file in the root of the project based on the .env.example file and fill in all the fields.
 4. Install dependencies using the `npm install` command.
 5. Start MongoDB with Docker using the command, or whenever you need to deploy the development environment, run `docker-compose up -d mongodb`.
-6. Load initial data with the `npm run seed:random` command.
-7. Check the development environment with the `npm run dev` command.
-8. Test endpoints with Postman or Insomnia.
+6. Check the development environment with the `npm run dev` command.
+7. Test endpoints with Postman or Insomnia.
 
 ## Architecture
 We base the project's architecture on CLEAN ARCHITECTURE.
